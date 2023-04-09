@@ -4,18 +4,19 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Description
-Many years ago,I wanted to make a decent Tetris clone with only Swing.
+Many years ago, I wanted to make a decent Tetris clone with only Swing.
 Like most of my projects, it ended up being abandoned, unfinished.
-Recently, I found some motivation after seeing the movie Tetris, and I took this old project out of its box.
+Recently, I found some motivation after seeing the movie Tetris (2023), and I took this old project out of its box.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing
 purposes, and eventually for fun.
+It is not DPI-aware and currently best-displayed for high-resolution screens.
 
 ### Prerequisites
-* Java 20
-* Maven 3.8.6+
-* Git 2.25.1+
+* Java 20+
+* Maven 3.8.1+
+* Git 2.34.1+
 
 ### Installing
 * Clone the repository from GitHub:
@@ -34,7 +35,7 @@ Keys are configurable in properties, but not in-game.
 * [P]: pause the game
 
 ### Screenshot
-![Screenshot](.github/pictures/screenshot.png)
+<img src=".github/pictures/screenshot.png" width="315"  alt="Screenshot"/>
 
 ## Improvements
 The list of improvements and missing features is immeasurable.
