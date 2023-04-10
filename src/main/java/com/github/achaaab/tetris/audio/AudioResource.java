@@ -1,5 +1,6 @@
 package com.github.achaaab.tetris.audio;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.MissingResourceException;
 
@@ -34,6 +35,6 @@ public abstract class AudioResource implements Audio {
 			throw new MissingResourceException("missing audio resource", name, null);
 		}
 
-		return inputStream;
+		return new BufferedInputStream(inputStream);
 	}
 }

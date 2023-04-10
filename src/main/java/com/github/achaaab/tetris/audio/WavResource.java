@@ -72,7 +72,7 @@ public class WavResource extends AudioResource {
 			LOGGER.debug("playing {}", name);
 
 			clip.setFramePosition(0);
-			clip.loop(0);
+			clip.start();
 		}
 	}
 

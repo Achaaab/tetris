@@ -11,17 +11,26 @@ Recently, I found some motivation after seeing the movie Tetris (2023), and I to
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing
 purposes, and eventually for fun.
-It is not DPI-aware and currently best-displayed for high-resolution screens.
+UI should automatically scale based on screen resolution.
 
 ### Prerequisites
 * Java 20+
 * Maven 3.8.1+
 * Git 2.34.1+
 
-### Installing
+### Installing and running
 * Clone the repository from GitHub:
 ```shell
-git clone https://github.com/Achaaab/gravity-simulator.git
+git clone https://github.com/Achaaab/tetris.git
+```
+* Compile
+```shell
+cd tetris
+mvn package
+```
+* Run
+```shell
+java -jar target/tetris-0.0.0.jar
 ```
 
 ### Usage
@@ -35,7 +44,7 @@ Keys are configurable in properties, but not in-game.
 * [P]: pause the game
 
 ### Screenshot
-<img src=".github/pictures/screenshot.png" width="315"  alt="Screenshot"/>
+<img src=".github/pictures/screenshot.png" width="320"  alt="Screenshot"/>
 
 ## Improvements
 The list of improvements and missing features is immeasurable.

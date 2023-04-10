@@ -13,8 +13,6 @@ import static com.github.achaaab.tetris.model.Direction.DOWN;
  */
 public class HardDrop extends Action {
 
-	private static final Audio DEFAULT_SOUND_EFFECT = createAudio("audio/effect/hard_drop.wav");
-
 	private final Audio soundEffect;
 
 	/**
@@ -22,7 +20,7 @@ public class HardDrop extends Action {
 	 * @since 0.0.0
 	 */
 	public HardDrop(Tetris tetris) {
-		this(tetris, DEFAULT_SOUND_EFFECT);
+		this(tetris, createAudio("audio/effect/hard_drop.wav"));
 	}
 
 	/**
