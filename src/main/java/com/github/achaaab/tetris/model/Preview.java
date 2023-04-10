@@ -1,7 +1,7 @@
 package com.github.achaaab.tetris.model;
 
 import com.github.achaaab.tetris.model.classic.TetrominoGenerator;
-import com.github.achaaab.tetris.view.PreviewView;
+import com.github.achaaab.tetris.view.play.PreviewView;
 
 /**
  * @author Jonathan Guéhenneux

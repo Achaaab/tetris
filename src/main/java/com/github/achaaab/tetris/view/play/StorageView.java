@@ -1,6 +1,8 @@
-package com.github.achaaab.tetris.view;
+package com.github.achaaab.tetris.view.play;
 
 import com.github.achaaab.tetris.model.Storage;
+
+import static com.github.achaaab.tetris.view.Scaler.scale;
 
 /**
  * @author Jonathan Guéhenneux
@@ -8,7 +10,7 @@ import com.github.achaaab.tetris.model.Storage;
  */
 public class StorageView extends GridView {
 
-	private static final int MARGIN = 10;
+	private static final int MARGIN = scale(5.0f);
 
 	/**
 	 * @param storage modèle de la réserve

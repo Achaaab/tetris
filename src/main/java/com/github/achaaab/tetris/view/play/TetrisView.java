@@ -1,4 +1,4 @@
-package com.github.achaaab.tetris.view;
+package com.github.achaaab.tetris.view.play;
 
 import com.github.achaaab.tetris.game.GameView;
 import com.github.achaaab.tetris.model.classic.Tetris;
@@ -28,7 +28,7 @@ public class TetrisView extends JPanel implements GameView {
 	private final ScoreView scoreView;
 
 	/**
-	 * @param tetris
+	 * @param tetris Tetris to display
 	 * @since 0.0.0
 	 */
 	public TetrisView(Tetris tetris) {
@@ -42,10 +42,11 @@ public class TetrisView extends JPanel implements GameView {
 		playfieldView = new PlayfieldView(playfield);
 		scoreView = new ScoreView(tetris);
 
-		setLayout(new GridBagLayout());
-
 		addComponents();
+
 		setIgnoreRepaint(true);
+		setFocusable(true);
+		requestFocus();
 	}
 
 	/**
@@ -55,6 +56,7 @@ public class TetrisView extends JPanel implements GameView {
 	 */
 	private void addComponents() {
 
+		setLayout(new GridBagLayout());
 		var constraints = new GridBagConstraints();
 		constraints.anchor = FIRST_LINE_START;
 

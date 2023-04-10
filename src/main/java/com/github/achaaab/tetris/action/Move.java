@@ -69,7 +69,7 @@ public class Move extends Action {
 			piece.move(direction, distance);
 
 			if (direction == DOWN) {
-				tetris.incrementerBonusDescente();
+				tetris.increaseDropBonus();
 			}
 
 			tetris.cancelLocking();

@@ -1,4 +1,4 @@
-package com.github.achaaab.tetris.view;
+package com.github.achaaab.tetris.view.play;
 
 import com.github.achaaab.tetris.model.Block;
 import com.github.achaaab.tetris.model.classic.State;
@@ -20,8 +20,9 @@ public class GlassSkin implements Skin {
 	public static final GlassSkin INSTANCE = new GlassSkin();
 
 	/**
-	 * constructeur privé pour forcer l'utilisation du singleton
+	 * private constructor that ensuring singleton usage
 	 *
+	 * @see #INSTANCE
 	 * @since 0.0.0
 	 */
 	private GlassSkin() {

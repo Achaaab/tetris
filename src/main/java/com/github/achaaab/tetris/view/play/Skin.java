@@ -1,4 +1,4 @@
-package com.github.achaaab.tetris.view;
+package com.github.achaaab.tetris.view.play;
 
 import com.github.achaaab.tetris.model.Block;
 import com.github.achaaab.tetris.model.Cell;

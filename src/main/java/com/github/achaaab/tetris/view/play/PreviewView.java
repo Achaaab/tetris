@@ -1,13 +1,15 @@
-package com.github.achaaab.tetris.view;
+package com.github.achaaab.tetris.view.play;
 
 import com.github.achaaab.tetris.model.Preview;
+import com.github.achaaab.tetris.view.Scaler;
 
 import javax.swing.JComponent;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
 import static com.github.achaaab.tetris.model.classic.State.ACTIF;
-import static com.github.achaaab.tetris.view.GridView.DEFAULT_CELL_SIZE;
+import static com.github.achaaab.tetris.view.Scaler.scale;
+import static com.github.achaaab.tetris.view.play.GridView.DEFAULT_CELL_SIZE;
 import static java.awt.Color.BLACK;
 import static java.awt.Color.GRAY;
 import static javax.swing.BorderFactory.createLineBorder;
@@ -18,9 +20,9 @@ import static javax.swing.BorderFactory.createLineBorder;
  */
 public class PreviewView extends JComponent {
 
-	private static final int BORDER = 5;
-	private static final int MARGIN = 10;
-	private static final int BLOCK_SIZE = 55;
+	private static final int BORDER = scale(2.5f);
+	private static final int MARGIN = scale(5.0f);
+	private static final int BLOCK_SIZE = scale(25.0f);
 
 	private final Preview preview;
 	private final Skin skin;

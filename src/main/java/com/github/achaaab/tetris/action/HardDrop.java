@@ -13,14 +13,28 @@ import static com.github.achaaab.tetris.model.Direction.DOWN;
  */
 public class HardDrop extends Action {
 
-	private static final Audio SOUND_EFFECT = createAudio("audio/effect/hard_drop.wav");
+	private static final Audio DEFAULT_SOUND_EFFECT = createAudio("audio/effect/hard_drop.wav");
+
+	private final Audio soundEffect;
 
 	/**
 	 * @param tetris
 	 * @since 0.0.0
 	 */
 	public HardDrop(Tetris tetris) {
+		this(tetris, DEFAULT_SOUND_EFFECT);
+	}
+
+	/**
+	 * @param tetris
+	 * @param soundEffect
+	 * @since 0.0.0
+	 */
+	public HardDrop(Tetris tetris, Audio soundEffect) {
+
 		super(tetris);
+
+		this.soundEffect = soundEffect;
 	}
 
 	@Override
@@ -39,11 +53,11 @@ public class HardDrop extends Action {
 		while (playfield.isMovePossible(piece, DOWN)) {
 
 			piece.move(DOWN);
-			tetris.incrementerBonusDescente();
+			tetris.increaseDropBonus();
 		}
 
 		if (tetris.lockFallingPiece()) {
-			SOUND_EFFECT.play();
+			soundEffect.play();
 		} else {
 			tetris.stop();
 		}

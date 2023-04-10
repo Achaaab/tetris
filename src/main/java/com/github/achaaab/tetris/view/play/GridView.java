@@ -1,12 +1,14 @@
-package com.github.achaaab.tetris.view;
+package com.github.achaaab.tetris.view.play;
 
 import com.github.achaaab.tetris.model.Grid;
+import com.github.achaaab.tetris.view.Scaler;
 
 import javax.swing.JComponent;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
 import static com.github.achaaab.tetris.model.classic.State.ACTIF;
+import static com.github.achaaab.tetris.view.Scaler.scale;
 import static java.awt.Color.BLACK;
 import static java.awt.Color.GRAY;
 import static java.lang.Math.round;
@@ -19,9 +21,9 @@ import static javax.swing.BorderFactory.createLineBorder;
  */
 public class GridView extends JComponent {
 
-	public static final int DEFAULT_BORDER = 5;
-	public static final int DEFAULT_CELL_SIZE = 40;
-	protected static final int DEFAULT_MARGIN = 0;
+	public static final int DEFAULT_BORDER = scale(2.5f);
+	public static final int DEFAULT_CELL_SIZE = scale(20.0f);
+	protected static final int DEFAULT_MARGIN = scale(0.0f);
 
 	protected final int border;
 	protected final int margin;

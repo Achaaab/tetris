@@ -1,4 +1,4 @@
-package com.github.achaaab.tetris.view;
+package com.github.achaaab.tetris.view.play;
 
 import com.github.achaaab.tetris.model.classic.Tetris;
 
@@ -12,6 +12,7 @@ import java.awt.LinearGradientPaint;
 import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 
+import static com.github.achaaab.tetris.view.Scaler.scale;
 import static java.awt.Color.BLACK;
 import static java.awt.Color.GRAY;
 import static java.awt.Color.ORANGE;
@@ -27,10 +28,10 @@ import static javax.swing.BorderFactory.createLineBorder;
  */
 public class ScoreView extends JComponent {
 
-	private static final int MARGIN = 10;
-	private static final int LINE_SPACE = 10;
-	private static final int PREFERRED_WIDTH = 240;
-	private static final int FONT_SIZE = 40;
+	private static final int MARGIN = scale(5.0f);
+	private static final int LINE_SPACE = scale(5.0f);
+	private static final int PREFERRED_WIDTH = scale(120.0f);
+	private static final int FONT_SIZE = scale(20.0f);
 
 	private static final Font FONT = new Font(MONOSPACED, PLAIN, FONT_SIZE);
 	private static final MessageFormat TIME_FORMAT = new MessageFormat("{0,number,00}:{1,number,00}:{2,number,00}");

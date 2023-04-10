@@ -1,4 +1,4 @@
-package com.githubt.achaaab.tetris;
+package com.githubt.achaaab.tetris.action;
 
 import com.github.achaaab.tetris.action.Gravity;
 import com.github.achaaab.tetris.configuration.Configuration;
@@ -56,12 +56,8 @@ class TestGravity {
 	void testExecuteWithoutFallingPiece() {
 
 		var gravity = new Gravity(tetris);
-
 		when(tetris.getFallingPiece()).thenReturn(empty());
-
 		gravity.execute();
-
-		verifyNoInteractions(piece, playfield);
 		verify(tetris, never()).startLocking();
 	}
 

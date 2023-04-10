@@ -163,7 +163,7 @@ public class Tetris extends AbstractGame {
 	 *
 	 * @since 0.0.0
 	 */
-	public void incrementerBonusDescente() {
+	public void increaseDropBonus() {
 		bonusDescente++;
 	}
 
