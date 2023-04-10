@@ -10,10 +10,7 @@ import com.github.achaaab.tetris.view.menu.MenuView;
 import com.github.achaaab.tetris.view.play.TetrisView;
 import org.slf4j.Logger;
 
-import javax.swing.JFrame;
-
 import static javax.swing.SwingUtilities.invokeLater;
-import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -23,9 +20,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Application {
 
 	private static final Logger LOGGER = getLogger(Application.class);
-
-	private static final int DEFAULT_WINDOW_WIDTH = 800;
-	private static final int DEFAULT_WINDOW_HEIGHT = 1200;
 
 	/**
 	 * @param arguments none
@@ -42,16 +36,15 @@ public class Application {
 		invokeLater(() -> {
 
 			var view = new MenuView();
-			view.setFocusable(true);
-			view.requestFocus();
-
 			var window = new Window();
 			window.setContentPane(view);
-
 			controller.setView(view);
 		});
 	}
 
+	/**
+	 * @since 0.0.0
+	 */
 	private static void play() {
 
 		var tetris = new Tetris();
@@ -61,18 +54,9 @@ public class Application {
 		invokeLater(() -> {
 
 			var view = new TetrisView(tetris);
-
-			view.setFocusable(true);
-			view.requestFocus();
 			view.addKeyListener(keyboard);
-
-			var window = new JFrame("Tetris");
+			var window = new Window();
 			window.setContentPane(view);
-			window.pack();
-			window.setLocationRelativeTo(null);
-			window.setVisible(true);
-			window.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 			loop.setView(view);
 		});
 

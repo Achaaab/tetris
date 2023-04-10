@@ -1,9 +1,9 @@
 package com.github.achaaab.tetris.model.classic;
 
 import com.github.achaaab.tetris.audio.Audio;
+import com.github.achaaab.tetris.model.AbstractPiece;
 import com.github.achaaab.tetris.model.Block;
 import com.github.achaaab.tetris.model.Direction;
-import com.github.achaaab.tetris.model.AbstractPiece;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -11,88 +11,81 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import static java.lang.Integer.parseInt;
+import static java.util.Arrays.stream;
 import static java.util.ResourceBundle.getBundle;
 
 /**
- * Un tetromino est une pièce classique composée de 4 carrés.
+ * A tetromino is a polyomino made of four square blocks.
+ * The spelling "tetromino" is standard among mathematicians.
+ * New games licensed by The Tetris Company call them Tetriminos since 2001,
+ * and they were previously called tetraminoes around 1999.
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class Tetromino extends AbstractPiece {
 
-	protected static final ResourceBundle CONFIGURATION_WALL_KICKS = getBundle("wall_kicks");
+	protected static final ResourceBundle WALL_KICKS_PROPERTIES = getBundle("srs_wall_kicks");
 
 	/**
 	 * @param color
-	 * @param rotations tableau contenant les différentes rotations d'un tetromino
+	 * @param blockPositions tableau contenant les différentes rotations d'un tetromino
 	 * @return liste des rotations
 	 * @since 0.0.0
 	 */
-	protected static List<List<Block>> getRotations(Color color, int[][] rotations) {
+	protected static List<List<Block>> getRotations(Color color, int[][] blockPositions) {
 
-		int nombreRotations = rotations.length;
-
-		var listeRotations = new ArrayList<List<Block>>(nombreRotations);
-
-		for (var rotationTetromino : rotations) {
-			listeRotations.add(getBlocks(color, rotationTetromino));
-		}
-
-		return listeRotations;
+		return stream(blockPositions).
+				map(positions -> getBlocks(color, positions)).
+				toList();
 	}
 
 	/**
 	 * Permet de convertir un tableau de positions de carrés en une liste de carrés.
 	 *
 	 * @param color
-	 * @param rotationTetromino tableau contenant la position des carrés d'un tetromino
+	 * @param rotation tableau contenant la position des carrés d'un tetromino
 	 * @return liste des carrés du tetromino
 	 * @since 0.0.0
 	 */
-	private static List<Block> getBlocks(Color color, int[] rotationTetromino) {
+	private static List<Block> getBlocks(Color color, int[] rotation) {
 
-		var blockCount = rotationTetromino.length;
-		var blocks = new ArrayList<Block>(blockCount);
-
-		for (var position : rotationTetromino) {
-			blocks.add(new Block(color, position % 4, position / 4));
-		}
-
-		return blocks;
+		return stream(rotation).
+				mapToObj(position -> new Block(color, position % 4, position / 4)).
+				toList();
 	}
 
 	/**
-	 * @param lettre
+	 * @param letter
 	 * @return
 	 * @since 0.0.0
 	 */
-	protected static List<List<Direction>> getWallKicksDroite(char lettre) {
-		return getWallKicks(lettre, "droite");
+	protected static List<List<Direction>> getClockwiseWallKicks(char letter) {
+		return getWallKicks(letter, "clockwise");
 	}
 
 	/**
-	 * @param lettre
+	 * @param letter
 	 * @return
 	 * @since 0.0.0
 	 */
-	protected static List<List<Direction>> getWallKicksGauche(char lettre) {
-		return getWallKicks(lettre, "gauche");
+	protected static List<List<Direction>> getCounterclockwiseWallKicks(char letter) {
+		return getWallKicks(letter, "counterclockwise");
 	}
 
 	/**
-	 * @param lettre
-	 * @param sens
+	 * @param letter
+	 * @param direction
 	 * @return
 	 * @since 0.0.0
 	 */
-	private static List<List<Direction>> getWallKicks(char lettre, String sens) {
+	private static List<List<Direction>> getWallKicks(char letter, String direction) {
 
 		var wallKicksDroite = new ArrayList<List<Direction>>();
 
-		for (var indexRotation = 0; indexRotation < 4; indexRotation++) {
+		for (var rotation = 0; rotation < 4; rotation++) {
 
-			var wallKicksString = CONFIGURATION_WALL_KICKS.getString(lettre + "_" + sens + "_" + indexRotation);
+			var wallKicksString = WALL_KICKS_PROPERTIES.getString(letter + "_" + direction + "_" + rotation);
 			var wallKicks = getWallKicks(wallKicksString);
 			wallKicksDroite.add(wallKicks);
 		}
@@ -110,9 +103,9 @@ public class Tetromino extends AbstractPiece {
 		var wallKicks = new ArrayList<Direction>();
 		var wallKicksStrings = wallKicksString.split("\\|");
 
-		for (var indexRotation = 0; indexRotation < 4; indexRotation++) {
+		for (var index = 0; index < 4; index++) {
 
-			var wallKickString = wallKicksStrings[indexRotation];
+			var wallKickString = wallKicksStrings[index];
 			var wallKickXY = wallKickString.split(",");
 			var xString = wallKickXY[0];
 			var yString = wallKickXY[1];
@@ -130,15 +123,15 @@ public class Tetromino extends AbstractPiece {
 	 * Crée un tetromino initialement positionné en (0, 0).
 	 *
 	 * @param rotations tableau contenant les différentes rotations du tetromino
-	 * @param colonneApparition colonne d'apparition du tetromino dans le champ de jeu
-	 * @param wallKicksDroite wall kicks possibles lors d'une rotation vers la droite
-	 * @param wallKicksGauche wall kicks possibles lors d'une rotation vers la gauche
+	 * @param entryColumn colonne d'apparition du tetromino dans le champ de jeu
 	 * @param soundEffect son d'apparition du tetromino
+	 * @param clockwiseWallKicks wall kicks possibles lors d'une rotation vers la droite
+	 * @param counterclockwiseWallKicks wall kicks possibles lors d'une rotation vers la gauche
 	 * @since 0.0.0
 	 */
-	protected Tetromino(List<List<Block>> rotations, int colonneApparition,
-			List<List<Direction>> wallKicksDroite, List<List<Direction>> wallKicksGauche, Audio soundEffect) {
+	protected Tetromino(List<List<Block>> rotations, int entryColumn, Audio soundEffect,
+						List<List<Direction>> clockwiseWallKicks, List<List<Direction>> counterclockwiseWallKicks) {
 
-		super(rotations, colonneApparition, soundEffect, wallKicksDroite, wallKicksGauche);
+		super(rotations, entryColumn, soundEffect, clockwiseWallKicks, counterclockwiseWallKicks);
 	}
 }

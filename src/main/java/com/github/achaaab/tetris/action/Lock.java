@@ -13,20 +13,31 @@ import static com.github.achaaab.tetris.audio.AudioFactory.createAudio;
  */
 public class Lock extends Action {
 
-	private static final Audio SOUND_EFFECT = createAudio("audio/effect/lock.wav");
+	private final Audio soundEffect;
 
 	private boolean active;
-	private int age;
+	private int frameCounter;
 
 	/**
 	 * @param tetris
 	 * @since 0.0.0
 	 */
 	public Lock(Tetris tetris) {
+		this(tetris, createAudio("audio/effect/lock.wav"));
+	}
+
+	/**
+	 * @param tetris
+	 * @param soundEffect
+	 * @since 0.0.0
+	 */
+	public Lock(Tetris tetris, Audio soundEffect) {
 
 		super(tetris);
 
-		age = 0;
+		this.soundEffect = soundEffect;
+
+		frameCounter = 0;
 		active = false;
 	}
 
@@ -35,17 +46,17 @@ public class Lock extends Action {
 
 		if (active) {
 
-			age++;
+			frameCounter++;
 
 			var levelSpeed = tetris.getLevelSpeed();
 			var delay = configuration.getLockDelay(levelSpeed);
 
-			if (age == delay) {
+			if (frameCounter == delay) {
 
-				age = 0;
+				frameCounter = 0;
 
 				if (tetris.lockFallingPiece()) {
-					SOUND_EFFECT.play();
+					soundEffect.play();
 				} else {
 					tetris.stop();
 				}
@@ -61,7 +72,7 @@ public class Lock extends Action {
 		if (!active) {
 
 			active = true;
-			age = 0;
+			frameCounter = 0;
 		}
 	}
 

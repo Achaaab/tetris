@@ -10,8 +10,8 @@ import static com.github.achaaab.tetris.view.Scaler.scale;
  */
 public class Window extends JFrame {
 
-	private static final int DEFAULT_WIDTH = scale(500);
-	private static final int DEFAULT_HEIGHT = scale(800);
+	private static final int DEFAULT_WIDTH = scale(419);
+	private static final int DEFAULT_HEIGHT = scale(500);
 
 	/**
 	 * @since 0.0.0

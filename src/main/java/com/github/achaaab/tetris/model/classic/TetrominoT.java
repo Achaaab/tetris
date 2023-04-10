@@ -16,24 +16,24 @@ public class TetrominoT extends Tetromino {
 
 	private static final Audio SOUND_EFFECT = createAudio("audio/effect/tetromino_t.wav");
 
-	private static final int[][] INDICES_CARRES = {
+	private static final int[][] BLOCK_POSITIONS = {
 			{ 1, 4, 5, 6 },
 			{ 1, 5, 6, 9 },
 			{ 4, 5, 6, 9 },
 			{ 1, 4, 5, 9 } };
 
-	private static final int COLONNE_APPARITION = 3;
-	private static final char LETTRE = 't';
+	private static final int ENTRY_COLUMN = 3;
+	private static final char LETTER = 't';
 
-	private static final List<List<Direction>> WALL_KICKS_DROITE = getWallKicksDroite(LETTRE);
-	private static final List<List<Direction>> WALL_KICKS_GAUCHE = getWallKicksGauche(LETTRE);
+	private static final List<List<Direction>> CLOCKWISE_WALL_KICKS = getClockwiseWallKicks(LETTER);
+	private static final List<List<Direction>> COUNTERCLOCKWISE_WALL_KICKS = getCounterclockwiseWallKicks(LETTER);
 
 	/**
 	 * @since 0.0.0
 	 */
 	public TetrominoT() {
 
-		super(getRotations(MAGENTA, INDICES_CARRES),
-				COLONNE_APPARITION, WALL_KICKS_DROITE, WALL_KICKS_GAUCHE, SOUND_EFFECT);
+		super(getRotations(MAGENTA, BLOCK_POSITIONS),
+				ENTRY_COLUMN, SOUND_EFFECT, CLOCKWISE_WALL_KICKS, COUNTERCLOCKWISE_WALL_KICKS);
 	}
 }

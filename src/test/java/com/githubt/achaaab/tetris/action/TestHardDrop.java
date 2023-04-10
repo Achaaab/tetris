@@ -67,11 +67,13 @@ public class TestHardDrop {
 
 		when(tetris.getFallingPiece()).thenReturn(Optional.of(piece));
 		when(playfield.isMovePossible(piece, DOWN)).thenReturn(true, true, false);
+		when(tetris.lockFallingPiece()).thenReturn(true);
 
 		hardDrop.execute();
 
 		verify(piece, times(2)).move(DOWN);
 		verify(tetris, times(2)).increaseDropBonus();
 		verify(tetris).lockFallingPiece();
+		verify(soundEffect).play();
 	}
 }

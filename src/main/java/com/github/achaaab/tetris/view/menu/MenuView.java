@@ -1,13 +1,18 @@
 package com.github.achaaab.tetris.view.menu;
 
+import com.github.achaaab.tetris.view.message.Messages;
+
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import static com.github.achaaab.tetris.view.Scaler.scale;
-import static java.lang.System.exit;
+import static com.github.achaaab.tetris.view.message.Messages.OPTIONS;
+import static com.github.achaaab.tetris.view.message.Messages.PLAY;
+import static com.github.achaaab.tetris.view.message.Messages.QUIT;
+import static com.github.achaaab.tetris.view.message.Messages.QUIT_CONFIRM;
+import static com.github.achaaab.tetris.view.message.Messages.getMessage;
 import static javax.swing.JOptionPane.YES_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
 
@@ -29,9 +34,11 @@ public class MenuView extends JPanel {
 	 */
 	public MenuView() {
 
-		play = new JButton("Play");
-		options = new JButton("Options");
-		quit = new JButton("Quit");
+		Messages.register(this::localeChanged);
+
+		play = new JButton(getMessage(PLAY));
+		options = new JButton(getMessage(OPTIONS));
+		quit = new JButton(getMessage(QUIT));
 
 		play.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		options.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
@@ -40,6 +47,16 @@ public class MenuView extends JPanel {
 		add(play);
 		add(options);
 		add(quit);
+	}
+
+	/**
+	 * @since 0.0.0
+	 */
+	private void localeChanged() {
+
+		play.setText(getMessage(PLAY));
+		options.setText(getMessage(PLAY));
+		quit.setText(getMessage(PLAY));
 	}
 
 	/**
@@ -71,6 +88,6 @@ public class MenuView extends JPanel {
 	 * @since 0.0.0
 	 */
 	public boolean confirmQuit() {
-		return showConfirmDialog(this, "Are you sure?") == YES_OPTION;
+		return showConfirmDialog(this, getMessage(QUIT_CONFIRM)) == YES_OPTION;
 	}
 }

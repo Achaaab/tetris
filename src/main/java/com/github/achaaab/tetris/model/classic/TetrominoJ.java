@@ -16,24 +16,24 @@ public class TetrominoJ extends Tetromino {
 
 	private static final Audio SOUND_EFFECT = createAudio("audio/effect/tetromino_j.wav");
 
-	private static final int[][] INDICES_CARRES = {
+	private static final int[][] BLOCK_POSITIONS = {
 			{ 0, 4, 5, 6 },
 			{ 1, 2, 5, 9 },
 			{ 4, 5, 6, 10 },
 			{ 1, 5, 8, 9 } };
 
-	private static final int COLONNE_APPARITION = 3;
-	private static final char LETTRE = 'j';
+	private static final int ENTRY_COLUMN = 3;
+	private static final char LETTER = 'j';
 
-	private static final List<List<Direction>> WALL_KICKS_DROITE = getWallKicksDroite(LETTRE);
-	private static final List<List<Direction>> WALL_KICKS_GAUCHE = getWallKicksGauche(LETTRE);
+	private static final List<List<Direction>> CLOCKWISE_WALL_KICKS = getClockwiseWallKicks(LETTER);
+	private static final List<List<Direction>> COUNTERCLOCKWISE_WALL_KICKS = getCounterclockwiseWallKicks(LETTER);
 
 	/**
 	 * @since 0.0.0
 	 */
 	public TetrominoJ() {
 
-		super(getRotations(BLUE, INDICES_CARRES),
-				COLONNE_APPARITION, WALL_KICKS_DROITE, WALL_KICKS_GAUCHE, SOUND_EFFECT);
+		super(getRotations(BLUE, BLOCK_POSITIONS),
+				ENTRY_COLUMN, SOUND_EFFECT, CLOCKWISE_WALL_KICKS, COUNTERCLOCKWISE_WALL_KICKS);
 	}
 }

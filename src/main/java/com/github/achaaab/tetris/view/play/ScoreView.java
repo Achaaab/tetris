@@ -13,6 +13,10 @@ import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 
 import static com.github.achaaab.tetris.view.Scaler.scale;
+import static com.github.achaaab.tetris.view.message.Messages.LEVEL;
+import static com.github.achaaab.tetris.view.message.Messages.SCORE;
+import static com.github.achaaab.tetris.view.message.Messages.TIME;
+import static com.github.achaaab.tetris.view.message.Messages.getMessage;
 import static java.awt.Color.BLACK;
 import static java.awt.Color.GRAY;
 import static java.awt.Color.ORANGE;
@@ -75,17 +79,17 @@ public class ScoreView extends JComponent {
 		var y = MARGIN;
 
 		y += textAscent;
-		drawString(graphics2d, "Level", x, y, textHeight, KEY_COLORS);
+		drawString(graphics2d, getMessage(LEVEL), x, y, textHeight, KEY_COLORS);
 		y += textHeight + LINE_SPACE;
 		drawString(graphics2d, Integer.toString(level), x, y, textHeight, VALUE_COLORS);
 
 		y += textHeight + LINE_SPACE + LINE_SPACE;
-		drawString(graphics2d, "Score", x, y, textHeight, KEY_COLORS);
+		drawString(graphics2d, getMessage(SCORE), x, y, textHeight, KEY_COLORS);
 		y += textHeight + LINE_SPACE;
 		drawString(graphics2d, Integer.toString(score), x, y, textHeight, VALUE_COLORS);
 
 		y += textHeight + LINE_SPACE + LINE_SPACE;
-		drawString(graphics2d, "Time", x, y, textHeight, KEY_COLORS);
+		drawString(graphics2d, getMessage(TIME), x, y, textHeight, KEY_COLORS);
 		y += textHeight + LINE_SPACE;
 		drawString(graphics2d, formatTime(time), x, y, textHeight, VALUE_COLORS);
 	}
@@ -100,7 +104,7 @@ public class ScoreView extends JComponent {
 	 * @since 0.0.0
 	 */
 	private void drawString(Graphics2D graphics, String text,
-			int x, int y, int height, Color[] colors) {
+							int x, int y, int height, Color[] colors) {
 
 		var top = new Point2D.Float(0, y - height);
 		var bottom = new Point2D.Float(0, y);
