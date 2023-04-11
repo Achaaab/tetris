@@ -1,9 +1,8 @@
-package com.github.achaaab.tetris.model;
+package com.github.achaaab.tetris.action;
 
 import com.github.achaaab.tetris.audio.Audio;
 import com.github.achaaab.tetris.configuration.Configuration;
-import com.github.achaaab.tetris.action.Scoring;
-import com.github.achaaab.tetris.action.Action;
+import com.github.achaaab.tetris.model.Scrap;
 import com.github.achaaab.tetris.model.classic.Tetris;
 
 import java.util.List;
@@ -114,5 +113,14 @@ public class Clear extends Action {
 		var scraps = playfield.getScraps();
 		scraps.removeIf(Scrap::update);
 		age++;
+	}
+
+	@Override
+	public void reset() {
+
+		active = false;
+		age = 0;
+
+		scoring.reset();
 	}
 }

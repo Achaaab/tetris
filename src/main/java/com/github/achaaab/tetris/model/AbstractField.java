@@ -45,4 +45,9 @@ public abstract class AbstractField implements Field {
 	public Optional<Piece> getActivePiece() {
 		return ofNullable(pieces.peek());
 	}
+
+	@Override
+	public void clear() {
+		pieces.clear();
+	}
 }

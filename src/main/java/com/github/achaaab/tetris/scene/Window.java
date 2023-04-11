@@ -1,4 +1,4 @@
-package com.github.achaaab.tetris.view;
+package com.github.achaaab.tetris.scene;
 
 import javax.swing.JFrame;
 

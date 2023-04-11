@@ -37,8 +37,7 @@ public class Lock extends Action {
 
 		this.soundEffect = soundEffect;
 
-		frameCounter = 0;
-		active = false;
+		reset();
 	}
 
 	@Override
@@ -58,7 +57,7 @@ public class Lock extends Action {
 				if (tetris.lockFallingPiece()) {
 					soundEffect.play();
 				} else {
-					tetris.stop();
+					tetris.exit();
 				}
 			}
 		}
@@ -80,6 +79,13 @@ public class Lock extends Action {
 	 * @since 0.0.0
 	 */
 	public void cancel() {
+		active = false;
+	}
+
+	@Override
+	public void reset() {
+
+		frameCounter = 0;
 		active = false;
 	}
 }

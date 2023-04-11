@@ -13,8 +13,19 @@ import static java.util.ResourceBundle.getBundle;
  */
 public class Messages {
 
-	public static final String BUNDLE_NAME = "messages";
+	public static final String BUNDLE_NAME = "messages/messages";
 
+	public static final Locale[] LOCALES = new Locale[] {
+			Locale.ENGLISH,
+			Locale.of("es"),
+			Locale.FRENCH,
+			Locale.of("hi"),
+			Locale.JAPANESE,
+			Locale.of("ru"),
+			Locale.SIMPLIFIED_CHINESE };
+
+	public static final String BACK = "back";
+	public static final String LANGUAGE = "language";
 	public static final String LEVEL = "level";
 	public static final String OPTIONS = "options";
 	public static final String PLAY = "play";
@@ -25,8 +36,16 @@ public class Messages {
 
 	private static final List<LocaleListener> LISTENERS = new ArrayList<>();
 
-	private static Locale locale;
+	private static Locale locale = Locale.of(Locale.getDefault().getLanguage());
 	private static ResourceBundle bundle = getBundle(BUNDLE_NAME);
+
+	/**
+	 * @return current locale
+	 * @since 0.0.0
+	 */
+	public static Locale getLocale() {
+		return locale;
+	}
 
 	/**
 	 * @param locale

@@ -23,7 +23,7 @@ public class Gravity extends Action {
 
 		super(tetris);
 
-		cumulatedForce = 0;
+		reset();
 	}
 
 	@Override
@@ -51,5 +51,10 @@ public class Gravity extends Action {
 			tetris.startLocking();
 			cumulatedForce = 0;
 		}
+	}
+
+	@Override
+	public void reset() {
+		cumulatedForce = 0;
 	}
 }

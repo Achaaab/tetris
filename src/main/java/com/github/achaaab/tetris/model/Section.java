@@ -17,15 +17,15 @@ public class Section implements Comparable<Section> {
 	private final int endLevel;
 	private final long threshold;
 
-	private long startTime;
-	private long endTime;
+	private double startTime;
+	private double endTime;
 	private boolean started;
 	private boolean ended;
 
 	/**
 	 * @param startLevel
 	 * @param endLevel
-	 * @param threshold durée conditionnelle de la section, exprimée en secondes
+	 * @param threshold  durée conditionnelle de la section, exprimée en secondes
 	 * @since 0.0.0
 	 */
 	public Section(int startLevel, int endLevel, int threshold) {
@@ -45,7 +45,7 @@ public class Section implements Comparable<Section> {
 	 * @param time
 	 * @since 0.0.0
 	 */
-	public void setTime(int level, long time) {
+	public void setTime(int level, double time) {
 
 		if (!started && level >= startLevel) {
 
@@ -57,7 +57,7 @@ public class Section implements Comparable<Section> {
 
 		if (started && !ended && level >= endLevel) {
 
-			LOGGER.info("end section {}: {}s", this, round((double) time / 1_000_000_000));
+			LOGGER.info("end section {}: {}s", this, round(time));
 
 			endTime = time;
 			ended = true;

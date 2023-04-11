@@ -1,7 +1,5 @@
-package com.githubt.achaaab.tetris.action;
+package com.github.achaaab.tetris.action;
 
-import com.github.achaaab.tetris.action.Gravity;
-import com.github.achaaab.tetris.action.Hold;
 import com.github.achaaab.tetris.model.Piece;
 import com.github.achaaab.tetris.model.classic.Tetris;
 import org.junit.jupiter.api.Test;
@@ -16,7 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * unit tests of {@link Gravity}
+ * unit tests of {@link Hold}
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0

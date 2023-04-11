@@ -104,7 +104,7 @@ public class ScoreView extends JComponent {
 	 * @since 0.0.0
 	 */
 	private void drawString(Graphics2D graphics, String text,
-							int x, int y, int height, Color[] colors) {
+			int x, int y, int height, Color[] colors) {
 
 		var top = new Point2D.Float(0, y - height);
 		var bottom = new Point2D.Float(0, y);
@@ -115,13 +115,13 @@ public class ScoreView extends JComponent {
 	}
 
 	/**
-	 * @param time time in nanoseconds
+	 * @param time time in seconds
 	 * @return time formatted as "00:00:00"
 	 * @since 0.0.0
 	 */
-	private String formatTime(long time) {
+	private String formatTime(double time) {
 
-		var timeHundredths = round(time / 10_000_000.0);
+		var timeHundredths = round(time * 100);
 		var hundredths = timeHundredths % 100;
 
 		var timeSeconds = timeHundredths / 100;

@@ -114,4 +114,12 @@ public class Grid extends AbstractField {
 	public Cell getCell(int x, int y) {
 		return cells[y][x];
 	}
+
+	@Override
+	public void clear() {
+
+		super.clear();
+
+		stream(cells).forEach(row -> stream(row).forEach(Cell::clear));
+	}
 }

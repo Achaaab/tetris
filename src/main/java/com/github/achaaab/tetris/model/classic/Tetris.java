@@ -1,26 +1,29 @@
 package com.github.achaaab.tetris.model.classic;
 
+import com.github.achaaab.tetris.action.Clear;
 import com.github.achaaab.tetris.action.Gravity;
 import com.github.achaaab.tetris.action.Hold;
 import com.github.achaaab.tetris.action.Keyboard;
 import com.github.achaaab.tetris.action.Lock;
 import com.github.achaaab.tetris.action.Move;
 import com.github.achaaab.tetris.configuration.Configuration;
-import com.github.achaaab.tetris.game.AbstractGame;
-import com.github.achaaab.tetris.model.Clear;
 import com.github.achaaab.tetris.model.Piece;
 import com.github.achaaab.tetris.model.Preview;
 import com.github.achaaab.tetris.model.Storage;
+import org.slf4j.Logger;
 
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Tetris extends AbstractGame {
+public class Tetris {
+
+	private static final Logger LOGGER = getLogger(Tetris.class);
 
 	private final Playfield playfield;
 	private final Storage storage;
@@ -34,13 +37,17 @@ public class Tetris extends AbstractGame {
 	private Move initialRotation;
 	private Hold initialHold;
 
+	private double time;
+	private boolean paused;
 	private int level;
-	private int bonusNiveau;
+	private int bonusLevel;
 	private int holdCount;
 	private int lineCount;
-	private int bonusDescente;
+	private int dropBonus;
 	private int fallingPieceAge;
 	private int score;
+
+	private Runnable exitListener;
 
 	/**
 	 * @since 0.0.0
@@ -55,14 +62,7 @@ public class Tetris extends AbstractGame {
 		clear = new Clear(this);
 		gravity = new Gravity(this);
 
-		initialRotation = null;
-		initialHold = null;
-
-		level = 0;
-		bonusNiveau = 0;
-		score = 0;
-		lineCount = 0;
-		holdCount = 0;
+		reset();
 	}
 
 	/**
@@ -73,14 +73,55 @@ public class Tetris extends AbstractGame {
 		return Configuration.INSTANCE;
 	}
 
-	@Override
-	public void update() {
+	public void setExitListener(Runnable exitListener) {
+		this.exitListener = exitListener;
+	}
+
+	/**
+	 * Resets this Tetris.
+	 *
+	 * @since 0.0.0
+	 */
+	public void reset() {
+
+		LOGGER.info("resetting Tetris");
+
+		playfield.clear();
+		storage.clear();
+		preview.clear();
+		keyboard.reset();
+		gravity.reset();
+		lock.reset();
+		clear.reset();
+
+		fallingPiece = null;
+		initialRotation = null;
+		initialHold = null;
+
+		time = 0;
+		paused = false;
+		level = 0;
+		bonusLevel = 0;
+		holdCount = 0;
+		lineCount = 0;
+		dropBonus = 0;
+		fallingPieceAge = 0;
+		score = 0;
+	}
+
+	/**
+	 * @param deltaTime
+	 * @since 0.0.0
+	 */
+	public void update(double deltaTime) {
 
 		if (paused) {
 
 			keyboard.executePaused();
 
 		} else {
+
+			time += deltaTime;
 
 			if (fallingPiece != null) {
 				fallingPieceAge++;
@@ -93,6 +134,38 @@ public class Tetris extends AbstractGame {
 		}
 	}
 
+	/**
+	 * Inverts the pause status:
+	 * <ul>
+	 *     <li>If this Tetris is paused: unpauses it.</li>
+	 *     <li>If this Tetris is not paused: pauses it.</li>
+	 * </ul>
+	 *
+	 * @since 0.0.0
+	 */
+	public void pause() {
+		paused = !paused;
+	}
+
+	/**
+	 * stops this Tetris
+	 *
+	 * @since 0.0.0
+	 */
+	public void exit() {
+
+		if (exitListener != null) {
+			exitListener.run();
+		}
+	}
+
+	/**
+	 * @return time in seconds
+	 * @since 0.0.0
+	 */
+	public double getTime() {
+		return time;
+	}
 
 	/**
 	 * @return
@@ -154,7 +227,7 @@ public class Tetris extends AbstractGame {
 
 		playfield.add(fallingPiece);
 
-		bonusDescente = 0;
+		dropBonus = 0;
 		fallingPieceAge = 0;
 	}
 
@@ -164,7 +237,7 @@ public class Tetris extends AbstractGame {
 	 * @since 0.0.0
 	 */
 	public void increaseDropBonus() {
-		bonusDescente++;
+		dropBonus++;
 	}
 
 	/**
@@ -247,7 +320,7 @@ public class Tetris extends AbstractGame {
 	 * @since 0.0.0
 	 */
 	public int getLevelSpeed() {
-		return level + bonusNiveau;
+		return level + bonusLevel;
 	}
 
 	/**
@@ -307,7 +380,7 @@ public class Tetris extends AbstractGame {
 	 * @since 0.0.0
 	 */
 	public int dropBonus() {
-		return bonusDescente;
+		return dropBonus;
 	}
 
 	/**
@@ -346,15 +419,15 @@ public class Tetris extends AbstractGame {
 	 * @return bonus level
 	 * @since 0.0.0
 	 */
-	public int getBonusNiveau() {
-		return bonusNiveau;
+	public int getBonusLevel() {
+		return bonusLevel;
 	}
 
 	/**
-	 * @param bonusNiveau bonus level
+	 * @param bonusLevel bonus level
 	 * @since 0.0.0
 	 */
-	public void setBonusNiveau(int bonusNiveau) {
-		this.bonusNiveau = bonusNiveau;
+	public void setBonusLevel(int bonusLevel) {
+		this.bonusLevel = bonusLevel;
 	}
 }

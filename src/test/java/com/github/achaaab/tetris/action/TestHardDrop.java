@@ -1,6 +1,5 @@
-package com.githubt.achaaab.tetris.action;
+package com.github.achaaab.tetris.action;
 
-import com.github.achaaab.tetris.action.HardDrop;
 import com.github.achaaab.tetris.audio.Audio;
 import com.github.achaaab.tetris.model.Piece;
 import com.github.achaaab.tetris.model.classic.Playfield;

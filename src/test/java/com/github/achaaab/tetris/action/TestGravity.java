@@ -1,6 +1,5 @@
-package com.githubt.achaaab.tetris.action;
+package com.github.achaaab.tetris.action;
 
-import com.github.achaaab.tetris.action.Gravity;
 import com.github.achaaab.tetris.configuration.Configuration;
 import com.github.achaaab.tetris.model.Direction;
 import com.github.achaaab.tetris.model.Piece;

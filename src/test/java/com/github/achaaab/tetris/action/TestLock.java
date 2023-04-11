@@ -1,7 +1,5 @@
-package com.githubt.achaaab.tetris.action;
+package com.github.achaaab.tetris.action;
 
-import com.github.achaaab.tetris.action.Gravity;
-import com.github.achaaab.tetris.action.Lock;
 import com.github.achaaab.tetris.audio.Audio;
 import com.github.achaaab.tetris.configuration.Configuration;
 import com.github.achaaab.tetris.model.classic.Tetris;
@@ -16,7 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * unit tests of {@link Gravity}
+ * unit tests of {@link Lock}
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0

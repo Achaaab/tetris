@@ -1,12 +1,12 @@
 package com.github.achaaab.tetris.action;
 
-import com.github.achaaab.tetris.configuration.Configuration;
 import com.github.achaaab.tetris.model.Section;
 import com.github.achaaab.tetris.model.classic.Tetris;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
@@ -35,10 +35,12 @@ public class Scoring extends Action {
 	private static final int INDEX_GROUPE_DEBUT = 2;
 	private static final int INDEX_GROUPE_FIN = 3;
 
-	private Iterator<Section> iterateurSectionsCool;
-	private Iterator<Section> iterateurSectionsRegret;
-	private Section sectionCool;
-	private Section sectionRegret;
+	private List<Section> coolSections;
+	private List<Section> regretSections;
+	private Iterator<Section> coolSectionIterator;
+	private Iterator<Section> regretSectionIterator;
+	private Section coolSection;
+	private Section regretSection;
 	private int combo;
 
 	/**
@@ -49,9 +51,8 @@ public class Scoring extends Action {
 
 		super(tetris);
 
-		combo = 1;
-
 		lireSections();
+		reset();
 	}
 
 	/**
@@ -59,8 +60,8 @@ public class Scoring extends Action {
 	 */
 	private void lireSections() {
 
-		var sectionsCool = new ArrayList<Section>();
-		var sectionsRegret = new ArrayList<Section>();
+		coolSections = new ArrayList<Section>();
+		regretSections = new ArrayList<Section>();
 
 		var bundle = getBundle(NOM_FICHIER_CONFIGURATION);
 		var cles = bundle.keySet();
@@ -84,20 +85,14 @@ public class Scoring extends Action {
 				var section = new Section(niveauDebut, niveauFin, dureeCondition);
 
 				switch (typeSection) {
-					case TYPE_COOL -> sectionsCool.add(section);
-					case TYPE_REGRET -> sectionsRegret.add(section);
+					case TYPE_COOL -> coolSections.add(section);
+					case TYPE_REGRET -> regretSections.add(section);
 				}
 			}
 		}
 
-		sort(sectionsCool);
-		sort(sectionsRegret);
-
-		iterateurSectionsCool = sectionsCool.iterator();
-		iterateurSectionsRegret = sectionsRegret.iterator();
-
-		sectionCool = iterateurSectionsCool.next();
-		sectionRegret = iterateurSectionsRegret.next();
+		sort(coolSections);
+		sort(regretSections);
 	}
 
 	@Override
@@ -109,7 +104,7 @@ public class Scoring extends Action {
 		var score = tetris.getScore();
 		var dropBonus = tetris.dropBonus();
 		var dureePiece = tetris.getFallingPieceAge();
-		var bonusNiveau = tetris.getBonusNiveau();
+		var bonusNiveau = tetris.getBonusLevel();
 		var time = tetris.getTime();
 
 		if (lineCount == 0) {
@@ -131,45 +126,57 @@ public class Scoring extends Action {
 			score += bonusVitesse;
 		}
 
-		if (sectionCool != null) {
+		if (coolSection != null) {
 
-			sectionCool.setTime(niveauApres, time);
+			coolSection.setTime(niveauApres, time);
 
-			if (sectionCool.isCool()) {
+			if (coolSection.isCool()) {
 
-				tetris.setBonusNiveau(bonusNiveau + 100);
+				tetris.setBonusLevel(bonusNiveau + 100);
 				LOGGER.info("Cool !");
 			}
 
-			if (sectionCool.isEnded()) {
+			if (coolSection.isEnded()) {
 
-				if (iterateurSectionsCool.hasNext()) {
-					sectionCool = iterateurSectionsCool.next();
+				if (coolSectionIterator.hasNext()) {
+					coolSection = coolSectionIterator.next();
 				} else {
-					sectionCool = null;
+					coolSection = null;
 				}
 			}
 		}
 
-		if (sectionRegret != null) {
+		if (regretSection != null) {
 
-			sectionRegret.setTime(niveauApres, time);
+			regretSection.setTime(niveauApres, time);
 
-			if (sectionRegret.isRegret()) {
+			if (regretSection.isRegret()) {
 				LOGGER.info("Regret...");
 			}
 
-			if (sectionRegret.isEnded()) {
+			if (regretSection.isEnded()) {
 
-				if (iterateurSectionsRegret.hasNext()) {
-					sectionRegret = iterateurSectionsRegret.next();
+				if (regretSectionIterator.hasNext()) {
+					regretSection = regretSectionIterator.next();
 				} else {
-					sectionRegret = null;
+					regretSection = null;
 				}
 			}
 		}
 
 		tetris.setLevel(niveauApres);
 		tetris.setScore(score);
+	}
+
+	@Override
+	public void reset() {
+
+		coolSectionIterator = coolSections.iterator();
+		regretSectionIterator = regretSections.iterator();
+
+		coolSection = coolSectionIterator.next();
+		regretSection = regretSectionIterator.next();
+
+		combo = 1;
 	}
 }

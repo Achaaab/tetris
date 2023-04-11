@@ -32,4 +32,11 @@ public abstract class Action {
 	 * @since 0.0.0
 	 */
 	public abstract void execute();
+
+	/**
+	 * @since 0.0.0
+	 */
+	public void reset() {
+
+	}
 }

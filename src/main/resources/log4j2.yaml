@@ -23,7 +23,7 @@ configuration:
   loggers:
 
     root:
-      level: debug
+      level: info
       appenderRef:
         - ref: "console"
         - ref: "file"

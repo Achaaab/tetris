@@ -31,4 +31,11 @@ public interface Field {
 	 * @since 0.0.0
 	 */
 	Queue<Piece> getPieces();
+
+	/**
+	 * Clears this field.
+	 *
+	 * @since 0.0.0
+	 */
+	void clear();
 }

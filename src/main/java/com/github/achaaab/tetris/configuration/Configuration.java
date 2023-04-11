@@ -25,6 +25,7 @@ public class Configuration {
 	private static final String HARD_DROP_KEY = "touche_descente_brutale";
 	private static final String HOLD_KEY = "touche_reservation";
 	private static final String PAUSE_KEY = "touche_pause";
+	private static final String EXIT_KEY = "exit_key";
 
 	private static final String CLE_MUSIQUE = "musique";
 	private static final String HOLD_LIMIT = "limite_reservation";
@@ -48,6 +49,7 @@ public class Configuration {
 	private final int hardDropKey;
 	private final int holdKey;
 	private final int pauseKey;
+	private final int exitKey;
 
 	private List<String> cheminMusiques;
 
@@ -74,6 +76,7 @@ public class Configuration {
 		hardDropKey = getInteger(HARD_DROP_KEY);
 		holdKey = getInteger(HOLD_KEY);
 		pauseKey = getInteger(PAUSE_KEY);
+		exitKey = getInteger(EXIT_KEY);
 
 		holdLimit = getInteger(HOLD_LIMIT);
 
@@ -342,5 +345,13 @@ public class Configuration {
 	 */
 	public int getPauseKey() {
 		return pauseKey;
+	}
+
+	/**
+	 * @return exit key (back to menu)
+	 * @since 0.0.0
+	 */
+	public int getExitKey() {
+		return exitKey;
 	}
 }

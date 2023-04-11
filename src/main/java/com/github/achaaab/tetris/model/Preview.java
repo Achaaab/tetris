@@ -1,7 +1,6 @@
 package com.github.achaaab.tetris.model;
 
 import com.github.achaaab.tetris.model.classic.TetrominoGenerator;
-import com.github.achaaab.tetris.view.play.PreviewView;
 
 /**
  * @author Jonathan Guéhenneux
@@ -11,7 +10,6 @@ public class Preview extends AbstractField {
 
 	private final int size;
 	private final PieceGenerator pieceGenerator;
-	private final PreviewView presentation;
 
 	/**
 	 * @param size nombre de pièces prévisualisables
@@ -21,9 +19,7 @@ public class Preview extends AbstractField {
 
 		this.size = size;
 
-		presentation = new PreviewView(this);
 		pieceGenerator = new TetrominoGenerator();
-
 		fill();
 	}
 
@@ -52,7 +48,6 @@ public class Preview extends AbstractField {
 
 	/**
 	 * @return pièce suivante
-	 *
 	 * @since 0.0.0
 	 */
 	public Piece getNextPiece() {
@@ -63,11 +58,11 @@ public class Preview extends AbstractField {
 		return nextPiece;
 	}
 
-	/**
-	 * @return présentation du champ
-	 * @since 0.0.0
-	 */
-	public PreviewView getPresentation() {
-		return presentation;
+	@Override
+	public void clear() {
+
+		super.clear();
+
+		fill();
 	}
 }

@@ -4,7 +4,7 @@ import com.github.achaaab.tetris.view.message.Messages;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 
 import static com.github.achaaab.tetris.view.Scaler.scale;
@@ -13,6 +13,8 @@ import static com.github.achaaab.tetris.view.message.Messages.PLAY;
 import static com.github.achaaab.tetris.view.message.Messages.QUIT;
 import static com.github.achaaab.tetris.view.message.Messages.QUIT_CONFIRM;
 import static com.github.achaaab.tetris.view.message.Messages.getMessage;
+import static java.awt.Font.DIALOG;
+import static java.awt.Font.PLAIN;
 import static javax.swing.JOptionPane.YES_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
 
@@ -22,8 +24,8 @@ import static javax.swing.JOptionPane.showConfirmDialog;
  */
 public class MenuView extends JPanel {
 
-	private static final int BUTTON_WIDTH = scale(100);
-	private static final int BUTTON_HEIGHT = scale(30);
+	private static final int FONT_SIZE = 20;
+	private static final Font FONT = new Font(DIALOG, PLAIN, scale(FONT_SIZE));
 
 	private final JButton play;
 	private final JButton options;
@@ -40,9 +42,9 @@ public class MenuView extends JPanel {
 		options = new JButton(getMessage(OPTIONS));
 		quit = new JButton(getMessage(QUIT));
 
-		play.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		options.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
-		quit.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+		play.setFont(FONT);
+		options.setFont(FONT);
+		quit.setFont(FONT);
 
 		add(play);
 		add(options);
@@ -55,8 +57,8 @@ public class MenuView extends JPanel {
 	private void localeChanged() {
 
 		play.setText(getMessage(PLAY));
-		options.setText(getMessage(PLAY));
-		quit.setText(getMessage(PLAY));
+		options.setText(getMessage(OPTIONS));
+		quit.setText(getMessage(QUIT));
 	}
 
 	/**

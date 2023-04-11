@@ -57,7 +57,7 @@ public class HardDrop extends Action {
 		if (tetris.lockFallingPiece()) {
 			soundEffect.play();
 		} else {
-			tetris.stop();
+			tetris.exit();
 		}
 	}
 }

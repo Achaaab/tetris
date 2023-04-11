@@ -34,12 +34,13 @@ public class Keyboard extends Action implements KeyListener {
 	private final HardDrop hardDrop;
 	private final Hold hold;
 	private final Pause pause;
+	private final Exit exit;
 
 	private final boolean[] pressedKeys;
-	private final int[] frames;
+	private final int[] frame;
 	private final Map<Action, Integer> keyMapping;
 
-	private int frameCount;
+	private int frameCounter;
 
 	/**
 	 * @param tetris
@@ -50,10 +51,8 @@ public class Keyboard extends Action implements KeyListener {
 		super(tetris);
 
 		pressedKeys = new boolean[KEY_COUNT];
-		frames = new int[KEY_COUNT];
+		frame = new int[KEY_COUNT];
 		keyMapping = new HashMap<>();
-
-		fill(frames, -1);
 
 		rotateClockwise = new Move(tetris, CLOCKWISE, 1);
 		rotateCounterclockwise = new Move(tetris, COUNTERCLOCKWISE, 1);
@@ -63,6 +62,7 @@ public class Keyboard extends Action implements KeyListener {
 		hardDrop = new HardDrop(tetris);
 		hold = new Hold(tetris);
 		pause = new Pause(tetris);
+		exit = new Exit(tetris);
 
 		var clockwiseKey = configuration.getClockwiseKey();
 		var counterclockwiseKey = configuration.getCounterclockwiseKey();
@@ -72,6 +72,7 @@ public class Keyboard extends Action implements KeyListener {
 		var hardDropKey = configuration.getHardDropKey();
 		var holdKey = configuration.getHoldKey();
 		var pauseKey = configuration.getPauseKey();
+		var exitKey = configuration.getExitKey();
 
 		keyMapping.put(rotateClockwise, clockwiseKey);
 		keyMapping.put(rotateCounterclockwise, counterclockwiseKey);
@@ -81,8 +82,17 @@ public class Keyboard extends Action implements KeyListener {
 		keyMapping.put(hardDrop, hardDropKey);
 		keyMapping.put(hold, holdKey);
 		keyMapping.put(pause, pauseKey);
+		keyMapping.put(exit, exitKey);
 
-		frameCount = 0;
+		reset();
+	}
+
+	@Override
+	public void reset() {
+
+		fill(pressedKeys, false);
+		fill(frame, -1);
+		frameCounter = 0;
 	}
 
 	/**
@@ -95,7 +105,7 @@ public class Keyboard extends Action implements KeyListener {
 
 		boolean effective;
 
-		var duration = frameCount - frames[key];
+		var duration = frameCounter - frame[key];
 
 		if (duration == 0) {
 
@@ -125,7 +135,9 @@ public class Keyboard extends Action implements KeyListener {
 	public void executePaused() {
 
 		execute(pause, false);
-		frameCount++;
+		execute(exit, false);
+
+		frameCounter++;
 	}
 
 	@Override
@@ -149,8 +161,9 @@ public class Keyboard extends Action implements KeyListener {
 		execute(hardDrop, false);
 		execute(hold, false);
 		execute(pause, false);
+		execute(exit, false);
 
-		frameCount++;
+		frameCounter++;
 	}
 
 	/**
@@ -181,7 +194,7 @@ public class Keyboard extends Action implements KeyListener {
 		if (!pressedKeys[keyCode]) {
 
 			pressedKeys[keyCode] = true;
-			frames[keyCode] = frameCount;
+			frame[keyCode] = frameCounter;
 		}
 	}
 
@@ -197,6 +210,6 @@ public class Keyboard extends Action implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent event) {
-
+		event.consume();
 	}
 }

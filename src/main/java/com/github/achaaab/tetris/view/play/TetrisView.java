@@ -1,6 +1,5 @@
 package com.github.achaaab.tetris.view.play;
 
-import com.github.achaaab.tetris.game.GameView;
 import com.github.achaaab.tetris.model.classic.Tetris;
 import org.slf4j.Logger;
 
@@ -18,7 +17,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class TetrisView extends JPanel implements GameView {
+public class TetrisView extends JPanel {
 
 	private static final Logger LOGGER = getLogger(TetrisView.class);
 
@@ -46,7 +45,6 @@ public class TetrisView extends JPanel implements GameView {
 
 		setIgnoreRepaint(true);
 		setFocusable(true);
-		requestFocus();
 	}
 
 	/**
@@ -87,7 +85,9 @@ public class TetrisView extends JPanel implements GameView {
 		add(scoreView, constraints);
 	}
 
-	@Override
+	/**
+	 * @since 0.0.0
+	 */
 	public void render() {
 
 		try {
