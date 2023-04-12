@@ -1,6 +1,6 @@
 package com.github.achaaab.tetroshow.scene;
 
-import java.awt.Container;
+import java.awt.Component;
 import java.util.Optional;
 
 /**
@@ -28,7 +28,7 @@ public interface Scene {
 	 * @return
 	 * @since 0.0.0
 	 */
-	Container getView();
+	Component getView();
 
 	/**
 	 * @return

@@ -103,7 +103,7 @@ public class Scoring extends AbstractAction {
 		var levelSpeed = tetroshow.getLevelSpeed();
 		var score = tetroshow.getScore();
 		var dropBonus = tetroshow.dropBonus();
-		var dureePiece = tetroshow.getFallingPieceAge();
+		var pieceFrames = tetroshow.getFallingPieceAge();
 		var bonusNiveau = tetroshow.getBonusLevel();
 		var time = tetroshow.getTime();
 
@@ -119,11 +119,11 @@ public class Scoring extends AbstractAction {
 		score += ((levelBefore + lineCount + 3) / 4 + dropBonus) * lineCount * combo
 				+ (niveauApres + 1) / 2;
 
-		var delaiVerrouillage = configuration.getLockDelay(levelSpeed);
-		var bonusVitesse = delaiVerrouillage - dureePiece;
+		var lockDelay = configuration.getLockDelay(levelSpeed);
+		var speedBonus = lockDelay - pieceFrames;
 
-		if (bonusVitesse > 0) {
-			score += bonusVitesse;
+		if (speedBonus > 0) {
+			score += speedBonus;
 		}
 
 		if (coolSection != null) {
@@ -136,7 +136,7 @@ public class Scoring extends AbstractAction {
 				LOGGER.info("Cool !");
 			}
 
-			if (coolSection.isEnded()) {
+			if (coolSection.isCleared()) {
 
 				if (coolSectionIterator.hasNext()) {
 					coolSection = coolSectionIterator.next();
@@ -154,7 +154,7 @@ public class Scoring extends AbstractAction {
 				LOGGER.info("Regret...");
 			}
 
-			if (regretSection.isEnded()) {
+			if (regretSection.isCleared()) {
 
 				if (regretSectionIterator.hasNext()) {
 					regretSection = regretSectionIterator.next();

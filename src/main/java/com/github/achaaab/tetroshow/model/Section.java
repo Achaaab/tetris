@@ -15,29 +15,29 @@ public class Section implements Comparable<Section> {
 
 	private final int startLevel;
 	private final int endLevel;
-	private final long threshold;
+	private final long condition;
 
 	private double startTime;
-	private double endTime;
+	private double duration;
 	private boolean started;
-	private boolean ended;
+	private boolean cleared;
 
 	/**
 	 * @param startLevel
 	 * @param endLevel
-	 * @param threshold durée conditionnelle de la section, exprimée en secondes
+	 * @param condition durée conditionnelle de la section, exprimée en secondes
 	 * @since 0.0.0
 	 */
-	public Section(int startLevel, int endLevel, int threshold) {
+	public Section(int startLevel, int endLevel, int condition) {
 
 		this.startLevel = startLevel;
 		this.endLevel = endLevel;
-		this.threshold = threshold;
+		this.condition = condition;
 
 		startTime = 0;
-		endTime = 0;
+		duration = 0;
 		started = false;
-		ended = false;
+		cleared = false;
 	}
 
 	/**
@@ -50,34 +50,32 @@ public class Section implements Comparable<Section> {
 		if (!started && level >= startLevel) {
 
 			LOGGER.info("start section {}", this);
-
 			startTime = time;
 			started = true;
 		}
 
-		if (started && !ended && level >= endLevel) {
+		if (started && !cleared && level >= endLevel) {
 
-			LOGGER.info("end section {}: {}s", this, round(time));
-
-			endTime = time;
-			ended = true;
+			duration = time - startTime;
+			cleared = true;
+			LOGGER.info("end section {}: {}s", this, round(duration));
 		}
 	}
 
 	/**
-	 * @return {@code true} si la durée effective de la section est inférieure ou égale à la durée conditionnelle
+	 * @return whether this section time is below or equals to the time condition
 	 * @since 0.0.0
 	 */
 	public boolean isCool() {
-		return ended && (endTime - startTime) <= threshold;
+		return cleared && duration <= condition;
 	}
 
 	/**
-	 * @return {@code true} si la durée effective de la section est supérieure ou égale à la durée conditionnelle
+	 * @return whether this section time is above to the time condition
 	 * @since 0.0.0
 	 */
 	public boolean isRegret() {
-		return ended && (endTime - startTime) >= threshold;
+		return cleared && duration >= condition;
 	}
 
 	@Override
@@ -86,10 +84,11 @@ public class Section implements Comparable<Section> {
 	}
 
 	/**
-	 * @return {@code true} si la section est terminée
+	 * @return whether this section is cleared
+	 * @since 0.0.0
 	 */
-	public boolean isEnded() {
-		return ended;
+	public boolean isCleared() {
+		return cleared;
 	}
 
 	@Override

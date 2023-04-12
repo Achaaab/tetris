@@ -3,6 +3,10 @@ package com.github.achaaab.tetroshow.scene;
 import org.slf4j.Logger;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
 
 import static java.lang.Math.round;
 import static java.lang.String.format;
@@ -20,6 +24,28 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class SceneManager implements Runnable {
 
 	private static final Logger LOGGER = getLogger(SceneManager.class);
+
+	/**
+	 * Creates a container and adds the given component in it, taking all the space.
+	 *
+	 * @param component component to containerize
+	 * @return created container
+	 * @since 0.0.0
+	 */
+	private static Container containerize(Component component) {
+
+		if (component instanceof Container container) {
+
+			return container;
+
+		} else {
+
+			var container = new JPanel();
+			container.setLayout(new BorderLayout());
+			container.add(component);
+			return container;
+		}
+	}
 
 	private final long targetFrameDuration;
 
@@ -119,7 +145,8 @@ public class SceneManager implements Runnable {
 
 			this.scene = scene;
 
-			window.setContentPane(scene.getView());
+			var view = scene.getView();
+			window.setContentPane(containerize(view));
 			window.validate();
 
 			scene.initialize();

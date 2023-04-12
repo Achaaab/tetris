@@ -14,8 +14,9 @@ import java.awt.event.ActionEvent;
 public class MenuScene extends AbstractScene {
 
 	private final MenuView view;
-	private final OptionScene optionScene;
 	private final PlayScene playScene;
+	private final OptionScene optionScene;
+	private final CreditsScene creditsScene;
 
 	/**
 	 * @param manager
@@ -25,18 +26,28 @@ public class MenuScene extends AbstractScene {
 
 		super(manager);
 
-		optionScene = new OptionScene(manager, this);
 		playScene = new PlayScene(manager, this);
+		optionScene = new OptionScene(manager, this);
+		creditsScene = new CreditsScene(manager, this);
 
 		view = new MenuView();
-		view.onQuit(this::back);
 		view.onPlay(this::play);
 		view.onOptions(this::options);
+		view.onCredits(this::credits);
+		view.onQuit(this::back);
 	}
 
 	@Override
 	public Container getView() {
 		return view;
+	}
+
+	/**
+	 * @param event
+	 * @since 0.0.0
+	 */
+	public void play(ActionEvent event) {
+		manager.display(playScene);
 	}
 
 	/**
@@ -51,8 +62,8 @@ public class MenuScene extends AbstractScene {
 	 * @param event
 	 * @since 0.0.0
 	 */
-	public void play(ActionEvent event) {
-		manager.display(playScene);
+	public void credits(ActionEvent event) {
+		manager.display(creditsScene);
 	}
 
 	/**

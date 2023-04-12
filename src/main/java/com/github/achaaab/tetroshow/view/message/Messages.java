@@ -25,6 +25,7 @@ public class Messages {
 			Locale.SIMPLIFIED_CHINESE };
 
 	public static final String BACK = "back";
+	public static final String CREDITS = "credits";
 	public static final String LANGUAGE = "language";
 	public static final String LEVEL = "level";
 	public static final String OPTIONS = "options";
