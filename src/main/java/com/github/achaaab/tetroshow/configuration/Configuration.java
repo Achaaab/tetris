@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 import static java.lang.Math.min;
 import static java.util.Collections.sort;
@@ -17,6 +18,7 @@ public class Configuration {
 
 	private static final String BUNDLE_NAME = "tetroshow";
 
+	private static final String TOOLKIT_SYNCHRONIZED = "toolkit.synchronized";
 	private static final String LEFT_KEY = "touche_decalage_gauche";
 	private static final String RIGHT_KEY = "touche_decalage_droite";
 	private static final String CLOCKWISE_KEY = "clockwise_key";
@@ -41,6 +43,7 @@ public class Configuration {
 
 	private final ResourceBundle bundle;
 
+	private final boolean toolkitSynchronized;
 	private final int leftKey;
 	private final int rightKey;
 	private final int clockwiseKey;
@@ -68,6 +71,7 @@ public class Configuration {
 
 		bundle = getBundle(BUNDLE_NAME);
 
+		toolkitSynchronized = getBoolean(TOOLKIT_SYNCHRONIZED);
 		leftKey = getInteger(LEFT_KEY);
 		rightKey = getInteger(RIGHT_KEY);
 		clockwiseKey = getInteger(CLOCKWISE_KEY);
@@ -97,6 +101,15 @@ public class Configuration {
 	 */
 	private int getInteger(String key) {
 		return parseInt(bundle.getString(key));
+	}
+
+	/**
+	 * @param key
+	 * @return
+	 * @since 0.0.0
+	 */
+	private boolean getBoolean(String key) {
+		return parseBoolean(bundle.getString(key));
 	}
 
 	/**
@@ -353,5 +366,13 @@ public class Configuration {
 	 */
 	public int getExitKey() {
 		return exitKey;
+	}
+
+	/**
+	 * @return whether the toolkit should be synchronized
+	 * @since 0.0.0
+	 */
+	public boolean isToolkitSynchronized() {
+		return toolkitSynchronized;
 	}
 }

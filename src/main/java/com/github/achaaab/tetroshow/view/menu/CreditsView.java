@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.view.menu;
 
+import com.github.achaaab.tetroshow.configuration.Configuration;
 import org.slf4j.Logger;
 
 import javax.swing.JComponent;
@@ -12,6 +13,7 @@ import java.util.List;
 import static com.github.achaaab.tetroshow.view.Scaler.scale;
 import static java.awt.Font.MONOSPACED;
 import static java.awt.Font.PLAIN;
+import static java.awt.Toolkit.getDefaultToolkit;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.lang.Math.round;
@@ -27,7 +29,7 @@ public class CreditsView extends JComponent {
 
 	private static final Logger LOGGER = getLogger(CreditsView.class);
 
-	private static final int FONT_SIZE = scale(10.0f);
+	private static final int FONT_SIZE = scale(12.0f);
 	private static final Font FONT = new Font(MONOSPACED, PLAIN, FONT_SIZE);
 	private static final Color BACKGROUND = new Color(0, 0, 16);
 	private static final Color FOREGROUND = new Color(192, 192, 192);
@@ -48,7 +50,6 @@ public class CreditsView extends JComponent {
 
 		this.lines = lines;
 
-		setIgnoreRepaint(true);
 		setFocusable(true);
 	}
 
@@ -98,6 +99,10 @@ public class CreditsView extends JComponent {
 			var y = height + lineHeight * (1 + lineIndex - time * SCROLLING_SPEED);
 
 			graphics.drawString(line, x, toIntExact(round(y)));
+		}
+
+		if (Configuration.INSTANCE.isToolkitSynchronized()) {
+			getDefaultToolkit().sync();
 		}
 	}
 }
