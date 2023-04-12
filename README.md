@@ -1,12 +1,11 @@
-# Tetris
-![build](https://github.com/Achaaab/tetris/workflows/build/badge.svg)
+# Tetroshow
+![build](https://github.com/Achaaab/tetroshow/workflows/build/badge.svg)
 ![Coverage](.github/badges/jacoco.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Description
-Many years ago, I wanted to make a decent Tetris clone with only Swing.
-Like most of my projects, it ended up being abandoned, unfinished.
-Recently, I found some motivation after seeing the movie Tetris (2023), and I took this old project out of its box.
+Tetroshow is a puzzle game where the goal is to arrange tetrominos appearing on the screen to form complete lines
+in a limited playfield.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing
@@ -21,16 +20,16 @@ UI should automatically scale based on screen resolution.
 ### Installing and running
 * Clone the repository from GitHub:
 ```shell
-git clone https://github.com/Achaaab/tetris.git
+git clone https://github.com/Achaaab/tetroshow.git
 ```
 * Compile
 ```shell
-cd tetris
+cd tetroshow
 mvn package
 ```
 * Run
 ```shell
-java -jar target/tetris-0.0.0.jar
+java -jar target/tetroshow-0.0.0.jar
 ```
 
 ### Usage

@@ -12,8 +12,8 @@ configuration:
 
     rollingRandomAccessFile:
       name: "file"
-      fileName: "target/logs/tetris.log"
-      filePattern: "target/logs/tetris-%d{yyyyMMdd}-%i.log"
+      fileName: "target/logs/tetroshow.log"
+      filePattern: "target/logs/tetroshow-%d{yyyyMMdd}-%i.log"
       patternLayout:
         pattern: "%date %-5level [%thread] %logger - %message%n"
       policies:
