@@ -1,13 +1,11 @@
 package com.github.achaaab.tetroshow.view.menu;
 
 import com.github.achaaab.tetroshow.configuration.Configuration;
-import org.slf4j.Logger;
 
 import javax.swing.JComponent;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static com.github.achaaab.tetroshow.view.Scaler.scale;
@@ -18,16 +16,13 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.lang.Math.round;
 import static java.lang.Math.toIntExact;
-import static javax.swing.SwingUtilities.invokeAndWait;
-import static org.slf4j.LoggerFactory.getLogger;
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class CreditsView extends JComponent {
-
-	private static final Logger LOGGER = getLogger(CreditsView.class);
 
 	private static final int FONT_SIZE = scale(12.0f);
 	private static final Font FONT = new Font(MONOSPACED, PLAIN, FONT_SIZE);
@@ -43,7 +38,7 @@ public class CreditsView extends JComponent {
 	private double time;
 
 	/**
-	 * @param lines
+	 * @param lines lines of credits
 	 * @since 0.0.0
 	 */
 	public CreditsView(List<String> lines) {
@@ -54,6 +49,8 @@ public class CreditsView extends JComponent {
 	}
 
 	/**
+	 * Displays this credits view at given time. Lines should go up while time increases.
+	 *
 	 * @param time credits scene time in seconds
 	 * @since 0.0.0
 	 */
@@ -61,11 +58,7 @@ public class CreditsView extends JComponent {
 
 		this.time = time;
 
-		try {
-			invokeAndWait(() -> paintImmediately(getBounds()));
-		} catch (InterruptedException | InvocationTargetException exception) {
-			LOGGER.error("credits display error", exception);
-		}
+		invokeLater(this::repaint);
 	}
 
 	@Override
@@ -96,7 +89,7 @@ public class CreditsView extends JComponent {
 			var lineWidth = fontMetrics.stringWidth(line);
 
 			var x = (width - lineWidth) / 2;
-			var y = height + lineHeight * (1 + lineIndex - time * SCROLLING_SPEED);
+			var y = height + lineHeight * (1 + lineIndex - scrolledLineCount);
 
 			graphics.drawString(line, x, toIntExact(round(y)));
 		}
