@@ -42,8 +42,9 @@ Keys are configurable in properties, but not in-game.
 * [RIGHT]: move the falling piece to the right (auto-repeat after delay)
 * [P]: pause the game
 
-### Screenshot
-<img src=".github/pictures/screenshot.png" width="320"  alt="Screenshot"/>
+### Screenshots
+<img src=".github/pictures/screenshot_gameplay.png" width="320"  alt="gameplay screenshot"/>
+<img src=".github/pictures/screenshot_credits.png" width="320"  alt="credits screenshot"/>
 
 ## Improvements
 The list of improvements and missing features is immeasurable.
