@@ -74,6 +74,10 @@ public class Tetroshow implements GameComponent {
 		return Configuration.INSTANCE;
 	}
 
+	/**
+	 * @param exitListener
+	 * @since 0.0.0
+	 */
 	public void setExitListener(Runnable exitListener) {
 		this.exitListener = exitListener;
 	}

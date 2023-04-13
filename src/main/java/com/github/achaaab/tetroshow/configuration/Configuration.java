@@ -16,30 +16,31 @@ import static java.util.ResourceBundle.getBundle;
  */
 public class Configuration {
 
+	public static final Configuration INSTANCE = new Configuration();
+
 	private static final String BUNDLE_NAME = "tetroshow";
 
 	private static final String TOOLKIT_SYNCHRONIZED = "toolkit.synchronized";
-	private static final String LEFT_KEY = "touche_decalage_gauche";
-	private static final String RIGHT_KEY = "touche_decalage_droite";
+	private static final String LEFT_KEY = "left_key";
+	private static final String RIGHT_KEY = "right_key";
 	private static final String CLOCKWISE_KEY = "clockwise_key";
 	private static final String COUNTERCLOCKWISE_KEY = "counterclockwise_key";
-	private static final String SOFT_DROP_KEY = "touche_descente_douce";
-	private static final String HARD_DROP_KEY = "touche_descente_brutale";
-	private static final String HOLD_KEY = "touche_reservation";
-	private static final String PAUSE_KEY = "touche_pause";
+	private static final String SOFT_DROP_KEY = "soft_drop_key";
+	private static final String HARD_DROP_KEY = "hard_drop_key";
+	private static final String HOLD_KEY = "hold_key";
+	private static final String PAUSE_KEY = "pause_key";
 	private static final String EXIT_KEY = "exit_key";
 
-	private static final String CLE_MUSIQUE = "musique";
-	private static final String HOLD_LIMIT = "limite_reservation";
-	private static final String CLE_DELAI_REPETITION = "delai_repetition";
-	private static final String CLE_DELAI_VERROUILLAGE = "delai_verrouillage";
-	private static final String CLE_DELAI_TETROMINO = "delai_tetromino";
-	private static final String CLE_DELAI_NETTOYAGE = "delai_nettoyage";
+	private static final String MUSIC = "music";
+	private static final String HOLD_LIMIT = "hold_limit";
+	private static final String REPEAT_DELAY = "repeat_delay";
+	private static final String LOCK_DELAY = "lock_delay";
+	private static final String ENTRY_DELAY = "entry_delay";
+	private static final String CLEAR_DELAY = "clear_delay";
 	private static final String GRAVITY = "gravity";
-	private static final String CLE_INCREMENT = "increment";
-	private static final String SEPARATEUR_NIVEAU = "_";
+	private static final String LINE_BONUS = "line_bonus";
 
-	public static final Configuration INSTANCE = new Configuration();
+	private static final String LEVEL_SEPARATOR = "_";
 
 	private final ResourceBundle bundle;
 
@@ -54,15 +55,15 @@ public class Configuration {
 	private final int pauseKey;
 	private final int exitKey;
 
-	private List<String> cheminMusiques;
+	private List<String> musicResourceNames;
 
 	private final int holdLimit;
-	private final int[] incrementsNiveau;
+	private final int[] lineBonuses;
 	private final int[] gravities;
 	private final int[] repeatDelays;
 	private final int[] lockDelays;
-	private final int[] delaisNettoyage;
-	private final int[] delaisTetromino;
+	private final int[] clearDelays;
+	private final int[] entryDelays;
 
 	/**
 	 * @since 0.0.0
@@ -84,14 +85,14 @@ public class Configuration {
 
 		holdLimit = getInteger(HOLD_LIMIT);
 
-		incrementsNiveau = getValues(CLE_INCREMENT);
+		lineBonuses = getValues(LINE_BONUS);
 		gravities = getValues(GRAVITY);
-		repeatDelays = getValues(CLE_DELAI_REPETITION);
-		lockDelays = getValues(CLE_DELAI_VERROUILLAGE);
-		delaisNettoyage = getValues(CLE_DELAI_NETTOYAGE);
-		delaisTetromino = getValues(CLE_DELAI_TETROMINO);
+		repeatDelays = getValues(REPEAT_DELAY);
+		lockDelays = getValues(LOCK_DELAY);
+		clearDelays = getValues(CLEAR_DELAY);
+		entryDelays = getValues(ENTRY_DELAY);
 
-		lireCheminMusiques();
+		readMusicResourceNames();
 	}
 
 	/**
@@ -117,12 +118,12 @@ public class Configuration {
 	 *
 	 * @since 0.0.0
 	 */
-	private void lireCheminMusiques() {
+	private void readMusicResourceNames() {
 
-		var prefixeCle = CLE_MUSIQUE + SEPARATEUR_NIVEAU;
+		var prefixeCle = MUSIC + LEVEL_SEPARATOR;
 		var indexIndex = prefixeCle.length();
 
-		cheminMusiques = new ArrayList<>();
+		musicResourceNames = new ArrayList<>();
 		var parametresMusiques = new ArrayList<Parameter<String>>();
 		var cles = bundle.keySet();
 
@@ -145,12 +146,12 @@ public class Configuration {
 
 		sort(parametresMusiques);
 		var nombreMusiques = parametresMusiques.size();
-		cheminMusiques = new ArrayList<>(nombreMusiques);
+		musicResourceNames = new ArrayList<>(nombreMusiques);
 
 		for (var parametre : parametresMusiques) {
 
 			cheminMusique = parametre.value();
-			cheminMusiques.add(cheminMusique);
+			musicResourceNames.add(cheminMusique);
 		}
 	}
 
@@ -161,7 +162,7 @@ public class Configuration {
 	 */
 	private int[] getValues(String parameter) {
 
-		var keyPrefix = parameter + SEPARATEUR_NIVEAU;
+		var keyPrefix = parameter + LEVEL_SEPARATOR;
 		var levelIndex = keyPrefix.length();
 
 		var parametres = new ArrayList<Parameter<Integer>>();
@@ -244,7 +245,7 @@ public class Configuration {
 	 * @since 0.0.0
 	 */
 	public int getIncrementNiveau(int nombreLignesCompletees) {
-		return incrementsNiveau[nombreLignesCompletees];
+		return lineBonuses[nombreLignesCompletees];
 	}
 
 	/**
@@ -265,8 +266,8 @@ public class Configuration {
 	 */
 	public int getDelaiTetromino(int niveau) {
 
-		niveau = min(niveau, delaisTetromino.length - 1);
-		return delaisTetromino[niveau];
+		niveau = min(niveau, entryDelays.length - 1);
+		return entryDelays[niveau];
 	}
 
 	/**
@@ -276,8 +277,8 @@ public class Configuration {
 	 */
 	public int getDelaiNettoyage(int niveau) {
 
-		niveau = min(niveau, delaisNettoyage.length - 1);
-		return delaisNettoyage[niveau];
+		niveau = min(niveau, clearDelays.length - 1);
+		return clearDelays[niveau];
 	}
 
 	/**
@@ -292,8 +293,8 @@ public class Configuration {
 	 * @return chemin des musiques dans l'ordre de lecture
 	 * @since 0.0.0
 	 */
-	public List<String> getCheminMusiques() {
-		return cheminMusiques;
+	public List<String> getMusicResourceNames() {
+		return musicResourceNames;
 	}
 
 	/**

@@ -19,7 +19,7 @@ public class Playlist implements Runnable {
 	 */
 	public Playlist() {
 
-		var cheminMusiques = Configuration.INSTANCE.getCheminMusiques();
+		var cheminMusiques = Configuration.INSTANCE.getMusicResourceNames();
 
 		musics = cheminMusiques.stream().
 				map(AudioFactory::createAudio).
