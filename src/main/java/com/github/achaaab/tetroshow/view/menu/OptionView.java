@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.view.menu;
 
+import com.github.achaaab.tetroshow.view.message.Language;
 import com.github.achaaab.tetroshow.view.message.Messages;
 
 import javax.swing.JButton;
@@ -9,12 +10,11 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
-import java.util.Locale;
 
 import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.view.message.Language.getLanguage;
 import static com.github.achaaab.tetroshow.view.message.Messages.BACK;
 import static com.github.achaaab.tetroshow.view.message.Messages.LANGUAGE;
-import static com.github.achaaab.tetroshow.view.message.Messages.LOCALES;
 import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
 import static java.awt.Font.DIALOG;
 import static java.awt.Font.PLAIN;
@@ -29,7 +29,7 @@ public class OptionView extends JPanel {
 	private static final Font FONT = new Font(DIALOG, PLAIN, scale(FONT_SIZE));
 
 	private final JLabel languageLabel;
-	private final JComboBox<Locale> languages;
+	private final JComboBox<Language> languages;
 	private final JButton back;
 
 	/**
@@ -40,14 +40,16 @@ public class OptionView extends JPanel {
 		Messages.register(this::localeChanged);
 
 		languageLabel = new JLabel(getMessage(LANGUAGE));
-		languages = new JComboBox<>(LOCALES);
+		languages = new JComboBox<>(Language.values());
 		back = new JButton(getMessage(BACK));
 
 		languageLabel.setFont(FONT);
 		languages.setFont(FONT);
 		back.setFont(FONT);
 
-		languages.setSelectedItem(Messages.getLocale());
+		var currentLocale = Messages.getLocale();
+		var code = currentLocale.getLanguage();
+		languages.setSelectedItem(getLanguage(code));
 
 		add(languageLabel);
 		add(languages);

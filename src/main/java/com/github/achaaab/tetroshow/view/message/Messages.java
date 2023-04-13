@@ -15,15 +15,6 @@ public class Messages {
 
 	public static final String BUNDLE_NAME = "messages/messages";
 
-	public static final Locale[] LOCALES = new Locale[] {
-			Locale.ENGLISH,
-			Locale.of("es"),
-			Locale.FRENCH,
-			Locale.of("hi"),
-			Locale.JAPANESE,
-			Locale.of("ru"),
-			Locale.SIMPLIFIED_CHINESE };
-
 	public static final String BACK = "back";
 	public static final String CREDITS = "credits";
 	public static final String LANGUAGE = "language";
@@ -37,7 +28,7 @@ public class Messages {
 
 	private static final List<LocaleListener> LISTENERS = new ArrayList<>();
 
-	private static Locale locale = Locale.of(Locale.getDefault().getLanguage());
+	private static Locale locale = Locale.getDefault();
 	private static ResourceBundle bundle = getBundle(BUNDLE_NAME);
 
 	/**

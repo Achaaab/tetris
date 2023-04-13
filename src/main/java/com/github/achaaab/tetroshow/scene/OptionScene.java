@@ -1,11 +1,11 @@
 package com.github.achaaab.tetroshow.scene;
 
 import com.github.achaaab.tetroshow.view.menu.OptionView;
+import com.github.achaaab.tetroshow.view.message.Language;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-import java.util.Locale;
 
 import static com.github.achaaab.tetroshow.view.message.Messages.setLocale;
 
@@ -37,8 +37,8 @@ public class OptionScene extends AbstractScene {
 	 */
 	public void languageChange(ItemEvent event) {
 
-		var locale = (Locale) event.getItem();
-		setLocale(locale);
+		var language = (Language) event.getItem();
+		setLocale(language.getLocale());
 	}
 
 	/**
