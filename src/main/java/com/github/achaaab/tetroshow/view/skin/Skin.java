@@ -1,4 +1,4 @@
-package com.github.achaaab.tetroshow.view.play;
+package com.github.achaaab.tetroshow.view.skin;
 
 import com.github.achaaab.tetroshow.model.piece.Block;
 import com.github.achaaab.tetroshow.model.field.Cell;

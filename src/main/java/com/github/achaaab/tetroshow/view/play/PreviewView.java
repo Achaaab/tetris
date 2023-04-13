@@ -1,6 +1,8 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.field.Preview;
+import com.github.achaaab.tetroshow.view.skin.Electronika60;
+import com.github.achaaab.tetroshow.view.skin.Skin;
 
 import javax.swing.JComponent;
 import java.awt.Dimension;
@@ -34,7 +36,7 @@ public class PreviewView extends JComponent {
 
 		this.preview = preview;
 
-		skin = GlassSkin.INSTANCE;
+		skin = Electronika60.INSTANCE;
 
 		setBackground(BLACK);
 		setPreferredSize(new Dimension(0, BORDER + MARGIN + 2 * BLOCK_SIZE + MARGIN + BORDER));

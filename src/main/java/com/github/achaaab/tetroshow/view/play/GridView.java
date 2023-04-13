@@ -1,6 +1,8 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.field.Grid;
+import com.github.achaaab.tetroshow.view.skin.Electronika60;
+import com.github.achaaab.tetroshow.view.skin.Skin;
 
 import javax.swing.JComponent;
 import java.awt.Dimension;
@@ -66,7 +68,7 @@ public class GridView extends JComponent {
 		setBackground(BLACK);
 		setBorder(createLineBorder(GRAY, border));
 
-		skin = GlassSkin.INSTANCE;
+		skin = Electronika60.INSTANCE;
 	}
 
 	@Override
