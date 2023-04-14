@@ -2,6 +2,8 @@ package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.Scrap;
 import com.github.achaaab.tetroshow.model.field.Playfield;
+import com.github.achaaab.tetroshow.settings.Settings;
+import com.github.achaaab.tetroshow.view.skin.Skin;
 
 import java.awt.Graphics;
 
@@ -33,6 +35,8 @@ public class PlayfieldView extends GridView {
 	public void paintComponent(Graphics graphics) {
 
 		super.paintComponent(graphics);
+
+		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
 
 		playfield.getGhostPiece().ifPresent(ghostPiece -> {
 

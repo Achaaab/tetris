@@ -15,9 +15,9 @@ import static java.awt.Color.WHITE;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class GlassSkin implements Skin {
+public class Glass implements Skin {
 
-	public static final GlassSkin INSTANCE = new GlassSkin();
+	public static final Glass INSTANCE = new Glass();
 
 	/**
 	 * private constructor that ensuring singleton usage
@@ -25,7 +25,7 @@ public class GlassSkin implements Skin {
 	 * @see #INSTANCE
 	 * @since 0.0.0
 	 */
-	private GlassSkin() {
+	private Glass() {
 
 	}
 

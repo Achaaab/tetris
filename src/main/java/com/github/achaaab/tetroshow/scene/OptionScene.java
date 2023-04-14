@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.scene;
 
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.menu.OptionView;
 import com.github.achaaab.tetroshow.view.message.Language;
 
@@ -28,6 +29,7 @@ public class OptionScene extends AbstractScene {
 
 		view = new OptionView();
 		view.onLanguageChanged(this::languageChange);
+		view.onSkinChanged(this::skinChange);
 		view.onBack(this::back);
 	}
 
@@ -39,6 +41,16 @@ public class OptionScene extends AbstractScene {
 
 		var language = (Language) event.getItem();
 		setLocale(language.getLocale());
+	}
+
+	/**
+	 * @param event
+	 * @since 0.0.0
+	 */
+	public void skinChange(ItemEvent event) {
+
+		var skin = (String) event.getItem();
+		Settings.getDefaultInstance().getGraphics().setSkin(skin);
 	}
 
 	/**

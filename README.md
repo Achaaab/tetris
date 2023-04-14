@@ -33,14 +33,15 @@ java -jar target/tetroshow-0.0.0.jar
 ```
 
 ### Usage
-Keys are configurable in properties, but not in-game.
-* [SPACE]: rotate the falling piece clockwise
-* [SHIFT]: rotate the falling piece counterclockwise
-* [UP]: hard drop the falling piece
-* [DOWN]: soft drop the falling piece
-* [LEFT]: move the falling piece to the left (auto-repeat after delay)
-* [RIGHT]: move the falling piece to the right (auto-repeat after delay)
-* [P]: pause the game
+Keys are configured in [tetroshow.yaml](src/main/resources/tetroshow.yaml), but they are not yet configurable in game.
+* <kbd>Space</kbd>: rotate the falling piece clockwise
+* <kbd>Shift</kbd>: rotate the falling piece counterclockwise
+* <kbd>↑</kbd>: hard drop the falling piece
+* <kbd>↓</kbd>: soft drop the falling piece
+* <kbd>←</kbd>: move the falling piece to the left (auto-repeat after delay)
+* <kbd>→</kbd>: move the falling piece to the right (auto-repeat after delay)
+* <kbd>P</kbd>: pause the game
+* <kbd>Esc</kbd>: exit the game
 
 ### Screenshots
 <img src=".github/pictures/screenshot_gameplay.png" width="320"  alt="gameplay screenshot"/>
@@ -53,8 +54,7 @@ The list of improvements and missing features is immeasurable.
 Slow-mode project, probably doomed not to be finished. Contributions are still welcome.
 
 ## Authors
-* **Jonathan Guéhenneux** - *Developer* - [Achaaab](https://github.com/Achaaab)
-* **Jonathan Guéhenneux** - *Crappy sound designer* - [Achaaab](https://github.com/Achaaab)
+* **Jonathan Guéhenneux** - *Progammer* - [Achaaab](https://github.com/Achaaab)
 
 ## License
 This project is licensed under the GNU General Public License (GPL) - see the [LICENSE.md](LICENSE.md) for the details.

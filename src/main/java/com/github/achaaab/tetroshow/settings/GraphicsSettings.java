@@ -6,7 +6,24 @@ package com.github.achaaab.tetroshow.settings;
  */
 public class GraphicsSettings {
 
+	private String skin;
 	private boolean synchronizeState;
+
+	/**
+	 * @return skin name
+	 * @since 0.0.0
+	 */
+	public String getSkin() {
+		return skin;
+	}
+
+	/**
+	 * @param skin skin name
+	 * @since 0.0.0
+	 */
+	public void setSkin(String skin) {
+		this.skin = skin;
+	}
 
 	/**
 	 * @return whether to synchronize graphics state (useful for some animations that could stutter otherwise)

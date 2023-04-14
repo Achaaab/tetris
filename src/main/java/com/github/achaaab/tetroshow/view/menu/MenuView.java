@@ -22,7 +22,7 @@ import static java.awt.Font.PLAIN;
  */
 public class MenuView extends JPanel {
 
-	private static final int FONT_SIZE = 20;
+	private static final int FONT_SIZE = 18;
 	private static final Font FONT = new Font(DIALOG, PLAIN, scale(FONT_SIZE));
 
 	private final JButton play;

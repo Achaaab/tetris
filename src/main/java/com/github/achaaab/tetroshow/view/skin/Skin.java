@@ -1,7 +1,7 @@
 package com.github.achaaab.tetroshow.view.skin;
 
-import com.github.achaaab.tetroshow.model.piece.Block;
 import com.github.achaaab.tetroshow.model.field.Cell;
+import com.github.achaaab.tetroshow.model.piece.Block;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 import com.github.achaaab.tetroshow.model.piece.State;
 
@@ -14,6 +14,24 @@ import static com.github.achaaab.tetroshow.model.piece.State.LOCKED;
  * @since 0.0.0
  */
 public interface Skin {
+
+	String ELECTRONIKA_60 = "Electronika 60";
+	String GLASS = "Glass";
+	String[] SKINS = { ELECTRONIKA_60, GLASS };
+
+	/**
+	 * @param name skin name
+	 * @return skin
+	 * @since 0.0.0
+	 */
+	static Skin get(String name) {
+
+		return switch (name) {
+
+			case ELECTRONIKA_60 -> Electronika60.INSTANCE;
+			default -> Glass.INSTANCE;
+		};
+	}
 
 	/**
 	 * @param graphics

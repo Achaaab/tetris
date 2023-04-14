@@ -1,7 +1,7 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.field.Preview;
-import com.github.achaaab.tetroshow.view.skin.Electronika60;
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.skin.Skin;
 
 import javax.swing.JComponent;
@@ -26,7 +26,6 @@ public class PreviewView extends JComponent {
 	private static final int BLOCK_SIZE = scale(25.0f);
 
 	private final Preview preview;
-	private final Skin skin;
 
 	/**
 	 * @param preview preview
@@ -36,8 +35,6 @@ public class PreviewView extends JComponent {
 
 		this.preview = preview;
 
-		skin = Electronika60.INSTANCE;
-
 		setBackground(BLACK);
 		setPreferredSize(new Dimension(0, BORDER + MARGIN + 2 * BLOCK_SIZE + MARGIN + BORDER));
 		setBorder(createLineBorder(GRAY, BORDER));
@@ -45,6 +42,8 @@ public class PreviewView extends JComponent {
 
 	@Override
 	public void paintComponent(Graphics graphics) {
+
+		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
 
 		var pieces = preview.getPieces();
 
