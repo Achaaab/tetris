@@ -1,0 +1,27 @@
+keys:
+  "pause": 80
+  "exit": 27
+  "left": 37
+  "right": 39
+  "soft_drop": 40
+  "hard_drop": 38
+  "hold": 17
+  "clockwise": 32
+  "counterclockwise": 16
+
+graphics:
+  synchronizeState: true
+
+tracks: []
+#  - "audio/music/tetroshow.mp3"
+#  - "audio/music/tetroshow.wav"
+
+gameplay:
+  holdLimit: 1
+
+gravity: "tgm2_normal"
+are: "tgm2_normal"
+lineAre: "tgm2_normal"
+das: "tgm2_normal"
+lock: "tgm2_normal"
+clear: "tgm2_normal"

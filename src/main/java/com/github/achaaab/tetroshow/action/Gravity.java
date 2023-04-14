@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.action;
 
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
@@ -37,8 +38,8 @@ public class Gravity extends AbstractAction {
 	 */
 	private void apply(Piece piece) {
 
-		var levelSpeed = tetroshow.getLevelSpeed();
-		cumulatedForce += configuration.getGravity(levelSpeed);
+		var level = tetroshow.getLevel();
+		cumulatedForce += Settings.getDefaultInstance().getGravity(level);
 
 		while (cumulatedForce >= ROW && playfield.isMovePossible(piece, DOWN)) {
 

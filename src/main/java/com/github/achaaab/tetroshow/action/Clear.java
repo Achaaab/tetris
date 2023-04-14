@@ -1,7 +1,7 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.configuration.Configuration;
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Scrap;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
@@ -26,7 +26,7 @@ public class Clear extends AbstractAction {
 	private List<Integer> lines;
 
 	/**
-	 * @param tetroshow
+	 * @param tetroshow Tetroshow on which to execute this action
 	 * @since 0.0.0
 	 */
 	public Clear(Tetroshow tetroshow) {
@@ -69,15 +69,15 @@ public class Clear extends AbstractAction {
 		age = 0;
 
 		lines = playfield.clearLines();
-		var speedLevel = tetroshow.getLevelSpeed();
+		var level = tetroshow.getLevel();
 
 		if (lines.isEmpty()) {
 
-			delay = Configuration.INSTANCE.getDelaiTetromino(speedLevel);
+			delay = Settings.getDefaultInstance().getAre(level);
 
 		} else {
 
-			delay = Configuration.INSTANCE.getDelaiNettoyage(speedLevel);
+			delay = Settings.getDefaultInstance().getClear(level);
 			CLEAR_SOUND_EFFECT.play();
 		}
 	}

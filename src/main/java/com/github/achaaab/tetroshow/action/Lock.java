@@ -1,6 +1,7 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
 import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
@@ -47,8 +48,8 @@ public class Lock extends AbstractAction {
 
 			frameCounter++;
 
-			var levelSpeed = tetroshow.getLevelSpeed();
-			var delay = configuration.getLockDelay(levelSpeed);
+			var level = tetroshow.getLevel();
+			var delay = Settings.getDefaultInstance().getLock(level);
 
 			if (frameCounter == delay) {
 

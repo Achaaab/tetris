@@ -20,7 +20,7 @@ import static java.util.ResourceBundle.getBundle;
  */
 public class Tetromino extends AbstractPiece {
 
-	protected static final ResourceBundle WALL_KICKS_PROPERTIES = getBundle("srs_wall_kicks");
+	protected static final ResourceBundle WALL_KICKS_PROPERTIES = getBundle("srs/wall_kicks");
 
 	/**
 	 * @param color

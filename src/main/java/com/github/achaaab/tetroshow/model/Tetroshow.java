@@ -6,11 +6,11 @@ import com.github.achaaab.tetroshow.action.Hold;
 import com.github.achaaab.tetroshow.action.Keyboard;
 import com.github.achaaab.tetroshow.action.Lock;
 import com.github.achaaab.tetroshow.action.Move;
-import com.github.achaaab.tetroshow.configuration.Configuration;
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.field.Playfield;
-import com.github.achaaab.tetroshow.model.piece.Piece;
 import com.github.achaaab.tetroshow.model.field.Preview;
 import com.github.achaaab.tetroshow.model.field.Storage;
+import com.github.achaaab.tetroshow.model.piece.Piece;
 import org.slf4j.Logger;
 
 import java.util.Optional;
@@ -41,7 +41,6 @@ public class Tetroshow implements GameComponent {
 	private double time;
 	private boolean paused;
 	private int level;
-	private int bonusLevel;
 	private int holdCount;
 	private int lineCount;
 	private int dropBonus;
@@ -64,14 +63,6 @@ public class Tetroshow implements GameComponent {
 		gravity = new Gravity(this);
 
 		reset();
-	}
-
-	/**
-	 * @return tetroshow configuration
-	 * @since 0.0.0
-	 */
-	public Configuration getConfiguration() {
-		return Configuration.INSTANCE;
 	}
 
 	/**
@@ -102,7 +93,6 @@ public class Tetroshow implements GameComponent {
 		time = 0;
 		paused = false;
 		level = 0;
-		bonusLevel = 0;
 		holdCount = 0;
 		lineCount = 0;
 		dropBonus = 0;
@@ -278,7 +268,7 @@ public class Tetroshow implements GameComponent {
 	 */
 	public void hold() {
 
-		if (holdCount < Configuration.INSTANCE.getHoldLimit()) {
+		if (holdCount < Settings.getDefaultInstance().getGameplay().getHoldLimit()) {
 
 			holdCount++;
 
@@ -314,14 +304,6 @@ public class Tetroshow implements GameComponent {
 	 */
 	public void setLevel(int level) {
 		this.level = level;
-	}
-
-	/**
-	 * @return level courant + bonus de vitesse obtenu en réalisant des sections cool
-	 * @since 0.0.0
-	 */
-	public int getLevelSpeed() {
-		return level + bonusLevel;
 	}
 
 	/**
@@ -414,21 +396,5 @@ public class Tetroshow implements GameComponent {
 	 */
 	public Optional<Piece> getFallingPiece() {
 		return ofNullable(fallingPiece);
-	}
-
-	/**
-	 * @return bonus level
-	 * @since 0.0.0
-	 */
-	public int getBonusLevel() {
-		return bonusLevel;
-	}
-
-	/**
-	 * @param bonusLevel bonus level
-	 * @since 0.0.0
-	 */
-	public void setBonusLevel(int bonusLevel) {
-		this.bonusLevel = bonusLevel;
 	}
 }

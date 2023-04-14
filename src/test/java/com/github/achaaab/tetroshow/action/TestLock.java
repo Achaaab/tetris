@@ -1,14 +1,14 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.configuration.Configuration;
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,15 +26,10 @@ class TestLock {
 	private Tetroshow tetroshow;
 
 	@Mock
-	private Configuration configuration;
+	private Settings settings;
 
 	@Mock
 	private Audio soundEffect;
-
-	@BeforeEach
-	void setUp() {
-		when(tetroshow.getConfiguration()).thenReturn(configuration);
-	}
 
 	@Test
 	void testExecuteInactive() {
@@ -51,11 +46,16 @@ class TestLock {
 
 		var lock = new Lock(tetroshow, soundEffect);
 
-		when(tetroshow.getLevelSpeed()).thenReturn(42);
-		when(configuration.getLockDelay(42)).thenReturn(42);
+		when(tetroshow.getLevel()).thenReturn(42);
+		when(settings.getLock(42)).thenReturn(42);
 
-		lock.start();
-		lock.execute();
+		try (var staticSettings = mockStatic(Settings.class)) {
+
+			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
+
+			lock.start();
+			lock.execute();
+		}
 
 		verify(tetroshow, never()).lockFallingPiece();
 		verify(soundEffect, never()).play();
@@ -67,11 +67,15 @@ class TestLock {
 		var lock = new Lock(tetroshow, soundEffect);
 		lock.start();
 
-		when(tetroshow.getLevelSpeed()).thenReturn(42);
-		when(configuration.getLockDelay(42)).thenReturn(1);
+		when(tetroshow.getLevel()).thenReturn(42);
+		when(settings.getLock(42)).thenReturn(1);
 		when(tetroshow.lockFallingPiece()).thenReturn(true);
 
-		lock.execute();
+		try (var staticSettings = mockStatic(Settings.class)) {
+
+			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
+			lock.execute();
+		}
 
 		verify(tetroshow).lockFallingPiece();
 		verify(soundEffect).play();
@@ -82,13 +86,17 @@ class TestLock {
 
 		var lock = new Lock(tetroshow, soundEffect);
 
-		when(tetroshow.getLevelSpeed()).thenReturn(42);
-		when(configuration.getLockDelay(42)).thenReturn(2);
+		when(tetroshow.getLevel()).thenReturn(42);
+		when(settings.getLock(42)).thenReturn(2);
 
-		lock.start();
-		lock.execute();
-		lock.cancel();
-		lock.execute();
+		try (var staticSettings = mockStatic(Settings.class)) {
+
+			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
+			lock.start();
+			lock.execute();
+			lock.cancel();
+			lock.execute();
+		}
 
 		verify(tetroshow, never()).lockFallingPiece();
 		verify(soundEffect, never()).play();

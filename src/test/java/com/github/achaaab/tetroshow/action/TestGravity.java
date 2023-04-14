@@ -1,10 +1,10 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.configuration.Configuration;
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.model.field.Playfield;
 import com.github.achaaab.tetroshow.model.piece.Direction;
 import com.github.achaaab.tetroshow.model.piece.Piece;
-import com.github.achaaab.tetroshow.model.field.Playfield;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +17,7 @@ import static com.github.achaaab.tetroshow.action.Gravity.ROW;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 import static java.util.Optional.empty;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -39,7 +40,7 @@ class TestGravity {
 	private Playfield playfield;
 
 	@Mock
-	private Configuration configuration;
+	private Settings settings;
 
 	@Mock
 	private Piece piece;
@@ -47,8 +48,8 @@ class TestGravity {
 	@BeforeEach
 	void setUp() {
 
+
 		when(tetroshow.getPlayfield()).thenReturn(playfield);
-		when(tetroshow.getConfiguration()).thenReturn(configuration);
 	}
 
 	@Test
@@ -66,10 +67,14 @@ class TestGravity {
 		var gravity = new Gravity(tetroshow);
 
 		when(tetroshow.getFallingPiece()).thenReturn(Optional.of(piece));
-		when(tetroshow.getLevelSpeed()).thenReturn(42);
-		when(configuration.getGravity(42)).thenReturn(ROW - 1);
+		when(tetroshow.getLevel()).thenReturn(42);
+		when(settings.getGravity(42)).thenReturn(ROW - 1);
 
-		gravity.execute();
+		try (var staticSettings = mockStatic(Settings.class)) {
+
+			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
+			gravity.execute();
+		}
 
 		verifyNoInteractions(piece, playfield);
 		verify(tetroshow, never()).startLocking();
@@ -81,11 +86,15 @@ class TestGravity {
 		var gravity = new Gravity(tetroshow);
 
 		when(tetroshow.getFallingPiece()).thenReturn(Optional.of(piece));
-		when(tetroshow.getLevelSpeed()).thenReturn(42);
-		when(configuration.getGravity(42)).thenReturn(ROW);
+		when(tetroshow.getLevel()).thenReturn(42);
+		when(settings.getGravity(42)).thenReturn(ROW);
 		when(playfield.isMovePossible(piece, DOWN)).thenReturn(true);
 
-		gravity.execute();
+		try (var staticSettings = mockStatic(Settings.class)) {
+
+			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
+			gravity.execute();
+		}
 
 		verify(piece).move(DOWN);
 		verify(tetroshow, never()).startLocking();
@@ -97,11 +106,15 @@ class TestGravity {
 		var gravity = new Gravity(tetroshow);
 
 		when(tetroshow.getFallingPiece()).thenReturn(Optional.of(piece));
-		when(tetroshow.getLevelSpeed()).thenReturn(42);
-		when(configuration.getGravity(42)).thenReturn(2 * ROW);
+		when(tetroshow.getLevel()).thenReturn(42);
+		when(settings.getGravity(42)).thenReturn(2 * ROW);
 		when(playfield.isMovePossible(piece, DOWN)).thenReturn(true);
 
-		gravity.execute();
+		try (var staticSettings = mockStatic(Settings.class)) {
+
+			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
+			gravity.execute();
+		}
 
 		verify(piece, times(2)).move(DOWN);
 		verify(tetroshow, never()).startLocking();
@@ -113,11 +126,15 @@ class TestGravity {
 		var gravity = new Gravity(tetroshow);
 
 		when(tetroshow.getFallingPiece()).thenReturn(Optional.of(piece));
-		when(tetroshow.getLevelSpeed()).thenReturn(42);
-		when(configuration.getGravity(42)).thenReturn(ROW);
+		when(tetroshow.getLevel()).thenReturn(42);
+		when(settings.getGravity(42)).thenReturn(ROW);
 		when(playfield.isMovePossible(piece, DOWN)).thenReturn(false);
 
-		gravity.execute();
+		try (var staticSettings = mockStatic(Settings.class)) {
+
+			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
+			gravity.execute();
+		}
 
 		verify(piece, never()).move(any(Direction.class));
 		verify(tetroshow).startLocking();

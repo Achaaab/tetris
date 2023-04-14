@@ -1,6 +1,6 @@
 package com.github.achaaab.tetroshow.audio;
 
-import com.github.achaaab.tetroshow.configuration.Configuration;
+import com.github.achaaab.tetroshow.settings.Settings;
 
 import java.util.List;
 
@@ -12,16 +12,16 @@ import static java.util.stream.Collectors.toList;
  */
 public class Playlist implements Runnable {
 
-	private final List<Audio> musics;
+	private final List<Audio> tracks;
 
 	/**
 	 * @since 0.0.0
 	 */
 	public Playlist() {
 
-		var cheminMusiques = Configuration.INSTANCE.getMusicResourceNames();
+		var trackNames = Settings.getDefaultInstance().getTracks();
 
-		musics = cheminMusiques.stream().
+		tracks = trackNames.stream().
 				map(AudioFactory::createAudio).
 				collect(toList());
 	}
@@ -29,8 +29,8 @@ public class Playlist implements Runnable {
 	@Override
 	public void run() {
 
-		while (!musics.isEmpty()) {
-			musics.forEach(Audio::playAndWait);
+		while (!tracks.isEmpty()) {
+			tracks.forEach(Audio::playAndWait);
 		}
 	}
 }

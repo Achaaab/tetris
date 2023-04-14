@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.action;
 
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import org.slf4j.Logger;
 
@@ -64,15 +65,17 @@ public class Keyboard extends AbstractAction implements KeyListener {
 		pause = new Pause(tetroshow);
 		exit = new Exit(tetroshow);
 
-		var clockwiseKey = configuration.getClockwiseKey();
-		var counterclockwiseKey = configuration.getCounterclockwiseKey();
-		var leftKey = configuration.getLeftKey();
-		var rightKey = configuration.getRightKey();
-		var softDropKey = configuration.getSoftDropKey();
-		var hardDropKey = configuration.getHardDropKey();
-		var holdKey = configuration.getHoldKey();
-		var pauseKey = configuration.getPauseKey();
-		var exitKey = configuration.getExitKey();
+		var keys = Settings.getDefaultInstance().getKeys();
+
+		var clockwiseKey = keys.get("clockwise");
+		var counterclockwiseKey = keys.get("counterclockwise");
+		var leftKey = keys.get("left");
+		var rightKey = keys.get("right");
+		var softDropKey = keys.get("soft_drop");
+		var hardDropKey = keys.get("hard_drop");
+		var holdKey = keys.get("hold");
+		var pauseKey = keys.get("pause");
+		var exitKey = keys.get("exit");
 
 		keyMapping.put(rotateClockwise, clockwiseKey);
 		keyMapping.put(rotateCounterclockwise, counterclockwiseKey);
@@ -114,8 +117,8 @@ public class Keyboard extends AbstractAction implements KeyListener {
 		} else if (repeatable) {
 
 			var keyPressed = pressedKeys[key];
-			var levelSpeed = tetroshow.getLevelSpeed();
-			var delayAuto = configuration.getAutoRepeatDelay(levelSpeed);
+			var level = tetroshow.getLevel();
+			var delayAuto = Settings.getDefaultInstance().getDas(level);
 			var autoRepeat = duration >= delayAuto;
 			effective = keyPressed && autoRepeat;
 

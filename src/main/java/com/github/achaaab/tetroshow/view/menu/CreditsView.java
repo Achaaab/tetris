@@ -1,6 +1,6 @@
 package com.github.achaaab.tetroshow.view.menu;
 
-import com.github.achaaab.tetroshow.configuration.Configuration;
+import com.github.achaaab.tetroshow.settings.Settings;
 
 import javax.swing.JComponent;
 import java.awt.Color;
@@ -94,7 +94,7 @@ public class CreditsView extends JComponent {
 			graphics.drawString(line, x, toIntExact(round(y)));
 		}
 
-		if (Configuration.INSTANCE.isToolkitSynchronized()) {
+		if (Settings.getDefaultInstance().getGraphics().isSynchronizeState()) {
 			getDefaultToolkit().sync();
 		}
 	}
