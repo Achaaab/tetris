@@ -24,7 +24,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class Mp3Resource extends AudioResource implements Runnable {
 
-	private static final Logger LOGGER = getLogger(AudioResource.class);
+	private static final Logger LOGGER = getLogger(Mp3Resource.class);
 
 	public static final String EXTENSION = "mp3";
 	private static final boolean SIGNED = true;
@@ -39,7 +39,9 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	private byte[] lineBuffer;
 
 	/**
-	 * @param name
+	 * Creates a new MP3 resource.
+	 *
+	 * @param name MP3 resource name
 	 * @since 0.0.0
 	 */
 	public Mp3Resource(String name) {
@@ -50,6 +52,8 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	}
 
 	/**
+	 * Plays this MP3 and waits until it ends.
+	 *
 	 * @since 0.0.0
 	 */
 	public void playAndWait() {
@@ -73,6 +77,7 @@ public class Mp3Resource extends AudioResource implements Runnable {
 			}
 
 			bitstream.close();
+			line.close();
 
 		} catch (BitstreamException | DecoderException | LineUnavailableException | IOException exception) {
 
@@ -84,8 +89,8 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	 * Reads and decodes an MP3 frame.
 	 *
 	 * @return whether a frame was read and decoded
-	 * @throws BitstreamException
-	 * @throws DecoderException
+	 * @throws BitstreamException error while reading an MP3 frame from this resource
+	 * @throws DecoderException error while decoding an MP3 frame read from this resource
 	 * @since 0.0.0
 	 */
 	private boolean readFrame() throws BitstreamException, DecoderException {
@@ -134,8 +139,8 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	 * Ensures a source data line able to read MP3
 	 * Ouvre une ligne capable de lire la trame, ne fait rien si une telle ligne est déjà ouverte.
 	 *
-	 * @param frame trame à lire
-	 * @throws LineUnavailableException
+	 * @param frame MP3 frame to play
+	 * @throws LineUnavailableException error while getting an available line or while opening it
 	 * @since 0.0.0
 	 */
 	private void ensureLine(SampleBuffer frame) throws LineUnavailableException {

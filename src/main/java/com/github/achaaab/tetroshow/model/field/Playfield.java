@@ -56,7 +56,10 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * @param piece
+	 * Tests if a piece can fit in this playfield.
+	 * Note that it can entirely or partially occupy the 2 rows over this grid.
+	 *
+	 * @param piece piece to test
 	 * @return whether the given piece can fit in this playfield
 	 * @since 0.0.0
 	 */
@@ -67,8 +70,10 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * @param x
-	 * @param y
+	 * Note that 2 rows over this grid can be occupied by blocks.
+	 *
+	 * @param x column index
+	 * @param y row index
 	 * @return whether the playfield can be occupied by a block at the given coordinates
 	 * @since 0.0.0
 	 */
@@ -79,9 +84,9 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * Vide les lignes complètes.
+	 * Clears lines.
 	 *
-	 * @return liste des lignes complètes, ordonnées de la plus basse à la plus haute
+	 * @return cleared line indices
 	 * @since 0.0.0
 	 */
 	public List<Integer> clearLines() {
@@ -102,8 +107,10 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * @param y hauteur de la ligne à tester
-	 * @return true si la ligne est complete, false sinon
+	 * Tests if a row is a line. Lines are rows in which every cell contains a block.
+	 *
+	 * @param y row to test
+	 * @return whether the given row is a line
 	 * @since 0.0.0
 	 */
 	private boolean isLine(int y) {
@@ -114,9 +121,9 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * Clears a complete line at given height.
+	 * Clears a line.
 	 *
-	 * @param y height of the line to clear
+	 * @param y row index
 	 * @since 0.0.0
 	 */
 	private void clearLine(int y) {
@@ -141,7 +148,9 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * @param lines
+	 * Drops rows after a line clear.
+	 *
+	 * @param lines row indices of cleared lines
 	 * @since 0.0.0
 	 */
 	public void dropRows(List<Integer> lines) {
@@ -169,8 +178,8 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * @param y ligne à descendre
-	 * @param drop nombre de cellules à descendre
+	 * @param y row to drop
+	 * @param drop drop height
 	 * @since 0.0.0
 	 */
 	private void dropRow(int y, int drop) {
@@ -184,10 +193,10 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * La pièce fantôme est à la verticale de la pièce courante, le plus bas possible dans le champ de jeu.
+	 * The ghost piece is vertical to the active piece, as low as possible in this playfield.
+	 * It is empty if there is no active piece or if the active piece is already on the stack.
 	 *
-	 * @return pièce fantôme de la pièce courante ou {@code null} s'il n'y a pas de pièce courante ou bien si la
-	 * pièce courante est déjà en bas
+	 * @return ghost piece
 	 * @since 0.0.0
 	 */
 	public Optional<Piece> getGhostPiece() {
@@ -200,8 +209,10 @@ public class Playfield extends Grid {
 	}
 
 	/**
-	 * @param piece
-	 * @return
+	 * A ghost piece is a copy of a piece, vertical to it, as low as possible in this playfield.
+	 *
+	 * @param piece any piece
+	 * @return ghost of the given piece
 	 * @since 0.0.0
 	 */
 	private Piece getGhost(Piece piece) {

@@ -9,7 +9,7 @@ import java.util.Queue;
 import static java.util.Optional.ofNullable;
 
 /**
- * Implémente le stockage des pièces.
+ * Implements the pieces queue.
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0

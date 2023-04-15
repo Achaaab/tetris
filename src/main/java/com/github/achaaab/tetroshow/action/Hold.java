@@ -4,13 +4,17 @@ import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
 /**
+ * Holds the current falling piece if there is any. Otherwise, registers an initial hold for next falling piece.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class Hold extends AbstractAction {
 
 	/**
-	 * @param tetroshow
+	 * Creates a new hold action.
+	 *
+	 * @param tetroshow Tetroshow in which to hold pieces
 	 * @since 0.0.0
 	 */
 	public Hold(Tetroshow tetroshow) {

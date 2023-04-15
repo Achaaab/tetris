@@ -8,6 +8,8 @@ import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 
 /**
+ * Hard drops the current falling piece, if any.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

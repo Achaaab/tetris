@@ -1,7 +1,7 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.settings.Settings;
 import org.slf4j.Logger;
 
 import java.awt.event.KeyEvent;
@@ -18,6 +18,8 @@ import static java.util.Arrays.fill;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
+ * A keyboard can listen for key events and bind actions to them.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -39,12 +41,14 @@ public class Keyboard extends AbstractAction implements KeyListener {
 
 	private final boolean[] pressedKeys;
 	private final int[] frame;
-	private final Map<AbstractAction, Integer> keyMapping;
+	private final Map<Action, Integer> keyMapping;
 
 	private int frameCounter;
 
 	/**
-	 * @param tetroshow
+	 * Creates a new keyboard.
+	 *
+	 * @param tetroshow Tetroshow on which to apply actions bound to key events
 	 * @since 0.0.0
 	 */
 	public Keyboard(Tetroshow tetroshow) {
@@ -55,11 +59,11 @@ public class Keyboard extends AbstractAction implements KeyListener {
 		frame = new int[KEY_COUNT];
 		keyMapping = new HashMap<>();
 
-		rotateClockwise = new Move(tetroshow, CLOCKWISE, 1);
-		rotateCounterclockwise = new Move(tetroshow, COUNTERCLOCKWISE, 1);
-		shiftLeft = new Move(tetroshow, LEFT, 1);
-		shiftRight = new Move(tetroshow, RIGHT, 1);
-		softDrop = new Move(tetroshow, DOWN, 1);
+		rotateClockwise = new Move(tetroshow, CLOCKWISE);
+		rotateCounterclockwise = new Move(tetroshow, COUNTERCLOCKWISE);
+		shiftLeft = new Move(tetroshow, LEFT);
+		shiftRight = new Move(tetroshow, RIGHT);
+		softDrop = new Move(tetroshow, DOWN);
 		hardDrop = new HardDrop(tetroshow);
 		hold = new Hold(tetroshow);
 		pause = new Pause(tetroshow);
@@ -175,7 +179,7 @@ public class Keyboard extends AbstractAction implements KeyListener {
 	 * @return {@code true} si l'action a été exécutée, {@code false} sinon
 	 * @since 0.0.0
 	 */
-	private boolean execute(AbstractAction action, boolean repeatable) {
+	private boolean execute(Action action, boolean repeatable) {
 
 		var key = keyMapping.get(action);
 		var effective = isEffective(key, repeatable);

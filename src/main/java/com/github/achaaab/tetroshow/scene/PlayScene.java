@@ -32,9 +32,6 @@ public class PlayScene extends AbstractScene {
 
 		var keyboard = tetroshow.getKeyboard();
 		view.addKeyListener(keyboard);
-
-		var playlist = new Playlist();
-		new Thread(playlist, "playlist").start();
 	}
 
 	@Override

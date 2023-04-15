@@ -1,10 +1,12 @@
 package com.github.achaaab.tetroshow.model.field;
 
-import com.github.achaaab.tetroshow.model.piece.TetrominoGenerator;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 import com.github.achaaab.tetroshow.model.piece.PieceGenerator;
+import com.github.achaaab.tetroshow.model.piece.TetrominoGenerator;
 
 /**
+ * A preview is a field containing next pieces to come. Its size is configurable.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -14,7 +16,9 @@ public class Preview extends AbstractField {
 	private final PieceGenerator pieceGenerator;
 
 	/**
-	 * @param size nombre de pièces prévisualisables
+	 * Creates a new preview.
+	 *
+	 * @param size number of pieces this preview can hold
 	 * @since 0.0.0
 	 */
 	public Preview(int size) {
@@ -26,7 +30,7 @@ public class Preview extends AbstractField {
 	}
 
 	/**
-	 * Ajoute des pièces dans la prévisualisation jusqu'à ce que la taille soit atteinte.
+	 * Adds pieces in this preview until it is full.
 	 *
 	 * @since 0.0.0
 	 */
@@ -38,7 +42,7 @@ public class Preview extends AbstractField {
 	}
 
 	/**
-	 * Ajoute une pièce.
+	 * Adds a piece in this preview.
 	 *
 	 * @since 0.0.0
 	 */
@@ -49,7 +53,9 @@ public class Preview extends AbstractField {
 	}
 
 	/**
-	 * @return pièce suivante
+	 * Removes and returns the next piece of this preview.
+	 *
+	 * @return next piece
 	 * @since 0.0.0
 	 */
 	public Piece getNextPiece() {

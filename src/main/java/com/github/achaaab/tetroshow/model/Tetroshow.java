@@ -76,7 +76,7 @@ public class Tetroshow implements GameComponent {
 	@Override
 	public void reset() {
 
-		LOGGER.info("resetting Tetroshow");
+		LOGGER.info("reset");
 
 		playfield.reset();
 		storage.reset();
@@ -173,8 +173,8 @@ public class Tetroshow implements GameComponent {
 	 */
 	public void newPiece() {
 
-		var nouvellePiece = preview.getNextPiece();
-		setFallingPiece(nouvellePiece);
+		var newPiece = preview.getNextPiece();
+		setFallingPiece(newPiece);
 
 		if (initialHold != null) {
 
@@ -188,8 +188,8 @@ public class Tetroshow implements GameComponent {
 
 				var direction = initialRotation.getDirection();
 
-				if (playfield.isMovePossible(nouvellePiece, direction)) {
-					nouvellePiece.move(direction);
+				if (playfield.isMovePossible(newPiece, direction)) {
+					newPiece.move(direction);
 				}
 
 				initialRotation = null;
@@ -198,7 +198,6 @@ public class Tetroshow implements GameComponent {
 			holdCount = 0;
 		}
 
-		nouvellePiece.playEnterSound();
 		gravity.execute();
 	}
 

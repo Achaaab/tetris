@@ -7,6 +7,12 @@ package com.github.achaaab.tetroshow.audio;
 public interface Audio {
 
 	/**
+	 * @return name of this audio
+	 * @since 0.0.0
+	 */
+	String getName();
+
+	/**
 	 * Plays this sound asynchronously.
 	 *
 	 * @since 0.0.0

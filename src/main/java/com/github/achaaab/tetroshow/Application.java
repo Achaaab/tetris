@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow;
 
+import com.github.achaaab.tetroshow.audio.Playlist;
 import com.github.achaaab.tetroshow.scene.MenuScene;
 import com.github.achaaab.tetroshow.scene.SceneManager;
 import org.slf4j.Logger;
@@ -23,11 +24,17 @@ public class Application {
 	 */
 	public static void main(String... arguments) {
 
-		LOGGER.info("starting Tetroshow");
+		LOGGER.info("start");
+
+		var playlist = new Playlist();
+		new Thread(playlist, "playlist").start();
 
 		var sceneManager = new SceneManager("Tetroshow", scale(420), scale(500), 60);
 		var menuScene = new MenuScene(sceneManager);
 		sceneManager.display(menuScene);
 		sceneManager.run();
+
+		LOGGER.info("exit");
+		System.exit(0);
 	}
 }

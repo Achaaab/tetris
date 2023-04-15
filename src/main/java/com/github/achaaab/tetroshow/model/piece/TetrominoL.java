@@ -1,20 +1,17 @@
 package com.github.achaaab.tetroshow.model.piece;
 
-import com.github.achaaab.tetroshow.audio.Audio;
-
 import java.awt.Color;
 import java.util.List;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
-
 /**
+ * L-shape tetromino
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class TetrominoL extends Tetromino {
 
 	private static final Color COLOR = new Color(255, 121, 0);
-	private static final Audio SOUND_EFFECT = createAudio("audio/effect/tetromino_l.wav");
 
 	private static final int[][] BLOCK_POSITIONS = {
 			{ 2, 4, 5, 6 },
@@ -34,6 +31,6 @@ public class TetrominoL extends Tetromino {
 	public TetrominoL() {
 
 		super(getRotations(COLOR, BLOCK_POSITIONS),
-				ENTRY_COLUMN, SOUND_EFFECT, CLOCKWISE_WALL_KICKS, COUNTERCLOCKWISE_WALL_KICKS);
+				ENTRY_COLUMN, CLOCKWISE_WALL_KICKS, COUNTERCLOCKWISE_WALL_KICKS);
 	}
 }

@@ -94,8 +94,6 @@ public class SceneManager implements Runnable {
 
 			frameEndTime = ensureFrameDuration(frameStartTime, nanoTime());
 		}
-
-		System.exit(0);
 	}
 
 	/**

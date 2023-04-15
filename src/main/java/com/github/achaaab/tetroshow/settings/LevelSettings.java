@@ -6,6 +6,8 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.IOException;
 import java.util.Map;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static java.util.Arrays.binarySearch;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -58,7 +60,9 @@ public class LevelSettings {
 	}
 
 	/**
-	 * @param level
+	 * Gets the value at given level, basing on configured key levels.
+	 *
+	 * @param level wanted level
 	 * @return value at given level
 	 * @since 0.0.0
 	 */
@@ -67,12 +71,7 @@ public class LevelSettings {
 		var index = binarySearch(keyLevels, level);
 
 		if (index < 0) {
-
-			index = -index - 1;
-
-			if (index >= keyValues.length) {
-				index = keyValues.length - 1;
-			}
+			index = min(keyValues.length - 1, max(0, -index - 2));
 		}
 
 		return keyValues[index];

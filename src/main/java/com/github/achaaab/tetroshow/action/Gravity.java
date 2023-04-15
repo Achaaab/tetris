@@ -1,12 +1,14 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Piece;
+import com.github.achaaab.tetroshow.settings.Settings;
 
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 
 /**
+ * Applies gravity on current falling piece, if any.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

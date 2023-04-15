@@ -1,16 +1,21 @@
 package com.github.achaaab.tetroshow.audio;
 
 import com.github.achaaab.tetroshow.settings.Settings;
+import org.slf4j.Logger;
 
 import java.util.List;
 
+import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class Playlist implements Runnable {
+
+	private static final Logger LOGGER = getLogger(Playlist.class);
 
 	private final List<Audio> tracks;
 
@@ -23,6 +28,7 @@ public class Playlist implements Runnable {
 
 		tracks = trackNames.stream().
 				map(AudioFactory::createAudio).
+				filter(not(audio -> audio instanceof Silence)).
 				collect(toList());
 	}
 
@@ -30,7 +36,12 @@ public class Playlist implements Runnable {
 	public void run() {
 
 		while (!tracks.isEmpty()) {
-			tracks.forEach(Audio::playAndWait);
+
+			for (var track : tracks) {
+
+				LOGGER.info("playing {}", track.getName());
+				track.playAndWait();
+			}
 		}
 	}
 }

@@ -13,9 +13,10 @@ graphics:
   skin: "Glass"
   synchronizeState: true
 
-tracks: []
-#  - "audio/music/tetroshow.mp3"
-#  - "audio/music/tetroshow.wav"
+tracks:
+  - "audio/track/korobeïniki.mid"
+#  - "audio/track/tetroshow.mp3"
+#  - "audio/track/tetroshow.wav"
 
 gameplay:
   holdLimit: 1

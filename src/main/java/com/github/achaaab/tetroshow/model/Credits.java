@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -48,9 +49,10 @@ public class Credits implements GameComponent {
 				var uri = resource.toURI();
 				var scheme = uri.getScheme();
 
-				if (scheme.equals("jar")) {
+				if (!scheme.equals("file")) {
 					newFileSystem(uri, emptyMap());
 				}
+
 
 				var path = Path.of(resource.toURI());
 				credits = readAllLines(path, UTF_8);

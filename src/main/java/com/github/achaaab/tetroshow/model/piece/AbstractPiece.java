@@ -1,7 +1,5 @@
 package com.github.achaaab.tetroshow.model.piece;
 
-import com.github.achaaab.tetroshow.audio.Audio;
-
 import java.util.List;
 
 /**
@@ -15,7 +13,6 @@ public class AbstractPiece implements Piece {
 	protected final List<List<Block>> rotations;
 	protected final List<List<Direction>> clockwiseWallKicks;
 	protected final List<List<Direction>> counterClockwiseWallKicks;
-	private final Audio soundEffect;
 
 	protected int x;
 	protected int y;
@@ -25,17 +22,15 @@ public class AbstractPiece implements Piece {
 	/**
 	 * @param rotations
 	 * @param enteringColumn
-	 * @param soundEffect
 	 * @param clockwiseWallKicks
 	 * @param counterClockwiseWallKicks
 	 * @since 0.0.0
 	 */
-	public AbstractPiece(List<List<Block>> rotations, int enteringColumn, Audio soundEffect,
-			List<List<Direction>> clockwiseWallKicks, List<List<Direction>> counterClockwiseWallKicks) {
+	public AbstractPiece(List<List<Block>> rotations, int enteringColumn,
+						 List<List<Direction>> clockwiseWallKicks, List<List<Direction>> counterClockwiseWallKicks) {
 
 		this.rotations = rotations;
 		this.enteringColumn = enteringColumn;
-		this.soundEffect = soundEffect;
 		this.clockwiseWallKicks = clockwiseWallKicks;
 		this.counterClockwiseWallKicks = counterClockwiseWallKicks;
 
@@ -92,7 +87,7 @@ public class AbstractPiece implements Piece {
 	@Override
 	public AbstractPiece copy() {
 
-		var clone = new AbstractPiece(rotations, enteringColumn, soundEffect, clockwiseWallKicks, counterClockwiseWallKicks);
+		var clone = new AbstractPiece(rotations, enteringColumn, clockwiseWallKicks, counterClockwiseWallKicks);
 
 		clone.setX(x);
 		clone.setY(y);
@@ -114,10 +109,5 @@ public class AbstractPiece implements Piece {
 	@Override
 	public List<Direction> getCounterClockwiseWallKicks() {
 		return counterClockwiseWallKicks.get(rotation);
-	}
-
-	@Override
-	public void playEnterSound() {
-		soundEffect.play();
 	}
 }

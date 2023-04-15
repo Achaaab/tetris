@@ -3,6 +3,8 @@ package com.github.achaaab.tetroshow.action;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
 /**
+ * Exits Tetroshow.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

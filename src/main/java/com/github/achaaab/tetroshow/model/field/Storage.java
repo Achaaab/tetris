@@ -7,6 +7,8 @@ import java.util.Optional;
 import static java.util.Optional.ofNullable;
 
 /**
+ * A storage is a grid that can hold a single piece.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -16,7 +18,7 @@ public class Storage extends Grid {
 	private static final int HEIGHT = 2;
 
 	/**
-	 * Crée une réserve pouvant contenir temporairement une pièce.
+	 * Creates a new storage.
 	 *
 	 * @since 0.0.0
 	 */
@@ -25,10 +27,10 @@ public class Storage extends Grid {
 	}
 
 	/**
-	 * Si la réserve est pleine, retourne la première pièce de la réserve.
+	 * Holds a piece in this storage, resetting its rotation.
 	 *
-	 * @param incomingPiece pièce à ajouter à la reserve
-	 * @return piece éventuellement retirée de la reserve
+	 * @param incomingPiece piece to hold
+	 * @return piece that was previously hold in this storage
 	 * @since 0.0.0
 	 */
 	public Optional<Piece> hold(Piece incomingPiece) {

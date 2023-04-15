@@ -34,14 +34,14 @@ java -jar target/tetroshow-0.0.0.jar
 
 ### Usage
 Keys are configured in [tetroshow.yaml](src/main/resources/tetroshow.yaml), but they are not yet configurable in game.
-* <kbd>Space</kbd>: rotate the falling piece clockwise
-* <kbd>Shift</kbd>: rotate the falling piece counterclockwise
-* <kbd>↑</kbd>: hard drop the falling piece
-* <kbd>↓</kbd>: soft drop the falling piece
-* <kbd>←</kbd>: move the falling piece to the left (auto-repeat after delay)
-* <kbd>→</kbd>: move the falling piece to the right (auto-repeat after delay)
-* <kbd>P</kbd>: pause the game
-* <kbd>Esc</kbd>: exit the game
+* <kbd>Space</kbd> rotate the falling piece clockwise
+* <kbd>Shift</kbd> rotate the falling piece counterclockwise
+* <kbd>↑</kbd> hard drop the falling piece
+* <kbd>↓</kbd> soft drop the falling piece
+* <kbd>←</kbd> move the falling piece to the left
+* <kbd>→</kbd> move the falling piece to the right
+* <kbd>P</kbd> pause the game
+* <kbd>Esc</kbd> exit the game
 
 ### Screenshots
 <img src=".github/pictures/screenshot_gameplay.png" width="320"  alt="gameplay screenshot"/>

@@ -1,15 +1,20 @@
 package com.github.achaaab.tetroshow.action;
 
+import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.audio.Silence;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Direction;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
+import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
 import static com.github.achaaab.tetroshow.model.piece.Direction.CLOCKWISE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.COUNTERCLOCKWISE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
+import static com.github.achaaab.tetroshow.model.piece.Direction.LEFT;
+import static com.github.achaaab.tetroshow.model.piece.Direction.RIGHT;
 
 /**
- * Action de déplacement d'un tetromino.
+ * piece moving action
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
@@ -17,20 +22,26 @@ import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 public class Move extends AbstractAction {
 
 	private final Direction direction;
-	private final int distance;
+	private final Audio soundEffect;
 
 	/**
-	 * @param tetroshow
-	 * @param direction
-	 * @param distance
+	 * Creates a new move action.
+	 *
+	 * @param tetroshow Tetroshow in which to apply this move
+	 * @param direction move direction
 	 * @since 0.0.0
 	 */
-	public Move(Tetroshow tetroshow, Direction direction, int distance) {
+	public Move(Tetroshow tetroshow, Direction direction) {
 
 		super(tetroshow);
 
 		this.direction = direction;
-		this.distance = distance;
+
+		if (direction == LEFT || direction == RIGHT) {
+			soundEffect = createAudio("audio/effect/left_right.wav");
+		} else {
+			soundEffect = Silence.INSTANCE;
+		}
 	}
 
 	@Override
@@ -66,7 +77,8 @@ public class Move extends AbstractAction {
 
 		if (movePossible) {
 
-			piece.move(direction, distance);
+			piece.move(direction);
+			soundEffect.play();
 
 			if (direction == DOWN) {
 				tetroshow.increaseDropBonus();
@@ -103,7 +115,7 @@ public class Move extends AbstractAction {
 
 			if (movePossible) {
 
-				piece.move(correctedDirection, distance);
+				piece.move(correctedDirection);
 				tetroshow.cancelLocking();
 			}
 		}
@@ -115,13 +127,5 @@ public class Move extends AbstractAction {
 	 */
 	public Direction getDirection() {
 		return direction;
-	}
-
-	/**
-	 * @return distance
-	 * @since 0.0.0
-	 */
-	public int getDistance() {
-		return distance;
 	}
 }

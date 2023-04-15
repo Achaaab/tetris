@@ -119,14 +119,13 @@ public class Tetromino extends AbstractPiece {
 	 *
 	 * @param rotations tableau contenant les différentes rotations du tetromino
 	 * @param entryColumn colonne d'apparition du tetromino dans le champ de jeu
-	 * @param soundEffect son d'apparition du tetromino
 	 * @param clockwiseWallKicks wall kicks possibles lors d'une rotation vers la droite
 	 * @param counterclockwiseWallKicks wall kicks possibles lors d'une rotation vers la gauche
 	 * @since 0.0.0
 	 */
-	protected Tetromino(List<List<Block>> rotations, int entryColumn, Audio soundEffect,
+	protected Tetromino(List<List<Block>> rotations, int entryColumn,
 						List<List<Direction>> clockwiseWallKicks, List<List<Direction>> counterclockwiseWallKicks) {
 
-		super(rotations, entryColumn, soundEffect, clockwiseWallKicks, counterclockwiseWallKicks);
+		super(rotations, entryColumn, clockwiseWallKicks, counterclockwiseWallKicks);
 	}
 }

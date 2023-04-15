@@ -6,7 +6,7 @@ import static java.util.Arrays.setAll;
 import static java.util.Arrays.stream;
 
 /**
- * Implémente un champ à l'aide d'une matrice.
+ * field implementation based on a grid
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
@@ -18,10 +18,10 @@ public class Grid extends AbstractField {
 	protected Cell[][] cells;
 
 	/**
-	 * Crée un champ.
+	 * Creates a new grid.
 	 *
-	 * @param width nombre de carrés disposables en largeur dans le champ
-	 * @param height nombre de carrés disposables en hauteur dans le champ
+	 * @param width column count
+	 * @param height row count
 	 * @since 0.0.0
 	 */
 	public Grid(int width, int height) {
@@ -34,7 +34,7 @@ public class Grid extends AbstractField {
 	}
 
 	/**
-	 * Determines if a piece can be locked in this grid.
+	 * Tests if a piece can be locked in this grid.
 	 *
 	 * @param piece piece to lock
 	 * @return whether the given piece can be locked
@@ -47,9 +47,11 @@ public class Grid extends AbstractField {
 	}
 
 	/**
-	 * @param x
-	 * @param y
-	 * @return
+	 * Tests if a cell is empty.
+	 *
+	 * @param x column index
+	 * @param y row index
+	 * @return whether the cell at given position is empty
 	 * @since 0.0.0
 	 */
 	private boolean isEmptyCell(int x, int y) {
@@ -57,9 +59,9 @@ public class Grid extends AbstractField {
 	}
 
 	/**
-	 * Verrouille une pièce dans le tas.
+	 * Locks a piece in the stack.
 	 *
-	 * @param piece pièce du champ
+	 * @param piece piece from this grid
 	 * @return whether the given piece could be locked
 	 * @since 0.0.0
 	 */
@@ -92,7 +94,7 @@ public class Grid extends AbstractField {
 	}
 
 	/**
-	 * @return hauteur du champ, c'est-à-dire, le nombre de carrés disposables en hauteur dans le champ
+	 * @return grid height, in rows
 	 * @since 0.0.0
 	 */
 	public int getHeight() {
@@ -100,7 +102,7 @@ public class Grid extends AbstractField {
 	}
 
 	/**
-	 * @return la largeur du champ, c'est-à-dire, le nombre de carrés disposables en largeur dans le champ
+	 * @return grid width, in columns
 	 * @since 0.0.0
 	 */
 	public int getWidth() {
@@ -108,8 +110,8 @@ public class Grid extends AbstractField {
 	}
 
 	/**
-	 * @param x position d'un carré dans le champ (axe horizontal)
-	 * @param y position d'un carré dans le champ (axe vertical)
+	 * @param x column index
+	 * @param y row index
 	 * @return cell at the given position
 	 * @since 0.0.0
 	 */

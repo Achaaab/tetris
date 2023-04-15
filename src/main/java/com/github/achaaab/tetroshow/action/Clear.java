@@ -1,15 +1,17 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Scrap;
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.settings.Settings;
 
 import java.util.List;
 
 import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
 
 /**
+ * Action of clearing lines of a Tetroshow.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

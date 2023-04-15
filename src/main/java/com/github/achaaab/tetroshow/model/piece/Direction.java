@@ -1,6 +1,9 @@
 package com.github.achaaab.tetroshow.model.piece;
 
 /**
+ * @param dx
+ * @param dy
+ * @param dr
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

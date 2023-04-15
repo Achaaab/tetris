@@ -1,20 +1,17 @@
 package com.github.achaaab.tetroshow.model.piece;
 
-import com.github.achaaab.tetroshow.audio.Audio;
-
 import java.awt.Color;
 import java.util.List;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
-
 /**
+ * O-shape tetromino
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class TetrominoO extends Tetromino {
 
 	private static final Color COLOR = new Color(254, 203, 0);
-	private static final Audio SOUND_EFFECT = createAudio("audio/effect/tetromino_o.wav");
 
 	private static final int[][] BLOCK_POSITIONS = {
 			{ 1, 2, 5, 6 },
@@ -29,11 +26,13 @@ public class TetrominoO extends Tetromino {
 	private static final List<List<Direction>> COUNTERCLOCKWISE_WALL_KICKS = getCounterclockwiseWallKicks(LETTER);
 
 	/**
+	 * Creates a new O-shape tetromino.
+	 *
 	 * @since 0.0.0
 	 */
 	public TetrominoO() {
 
 		super(getRotations(COLOR, BLOCK_POSITIONS),
-				ENTRY_COLUMN, SOUND_EFFECT, CLOCKWISE_WALL_KICKS, COUNTERCLOCKWISE_WALL_KICKS);
+				ENTRY_COLUMN, CLOCKWISE_WALL_KICKS, COUNTERCLOCKWISE_WALL_KICKS);
 	}
 }

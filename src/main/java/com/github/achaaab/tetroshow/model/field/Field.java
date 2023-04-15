@@ -6,7 +6,7 @@ import com.github.achaaab.tetroshow.model.piece.Piece;
 import java.util.Queue;
 
 /**
- * Un champ est un espace dans lequel on trouve des pièces.
+ * A field is a space containing pieces.
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0

@@ -7,6 +7,8 @@ import java.util.Optional;
 import static java.util.Optional.ofNullable;
 
 /**
+ * A cell is a unit of storage that can be empty or contain a block.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -14,6 +16,11 @@ public class Cell {
 
 	private Block block;
 
+	/**
+	 * Creates an empty cell.
+	 *
+	 * @since 0.0.0
+	 */
 	public Cell() {
 		block = null;
 	}
@@ -27,7 +34,7 @@ public class Cell {
 	}
 
 	/**
-	 * @return
+	 * @return block contained in this cell
 	 * @since 0.0.0
 	 */
 	public Optional<Block> getBlock() {

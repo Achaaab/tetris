@@ -37,4 +37,9 @@ public abstract class AudioResource implements Audio {
 
 		return new BufferedInputStream(inputStream);
 	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
 }

@@ -1,9 +1,11 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.settings.Settings;
 
 /**
+ * Action of scoring.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -12,7 +14,9 @@ public class Scoring extends AbstractAction {
 	private int combo;
 
 	/**
-	 * @param tetroshow
+	 * Creates a new scoring action.
+	 *
+	 * @param tetroshow Tetroshow in which to apply this scoring
 	 * @since 0.0.0
 	 */
 	public Scoring(Tetroshow tetroshow) {

@@ -1,8 +1,8 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.settings.Settings;
 
 import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
 
@@ -20,7 +20,9 @@ public class Lock extends AbstractAction {
 	private int frameCounter;
 
 	/**
-	 * @param tetroshow
+	 * Creates a new lock action.
+	 *
+	 * @param tetroshow Tetroshow in which to apply this lock
 	 * @since 0.0.0
 	 */
 	public Lock(Tetroshow tetroshow) {
@@ -28,8 +30,10 @@ public class Lock extends AbstractAction {
 	}
 
 	/**
-	 * @param tetroshow
-	 * @param soundEffect
+	 * Creates a new lock action with a specified sound effect.
+	 *
+	 * @param tetroshow Tetroshow in which to apply this lock
+	 * @param soundEffect sound effect to play when executing this lock
 	 * @since 0.0.0
 	 */
 	public Lock(Tetroshow tetroshow, Audio soundEffect) {
@@ -65,6 +69,8 @@ public class Lock extends AbstractAction {
 	}
 
 	/**
+	 * Starts this lock. It can be cancelled during a configured number of frames.
+	 *
 	 * @since 0.0.0
 	 */
 	public void start() {
@@ -77,6 +83,8 @@ public class Lock extends AbstractAction {
 	}
 
 	/**
+	 * Cancels this lock. It can be started again later.
+	 *
 	 * @since 0.0.0
 	 */
 	public void cancel() {

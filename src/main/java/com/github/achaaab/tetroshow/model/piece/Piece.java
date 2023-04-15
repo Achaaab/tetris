@@ -85,13 +85,6 @@ public interface Piece {
 	List<Direction> getCounterClockwiseWallKicks();
 
 	/**
-	 * Joue le son d'apparition de la pièce.
-	 *
-	 * @since 0.0.0
-	 */
-	void playEnterSound();
-
-	/**
 	 * @return clone de la pièce
 	 */
 	Piece copy();
