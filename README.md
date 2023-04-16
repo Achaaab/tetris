@@ -58,3 +58,8 @@ Slow-mode project, probably doomed not to be finished. Contributions are still w
 
 ## License
 This project is licensed under the GNU General Public License (GPL) - see the [LICENSE.md](LICENSE.md) for the details.
+
+## Acknowledgments
+* Background music via: [Fesliyan Studios](https://www.FesliyanStudios.com)
+* Japanese translation: Matthew Paddick
+* [sfxr](https://www.drpetter.se/project_sfxr.html): Tomas Pettersson

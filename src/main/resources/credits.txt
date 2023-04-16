@@ -1,16 +1,17 @@
-████████╗███████╗████████╗██████╗  ██████╗
+████████╗███████╗████████╗██████╗  ██████╗ 
 ╚══██╔══╝██╔════╝╚══██╔══╝██╔══██╗██╔═══██╗
    ██║   █████╗     ██║   ██████╔╝██║   ██║
    ██║   ██╔══╝     ██║   ██╔══██╗██║   ██║
    ██║   ███████╗   ██║   ██║  ██║╚██████╔╝
-   ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝
+   ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ 
 
-███████╗██╗  ██╗ ██████╗ ██╗    ██╗
-██╔════╝██║  ██║██╔═══██╗██║    ██║
-███████╗███████║██║   ██║██║ █╗ ██║
-╚════██║██╔══██║██║   ██║██║███╗██║
-███████║██║  ██║╚██████╔╝╚███╔███╔╝
-╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝
+    ███████╗██╗  ██╗ ██████╗ ██╗    ██╗    
+    ██╔════╝██║  ██║██╔═══██╗██║    ██║    
+    ███████╗███████║██║   ██║██║ █╗ ██║    
+    ╚════██║██╔══██║██║   ██║██║███╗██║    
+    ███████║██║  ██║╚██████╔╝╚███╔███╔╝    
+    ╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝     
+
 
 
 
@@ -19,12 +20,49 @@ Alexey Pajitnov
 
 
 
+
 Programmer:
 Jonathan Guéhenneux
 
 
 
+
 *** Thanks ***
+
 
 Japanese translation:
 Matthew Paddick
+
+
+sfxr:
+Tomas Pettersson
+
+
+Background music via:
+https://www.FesliyanStudios.com
+
+
+
+
+*** Musics ***
+
+
+"Korobeïniki"
+Composed by Nikolaï Alekseïevitch Nekrassov
+Arranged by Kyrgyzstan (Wikipedia)
+
+
+"Retro Platforming"
+Composed by David Fesliyan
+
+
+"Arcade Kid"
+Composed by David Renda
+
+
+"Funny Bit"
+Composed by David Renda
+
+
+"8 Bit Retro Funk"
+Composed by David Renda

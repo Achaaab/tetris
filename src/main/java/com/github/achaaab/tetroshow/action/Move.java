@@ -37,8 +37,8 @@ public class Move extends AbstractAction {
 
 		this.direction = direction;
 
-		if (direction == LEFT || direction == RIGHT) {
-			soundEffect = createAudio("audio/effect/left_right.wav");
+		if (direction == LEFT || direction == RIGHT || direction == DOWN) {
+			soundEffect = createAudio("audio/effect/move.wav");
 		} else {
 			soundEffect = Silence.INSTANCE;
 		}

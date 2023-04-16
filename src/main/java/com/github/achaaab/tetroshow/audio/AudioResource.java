@@ -15,7 +15,7 @@ public abstract class AudioResource implements Audio {
 	protected final String name;
 
 	/**
-	 * @param name
+	 * @param name resource name
 	 * @since 0.0.0
 	 */
 	public AudioResource(String name) {
@@ -23,7 +23,7 @@ public abstract class AudioResource implements Audio {
 	}
 
 	/**
-	 * @return
+	 * @return input stream
 	 * @since 0.0.0
 	 */
 	public InputStream openInputStream() {

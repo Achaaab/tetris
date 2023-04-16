@@ -14,9 +14,11 @@ graphics:
   synchronizeState: true
 
 tracks:
-  - "audio/track/korobeïniki.mid"
-#  - "audio/track/tetroshow.mp3"
-#  - "audio/track/tetroshow.wav"
+  - "audio/track/retro_platforming.mp3"
+  - "audio/track/korobeïniki.wav"
+  - "audio/track/arcade_kid.mp3"
+  - "audio/track/funny_bit.mp3"
+  - "audio/track/8_bit_retro_funk.mp3"
 
 gameplay:
   holdLimit: 1

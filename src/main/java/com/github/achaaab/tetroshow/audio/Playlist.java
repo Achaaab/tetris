@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 
 import java.util.List;
 
+import static java.lang.Thread.currentThread;
+import static java.lang.Thread.sleep;
+import static java.time.Duration.ofSeconds;
 import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -41,6 +44,16 @@ public class Playlist implements Runnable {
 
 				LOGGER.info("playing {}", track.getName());
 				track.playAndWait();
+
+				try {
+
+					sleep(ofSeconds(2));
+
+				} catch (InterruptedException interruptedException) {
+
+					LOGGER.error("interrupted", interruptedException);
+					currentThread().interrupt();
+				}
 			}
 		}
 	}

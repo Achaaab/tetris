@@ -42,10 +42,7 @@ public class CreditsView extends JComponent {
 	 * @since 0.0.0
 	 */
 	public CreditsView(List<String> lines) {
-
 		this.lines = lines;
-
-		setFocusable(true);
 	}
 
 	/**

@@ -31,11 +31,6 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	private static final boolean BIG_ENDIAN = false;
 	private static final int SAMPLE_SIZE = 16;
 
-	private final Decoder decoder;
-
-	private Bitstream bitstream;
-	private SampleBuffer frame;
-	private SourceDataLine line;
 	private byte[] lineBuffer;
 
 	/**
@@ -45,17 +40,10 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	 * @since 0.0.0
 	 */
 	public Mp3Resource(String name) {
-
 		super(name);
-
-		decoder = new Decoder();
 	}
 
-	/**
-	 * Plays this MP3 and waits until it ends.
-	 *
-	 * @since 0.0.0
-	 */
+	@Override
 	public void playAndWait() {
 		run();
 	}
@@ -70,14 +58,23 @@ public class Mp3Resource extends AudioResource implements Runnable {
 
 		try (var inputStream = openInputStream()) {
 
-			bitstream = new Bitstream(inputStream);
+			var bitstream = new Bitstream(inputStream);
+			var decoder = new Decoder();
+			var frame = decodeFrame(bitstream, decoder);
 
-			while (readFrame()) {
-				playFrame();
+			if (frame != null) {
+
+				try (var line = openLine(frame)) {
+
+					playFrame(frame, line);
+
+					while ((frame = decodeFrame(bitstream, decoder)) != null) {
+						playFrame(frame, line);
+					}
+
+					line.drain();
+				}
 			}
-
-			bitstream.close();
-			line.close();
 
 		} catch (BitstreamException | DecoderException | LineUnavailableException | IOException exception) {
 
@@ -88,33 +85,33 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	/**
 	 * Reads and decodes an MP3 frame.
 	 *
-	 * @return whether a frame was read and decoded
+	 * @return read and decoded frame
 	 * @throws BitstreamException error while reading an MP3 frame from this resource
 	 * @throws DecoderException error while decoding an MP3 frame read from this resource
 	 * @since 0.0.0
 	 */
-	private boolean readFrame() throws BitstreamException, DecoderException {
+	private SampleBuffer decodeFrame(Bitstream bitstream, Decoder decoder) throws BitstreamException, DecoderException {
 
 		var header = bitstream.readFrame();
 
-		if (header == null) {
-			frame = null;
-		} else {
-			frame = (SampleBuffer) decoder.decodeFrame(header, bitstream);
-		}
+		var frame = header == null ?
+				null :
+				(SampleBuffer) decoder.decodeFrame(header, bitstream);
 
-		return frame != null;
+		bitstream.closeFrame();
+
+		return frame;
 	}
 
 	/**
-	 * Decodes an MP3 trame and writes it to the line buffer.
+	 * Decodes an MP3 frame and writes it to the line buffer.
 	 *
-	 * @throws LineUnavailableException
+	 * @param frame MP3 frame to play
+	 * @param line line in which to write the given frame data
+	 * @throws LineUnavailableException if there is no available line for the next MP3 frame
 	 * @since 0.0.0
 	 */
-	private void playFrame() throws LineUnavailableException {
-
-		ensureLine(frame);
+	private void playFrame(SampleBuffer frame, SourceDataLine line) throws LineUnavailableException {
 
 		var samples = frame.getBuffer();
 		var sampleCount = frame.getBufferLength();
@@ -132,30 +129,28 @@ public class Mp3Resource extends AudioResource implements Runnable {
 		}
 
 		line.write(lineBuffer, 0, sampleCount * 2);
-		bitstream.closeFrame();
 	}
 
 	/**
-	 * Ensures a source data line able to read MP3
-	 * Ouvre une ligne capable de lire la trame, ne fait rien si une telle ligne est déjà ouverte.
+	 * Ensures there is a source data line able to read the given MP3 frame.
 	 *
 	 * @param frame MP3 frame to play
+	 * @return open line
 	 * @throws LineUnavailableException error while getting an available line or while opening it
 	 * @since 0.0.0
 	 */
-	private void ensureLine(SampleBuffer frame) throws LineUnavailableException {
+	private SourceDataLine openLine(SampleBuffer frame) throws LineUnavailableException {
 
-		if (line == null) {
+		var frameRate = frame.getSampleFrequency();
+		var channelCount = frame.getChannelCount();
+		var format = new AudioFormat(frameRate, SAMPLE_SIZE, channelCount, SIGNED, BIG_ENDIAN);
+		var informationLigne = new Info(SourceDataLine.class, format);
 
-			var frameRate = frame.getSampleFrequency();
-			var channelCount = frame.getChannelCount();
-			var format = new AudioFormat(frameRate, SAMPLE_SIZE, channelCount, SIGNED, BIG_ENDIAN);
-			var informationLigne = new Info(SourceDataLine.class, format);
+		var line = (SourceDataLine) getLine(informationLigne);
+		line.open(format);
+		line.start();
 
-			line = (SourceDataLine) getLine(informationLigne);
-			line.open(format);
-			line.start();
-		}
+		return line;
 	}
 
 	/**
