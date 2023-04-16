@@ -78,7 +78,7 @@ public class Move extends AbstractAction {
 		if (movePossible) {
 
 			piece.move(direction);
-			soundEffect.play();
+			//soundEffect.play();
 
 			if (direction == DOWN) {
 				tetroshow.increaseDropBonus();

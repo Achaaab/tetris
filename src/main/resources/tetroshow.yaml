@@ -10,7 +10,7 @@ keys:
   "counterclockwise": 16
 
 graphics:
-  skin: "Glass"
+  skin: "LCD"
   synchronizeState: true
 
 tracks:
@@ -23,9 +23,9 @@ tracks:
 gameplay:
   holdLimit: 1
 
-gravity: "tgm2_normal"
-are: "tgm2_normal"
-lineAre: "tgm2_normal"
-das: "tgm2_normal"
-lock: "tgm2_normal"
-clear: "tgm2_normal"
+gravity: "tgm2_master"
+are: "tgm2_master"
+lineAre: "tgm2_master"
+das: "tgm2_master"
+lock: "tgm2_master"
+clear: "tgm2_master"

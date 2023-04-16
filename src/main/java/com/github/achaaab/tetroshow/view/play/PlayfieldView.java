@@ -32,9 +32,9 @@ public class PlayfieldView extends GridView {
 
 
 	@Override
-	public void paintComponent(Graphics graphics) {
+	public void paint(Graphics graphics) {
 
-		super.paintComponent(graphics);
+		super.paint(graphics);
 
 		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
 

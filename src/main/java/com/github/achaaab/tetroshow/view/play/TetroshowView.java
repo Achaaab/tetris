@@ -1,25 +1,21 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
-import org.slf4j.Logger;
 
 import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.lang.reflect.InvocationTargetException;
 
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.FIRST_LINE_START;
-import static javax.swing.SwingUtilities.invokeAndWait;
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
+ * Tetroshow view
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class TetroshowView extends JPanel {
-
-	private static final Logger LOGGER = getLogger(TetroshowView.class);
 
 	private final GridView storageView;
 	private final PreviewView previewView;
@@ -43,12 +39,11 @@ public class TetroshowView extends JPanel {
 
 		addComponents();
 
-		setIgnoreRepaint(true);
 		setFocusable(true);
 	}
 
 	/**
-	 * Ajoute les différents composants de l'interface.
+	 * Adds components.
 	 *
 	 * @since 0.0.0
 	 */
@@ -83,17 +78,5 @@ public class TetroshowView extends JPanel {
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		add(scoreView, constraints);
-	}
-
-	/**
-	 * @since 0.0.0
-	 */
-	public void render() {
-
-		try {
-			invokeAndWait(() -> paintImmediately(getBounds()));
-		} catch (InterruptedException | InvocationTargetException exception) {
-			LOGGER.error("render error", exception);
-		}
 	}
 }

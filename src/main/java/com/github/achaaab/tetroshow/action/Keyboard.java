@@ -31,8 +31,8 @@ public class Keyboard extends AbstractAction implements KeyListener {
 
 	private final Move rotateClockwise;
 	private final Move rotateCounterclockwise;
-	private final Move shiftLeft;
-	private final Move shiftRight;
+	private final Move moveLeft;
+	private final Move moveRight;
 	private final Move softDrop;
 	private final HardDrop hardDrop;
 	private final Hold hold;
@@ -61,8 +61,8 @@ public class Keyboard extends AbstractAction implements KeyListener {
 
 		rotateClockwise = new Move(tetroshow, CLOCKWISE);
 		rotateCounterclockwise = new Move(tetroshow, COUNTERCLOCKWISE);
-		shiftLeft = new Move(tetroshow, LEFT);
-		shiftRight = new Move(tetroshow, RIGHT);
+		moveLeft = new Move(tetroshow, LEFT);
+		moveRight = new Move(tetroshow, RIGHT);
 		softDrop = new Move(tetroshow, DOWN);
 		hardDrop = new HardDrop(tetroshow);
 		hold = new Hold(tetroshow);
@@ -83,8 +83,8 @@ public class Keyboard extends AbstractAction implements KeyListener {
 
 		keyMapping.put(rotateClockwise, clockwiseKey);
 		keyMapping.put(rotateCounterclockwise, counterclockwiseKey);
-		keyMapping.put(shiftLeft, leftKey);
-		keyMapping.put(shiftRight, rightKey);
+		keyMapping.put(moveLeft, leftKey);
+		keyMapping.put(moveRight, rightKey);
 		keyMapping.put(softDrop, softDropKey);
 		keyMapping.put(hardDrop, hardDropKey);
 		keyMapping.put(hold, holdKey);
@@ -103,32 +103,30 @@ public class Keyboard extends AbstractAction implements KeyListener {
 	}
 
 	/**
-	 * @param key code de la touche à tester
-	 * @param repeatable indique que la touche est répétable passé un certain délai
-	 * @return {@code true} si la touche est effective ou {@code false} sinon
+	 * @param key to test
+	 * @param repeatable whether the given key is repeatable after a delay without releasing the key
+	 * @return whether the key is effective
 	 * @since 0.0.0
 	 */
 	private boolean isEffective(int key, boolean repeatable) {
 
-		boolean effective;
+		var effective = false;
+		var pressed = pressedKeys[key];
 
-		var duration = frameCounter - frame[key];
+		if (pressed) {
 
-		if (duration == 0) {
+			var duration = frameCounter - frame[key];
 
-			effective = true;
+			if (duration == 0) {
 
-		} else if (repeatable) {
+				effective = true;
 
-			var keyPressed = pressedKeys[key];
-			var level = tetroshow.getLevel();
-			var delayAuto = Settings.getDefaultInstance().getDas(level);
-			var autoRepeat = duration >= delayAuto;
-			effective = keyPressed && autoRepeat;
+			} else if (repeatable) {
 
-		} else {
-
-			effective = false;
+				var level = tetroshow.getLevel();
+				var das = Settings.getDefaultInstance().getDas(level);
+				effective = duration >= das;
+			}
 		}
 
 		return effective;
@@ -150,20 +148,8 @@ public class Keyboard extends AbstractAction implements KeyListener {
 	@Override
 	public void execute() {
 
-		if (!execute(rotateClockwise, false)) {
-			execute(rotateCounterclockwise, false);
-		}
-
-		var shiftRightDone = execute(shiftRight, false);
-		var shiftLeftDone = !shiftRightDone && execute(shiftLeft, false);
-
-		if (!shiftRightDone && !shiftLeftDone) {
-
-			if (!execute(shiftRight, true)) {
-				execute(shiftLeft, true);
-			}
-		}
-
+		executeRotate();
+		executeTranslate();
 		execute(softDrop, true);
 		execute(hardDrop, false);
 		execute(hold, false);
@@ -171,6 +157,56 @@ public class Keyboard extends AbstractAction implements KeyListener {
 		execute(exit, false);
 
 		frameCounter++;
+	}
+
+	/**
+	 * Executes clockwise or counterclockwise rotation. If both keys were pressed in the last frame,
+	 * clockwise has priority.
+	 *
+	 * @since 0.0.0
+	 */
+	private void executeRotate() {
+
+		if (!execute(rotateClockwise, false)) {
+			execute(rotateCounterclockwise, false);
+		}
+	}
+
+	/**
+	 * Executes left or right move. If both keys were pressed in the last frame, right move has priority.
+	 *
+	 * @since 0.0.0
+	 */
+	private void executeTranslate() {
+
+		if (!execute(moveRight, false)) {
+
+			if (!execute(moveLeft, false)) {
+
+				var rightKey = keyMapping.get(moveRight);
+				var leftKey = keyMapping.get(moveLeft);
+
+				if (isEffective(rightKey, true)) {
+
+					if (isEffective(leftKey, true)) {
+
+						if (frame[leftKey] > frame[rightKey]) {
+							moveLeft.execute();
+						} else {
+							moveRight.execute();
+						}
+
+					} else {
+
+						moveRight.execute();
+					}
+
+				} else if (isEffective(leftKey, true)) {
+
+					moveLeft.execute();
+				}
+			}
+		}
 	}
 
 	/**
@@ -209,14 +245,12 @@ public class Keyboard extends AbstractAction implements KeyListener {
 	public void keyReleased(KeyEvent event) {
 
 		var keyCode = event.getKeyCode();
-
 		LOGGER.debug("key released: {}", keyCode);
-
 		pressedKeys[keyCode] = false;
 	}
 
 	@Override
 	public void keyTyped(KeyEvent event) {
-		event.consume();
+
 	}
 }

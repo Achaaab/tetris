@@ -1,7 +1,5 @@
 package com.github.achaaab.tetroshow.view.menu;
 
-import com.github.achaaab.tetroshow.settings.Settings;
-
 import javax.swing.JComponent;
 import java.awt.Color;
 import java.awt.Font;
@@ -11,7 +9,6 @@ import java.util.List;
 import static com.github.achaaab.tetroshow.view.Scaler.scale;
 import static java.awt.Font.MONOSPACED;
 import static java.awt.Font.PLAIN;
-import static java.awt.Toolkit.getDefaultToolkit;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.lang.Math.round;
@@ -89,10 +86,6 @@ public class CreditsView extends JComponent {
 			var y = height + lineHeight * (1 + lineIndex - scrolledLineCount);
 
 			graphics.drawString(line, x, toIntExact(round(y)));
-		}
-
-		if (Settings.getDefaultInstance().getGraphics().isSynchronizeState()) {
-			getDefaultToolkit().sync();
 		}
 	}
 }

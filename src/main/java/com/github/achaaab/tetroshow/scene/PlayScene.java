@@ -4,7 +4,10 @@ import com.github.achaaab.tetroshow.audio.Playlist;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.view.play.TetroshowView;
 
+import javax.swing.SwingUtilities;
 import java.awt.Container;
+
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * play scene
@@ -46,7 +49,8 @@ public class PlayScene extends AbstractScene {
 	public void update(double deltaTime) {
 
 		tetroshow.update(deltaTime);
-		view.render();
+
+		invokeLater(view::repaint);
 	}
 
 	@Override

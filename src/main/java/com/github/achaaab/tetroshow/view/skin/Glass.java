@@ -20,7 +20,7 @@ public class Glass implements Skin {
 	public static final Glass INSTANCE = new Glass();
 
 	/**
-	 * private constructor that ensuring singleton usage
+	 * private constructor ensuring singleton usage
 	 *
 	 * @see #INSTANCE
 	 * @since 0.0.0

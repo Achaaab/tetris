@@ -5,16 +5,15 @@ import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.skin.Skin;
 
 import javax.swing.JComponent;
+import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.ACTIF;
 import static com.github.achaaab.tetroshow.view.Scaler.scale;
-import static java.awt.Color.BLACK;
-import static java.awt.Color.GRAY;
 import static java.lang.Math.round;
 import static java.lang.Math.toIntExact;
-import static javax.swing.BorderFactory.createLineBorder;
 
 /**
  * @author Jonathan Guéhenneux
@@ -43,10 +42,12 @@ public class GridView extends JComponent {
 	}
 
 	/**
-	 * @param grid
-	 * @param border
-	 * @param margin
-	 * @param cellSize
+	 * Creates a new grid view.
+	 *
+	 * @param grid grid to display
+	 * @param border border width (in physical pixels)
+	 * @param margin left, right, top and bottom margin (in physical pixels)
+	 * @param cellSize cell width and height (in physical pixels)
 	 * @since 0.0.0
 	 */
 	public GridView(Grid grid, int border, int margin, int cellSize) {
@@ -64,17 +65,28 @@ public class GridView extends JComponent {
 		var preferredSize = new Dimension(preferredWidth, preferredHeight);
 
 		setPreferredSize(preferredSize);
-		setBackground(BLACK);
-		setBorder(createLineBorder(GRAY, border));
 	}
 
 	@Override
-	public void paintComponent(Graphics graphics) {
+	public void paint(Graphics graphics) {
 
 		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
 
-		graphics.setColor(getBackground());
+		graphics.setColor(skin.getBackgroundColor());
 		graphics.fillRect(0, 0, getWidth(), getHeight());
+
+		var graphics2d = (Graphics2D) graphics;
+		var previousStroke = graphics2d.getStroke();
+		graphics.setColor(skin.getBorderColor());
+		graphics2d.setStroke(new BasicStroke(border));
+
+		graphics.drawRect(
+				round(border / 2.0f),
+				round(border / 2.0f),
+				getWidth() - border,
+				getHeight() - border);
+
+		graphics2d.setStroke(previousStroke);
 
 		for (var x = 0; x < gridWidth; x++) {
 

@@ -1,8 +1,11 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.settings.Settings;
+import com.github.achaaab.tetroshow.view.skin.Skin;
 
 import javax.swing.JComponent;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,14 +20,11 @@ import static com.github.achaaab.tetroshow.view.message.Messages.LEVEL;
 import static com.github.achaaab.tetroshow.view.message.Messages.SCORE;
 import static com.github.achaaab.tetroshow.view.message.Messages.TIME;
 import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
-import static java.awt.Color.BLACK;
-import static java.awt.Color.GRAY;
 import static java.awt.Color.ORANGE;
 import static java.awt.Color.WHITE;
 import static java.awt.Font.MONOSPACED;
 import static java.awt.Font.PLAIN;
 import static java.lang.Math.round;
-import static javax.swing.BorderFactory.createLineBorder;
 
 /**
  * @author Jonathan Guéhenneux
@@ -32,6 +32,7 @@ import static javax.swing.BorderFactory.createLineBorder;
  */
 public class ScoreView extends JComponent {
 
+	private static final int BORDER = scale(2.5f);
 	private static final int MARGIN = scale(5.0f);
 	private static final int LINE_SPACE = scale(5.0f);
 	private static final int PREFERRED_WIDTH = scale(120.0f);
@@ -47,7 +48,9 @@ public class ScoreView extends JComponent {
 	private final Tetroshow tetroshow;
 
 	/**
-	 * @param tetroshow
+	 * Creates a new score view.
+	 *
+	 * @param tetroshow Tetroshow of which to display the score
 	 * @since 0.0.0
 	 */
 	public ScoreView(Tetroshow tetroshow) {
@@ -55,28 +58,39 @@ public class ScoreView extends JComponent {
 		this.tetroshow = tetroshow;
 
 		setPreferredSize(new Dimension(PREFERRED_WIDTH, 0));
-		setBorder(createLineBorder(GRAY, MARGIN / 2));
-		setBackground(BLACK);
 	}
 
 	@Override
-	public void paintComponent(Graphics graphics) {
+	public void paint(Graphics graphics) {
 
 		var level = tetroshow.getLevel();
 		var time = tetroshow.getTime();
 		var score = tetroshow.getScore();
 
-		graphics.setColor(getBackground());
-		graphics.fillRect(0, 0, getWidth(), getHeight());
-		graphics.setFont(FONT);
-
+		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
 		var graphics2d = (Graphics2D) graphics;
-		var fontMetrics = graphics.getFontMetrics();
+		graphics2d.setColor(skin.getBackgroundColor());
+		graphics2d.fillRect(0, 0, getWidth(), getHeight());
+		graphics2d.setFont(FONT);
+
+		var previousStroke = graphics2d.getStroke();
+		graphics.setColor(skin.getBorderColor());
+		graphics2d.setStroke(new BasicStroke(BORDER));
+
+		graphics.drawRect(
+				round(BORDER / 2.0f),
+				round(BORDER / 2.0f),
+				getWidth() - BORDER,
+				getHeight() - BORDER);
+
+		graphics2d.setStroke(previousStroke);
+
+		var fontMetrics = graphics2d.getFontMetrics();
 		var textHeight = fontMetrics.getHeight();
 		var textAscent = fontMetrics.getAscent();
 
-		var x = MARGIN;
-		var y = MARGIN;
+		var x = BORDER + MARGIN;
+		var y = BORDER + MARGIN;
 
 		y += textAscent;
 		drawString(graphics2d, getMessage(LEVEL), x, y, textHeight, KEY_COLORS);
@@ -96,7 +110,7 @@ public class ScoreView extends JComponent {
 
 	/**
 	 * @param graphics
-	 * @param text
+	 * @param text text to draw
 	 * @param x
 	 * @param y
 	 * @param height

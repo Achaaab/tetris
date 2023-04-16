@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.scene;
 
+import com.github.achaaab.tetroshow.settings.Settings;
 import org.slf4j.Logger;
 
 import javax.swing.JFrame;
@@ -8,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 
+import static java.awt.Toolkit.getDefaultToolkit;
 import static java.lang.Math.round;
 import static java.lang.String.format;
 import static java.lang.System.nanoTime;
@@ -89,7 +91,12 @@ public class SceneManager implements Runnable {
 			frameStartTime = frameEndTime;
 
 			if (scene != null) {
+
 				scene.update(deltaTime / 1_000_000_000.0);
+
+				if (Settings.getDefaultInstance().getGraphics().isSynchronizeState()) {
+					getDefaultToolkit().sync();
+				}
 			}
 
 			frameEndTime = ensureFrameDuration(frameStartTime, nanoTime());
@@ -132,7 +139,9 @@ public class SceneManager implements Runnable {
 	}
 
 	/**
-	 * @param scene
+	 * Displays a scene.
+	 *
+	 * @param scene scene to display
 	 * @since 0.0.0
 	 */
 	public void display(Scene scene) {

@@ -34,7 +34,7 @@ public class Electronika60 implements Skin {
 	 * @since 0.0.0
 	 */
 	private static Stroke getDefaultStroke(int size) {
-		return new BasicStroke(size / 12.0f);
+		return new BasicStroke(0.08f * size);
 	}
 
 	/**
@@ -45,15 +45,15 @@ public class Electronika60 implements Skin {
 	private static Stroke getGhostStroke(int size) {
 
 		return new BasicStroke(
-				size / 30.0f,
+				0.03f * size,
 				CAP_SQUARE, JOIN_MITER,
 				1.0f,
-				new float[] { size / 12.0f, size / 6.0f },
+				new float[] { 0.08f * size, 0.16f * size },
 				0.0f);
 	}
 
 	/**
-	 * private constructor that ensuring singleton usage
+	 * private constructor ensuring singleton usage
 	 *
 	 * @see #INSTANCE
 	 * @since 0.0.0
@@ -82,11 +82,11 @@ public class Electronika60 implements Skin {
 
 		var x0 = x + round(0.15f * size);
 		var x1 = x + round(0.38f * size);
-		var x2 = x + size - round(0.38f * size);
-		var x3 = x + size - round(0.15f * size);
+		var x2 = x - round(0.38f * size) + size;
+		var x3 = x - round(0.15f * size) + size;
 
 		var y0 = y + round(0.15f * size);
-		var y1 = y + size - round(0.15f * size);
+		var y1 = y - round(0.15f * size) + size;
 
 		var leftBracketX = new int[] { x1, x0, x0, x1 };
 		var leftBracketY = new int[] { y0, y0, y1, y1 };
