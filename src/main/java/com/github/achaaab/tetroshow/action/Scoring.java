@@ -1,7 +1,6 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
-import com.github.achaaab.tetroshow.settings.Settings;
 
 /**
  * Action of scoring.
@@ -46,7 +45,7 @@ public class Scoring extends AbstractAction {
 		score += ((levelBefore + lineCount + 3) / 4 + dropBonus) * lineCount * combo
 				+ (levelAfter + 1) / 2;
 
-		var lockDelay = Settings.getDefaultInstance().getLock(levelBefore);
+		var lockDelay = settings.getLock(levelBefore);
 		var speedBonus = lockDelay - pieceFrames;
 
 		if (speedBonus > 0) {

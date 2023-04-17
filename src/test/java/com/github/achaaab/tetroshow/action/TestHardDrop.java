@@ -1,9 +1,9 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.model.piece.Piece;
-import com.github.achaaab.tetroshow.model.field.Playfield;
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.model.field.Playfield;
+import com.github.achaaab.tetroshow.model.piece.Piece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,7 +56,6 @@ public class TestHardDrop {
 
 		verify(tetroshow, never()).increaseDropBonus();
 		verify(tetroshow, never()).lockFallingPiece();
-		verify(soundEffect, never()).play();
 	}
 
 	@Test
@@ -73,6 +72,5 @@ public class TestHardDrop {
 		verify(piece, times(2)).move(DOWN);
 		verify(tetroshow, times(2)).increaseDropBonus();
 		verify(tetroshow).lockFallingPiece();
-		verify(soundEffect).play();
 	}
 }

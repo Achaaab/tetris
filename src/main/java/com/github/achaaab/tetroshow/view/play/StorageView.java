@@ -10,7 +10,7 @@ import static com.github.achaaab.tetroshow.view.Scaler.scale;
  */
 public class StorageView extends GridView {
 
-	private static final int MARGIN = scale(5.0f);
+	public static final int MARGIN = scale(5.0f);
 
 	/**
 	 * @param storage modèle de la réserve

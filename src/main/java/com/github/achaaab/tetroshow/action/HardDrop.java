@@ -4,7 +4,8 @@ import com.github.achaaab.tetroshow.audio.Audio;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
+import static com.github.achaaab.tetroshow.audio.AudioFactory.getAudio;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 
 /**
@@ -22,7 +23,7 @@ public class HardDrop extends AbstractAction {
 	 * @since 0.0.0
 	 */
 	public HardDrop(Tetroshow tetroshow) {
-		this(tetroshow, createAudio("audio/effect/hard_drop.wav"));
+		this(tetroshow, getAudio("audio/effect/hard_drop.wav"));
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class HardDrop extends AbstractAction {
 		}
 
 		if (tetroshow.lockFallingPiece()) {
-			soundEffect.play();
+			SOUND_EFFECT.play(soundEffect, false);
 		} else {
 			tetroshow.exit();
 		}

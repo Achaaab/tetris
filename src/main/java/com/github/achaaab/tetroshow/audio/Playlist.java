@@ -8,7 +8,6 @@ import java.util.List;
 import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 import static java.time.Duration.ofSeconds;
-import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -30,8 +29,7 @@ public class Playlist implements Runnable {
 		var trackNames = Settings.getDefaultInstance().getTracks();
 
 		tracks = trackNames.stream().
-				map(AudioFactory::createAudio).
-				filter(not(audio -> audio instanceof Silence)).
+				map(AudioFactory::getAudio).
 				collect(toList());
 	}
 
@@ -42,8 +40,8 @@ public class Playlist implements Runnable {
 
 			for (var track : tracks) {
 
-				LOGGER.info("playing {}", track.getName());
-				track.playAndWait();
+				LOGGER.info("playing {}", track.name());
+				//AudioPlayer.BACKGROUND.play(track, true);
 
 				try {
 

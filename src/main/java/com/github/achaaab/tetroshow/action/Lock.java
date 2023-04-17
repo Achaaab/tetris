@@ -1,10 +1,10 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.audio.AudioPlayer;
 import com.github.achaaab.tetroshow.model.Tetroshow;
-import com.github.achaaab.tetroshow.settings.Settings;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
+import static com.github.achaaab.tetroshow.audio.AudioFactory.getAudio;
 
 /**
  * action of locking a Tetroshow piece
@@ -26,7 +26,7 @@ public class Lock extends AbstractAction {
 	 * @since 0.0.0
 	 */
 	public Lock(Tetroshow tetroshow) {
-		this(tetroshow, createAudio("audio/effect/lock.wav"));
+		this(tetroshow, getAudio("audio/effect/lock.wav"));
 	}
 
 	/**
@@ -53,14 +53,14 @@ public class Lock extends AbstractAction {
 			frameCounter++;
 
 			var level = tetroshow.getLevel();
-			var delay = Settings.getDefaultInstance().getLock(level);
+			var delay = settings.getLock(level);
 
 			if (frameCounter == delay) {
 
 				frameCounter = 0;
 
 				if (tetroshow.lockFallingPiece()) {
-					soundEffect.play();
+					AudioPlayer.SOUND_EFFECT.play(soundEffect, false);
 				} else {
 					tetroshow.exit();
 				}

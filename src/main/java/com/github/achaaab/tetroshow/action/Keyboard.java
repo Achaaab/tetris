@@ -1,7 +1,6 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
-import com.github.achaaab.tetroshow.settings.Settings;
 import org.slf4j.Logger;
 
 import java.awt.event.KeyEvent;
@@ -69,7 +68,7 @@ public class Keyboard extends AbstractAction implements KeyListener {
 		pause = new Pause(tetroshow);
 		exit = new Exit(tetroshow);
 
-		var keys = Settings.getDefaultInstance().getKeys();
+		var keys = settings.getKeys();
 
 		var clockwiseKey = keys.get("clockwise");
 		var counterclockwiseKey = keys.get("counterclockwise");
@@ -124,7 +123,7 @@ public class Keyboard extends AbstractAction implements KeyListener {
 			} else if (repeatable) {
 
 				var level = tetroshow.getLevel();
-				var das = Settings.getDefaultInstance().getDas(level);
+				var das = settings.getDas(level);
 				effective = duration >= das;
 			}
 		}

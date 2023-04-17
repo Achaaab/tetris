@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toMap;
 public enum Language {
 
 	ENGLISH(Locale.ENGLISH, "English"),
-	SPANISH(Locale.of("es"), "Inglés"),
+	SPANISH(Locale.of("es"), "Español"),
 	FRENCH(Locale.FRENCH, "Français"),
 	HINDI(Locale.of("hi"), "हिंदी"),
 	JAPANESE(Locale.JAPANESE, "日本語"),

@@ -5,18 +5,11 @@ import com.github.achaaab.tetroshow.codec.wav.WavFile;
 import org.slf4j.Logger;
 
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
-import java.io.InputStream;
-import java.time.Duration;
 
 import static com.github.achaaab.tetroshow.codec.wav.WavFile.BYTE_ORDER;
-import static java.lang.Math.round;
 import static java.nio.ByteOrder.BIG_ENDIAN;
-import static java.time.Duration.ofMillis;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -25,7 +18,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class WavResource extends AudioResource implements Runnable {
+public class WavResource extends AudioResource {
 
 	private static final Logger LOGGER = getLogger(WavResource.class);
 
@@ -36,14 +29,9 @@ public class WavResource extends AudioResource implements Runnable {
 	 */
 	private static final int MEMORY_THRESHOLD = 1024 * 1024;
 
-	/**
-	 * buffer duration
-	 */
-	private static final Duration BUFFER_DURATION = ofMillis(100);
-
 	private static final boolean SIGNED = true;
 
-	private Format format;
+	private AudioFormat audioFormat;
 	private byte[] data;
 
 	/**
@@ -53,128 +41,66 @@ public class WavResource extends AudioResource implements Runnable {
 	 * @since 0.2.0
 	 */
 	public WavResource(String name) {
+
 		super(name);
+
+		try (var inputStream = openInputStream()) {
+
+			var file = new WavFile(inputStream);
+			Format format = file.format();
+
+			var frameRate = format.frameRate();
+			var channelCount = format.channelCount();
+			var sampleSize = format.sampleSize();
+			audioFormat = new AudioFormat(frameRate, sampleSize, channelCount, SIGNED, BYTE_ORDER == BIG_ENDIAN);
+
+			var dataSize = file.data().size();
+
+			if (dataSize <= MEMORY_THRESHOLD) {
+
+				data = new byte[dataSize];
+				var length = inputStream.read(data);
+
+				if (length != dataSize) {
+					throw new IOException("not enough data read " + length + "/" + dataSize);
+				}
+			}
+
+		} catch (IOException exception) {
+
+			LOGGER.error("WAV decoding error: {}", name, exception);
+		}
 	}
 
 	@Override
-	public void run() {
+	public AudioFormat getFormat() {
+		return audioFormat;
+	}
 
-		if (data != null) {
+	@Override
+	public void play(SourceDataLine line) {
 
-			playMemoryData();
-
-		} else {
+		if (data == null) {
 
 			try (var inputStream = openInputStream()) {
 
-				var file = new WavFile(inputStream);
-				format = file.format();
-				var dataSize = file.data().size();
+				new WavFile(inputStream);
+				var buffer = new byte[4096];
 
-				if (dataSize > MEMORY_THRESHOLD) {
+				int length;
 
-					playInputStream(inputStream);
-
-				} else {
-
-					data = new byte[dataSize];
-					var length = inputStream.read(data);
-
-					if (length != dataSize) {
-						throw new IOException("not enough data read " + length + "/" + dataSize);
-					}
-
-					playMemoryData();
+				while ((length = inputStream.read(buffer)) != -1) {
+					line.write(buffer, 0, length);
 				}
 
-			} catch (IOException exception) {
+			} catch (IOException ioException) {
 
-				LOGGER.error("WAV decoding error: {}", name, exception);
-			}
-		}
-	}
-
-	/**
-	 * PLays WAV data from given input stream until the end.
-	 *
-	 * @param inputStream input stream from which to read WAV data
-	 * @since 0.0.0
-	 */
-	private void playInputStream(InputStream inputStream) {
-
-		var frameRate = format.frameRate();
-		var frameSize = format.frameSize();
-		var milliseconds = BUFFER_DURATION.toMillis();
-		var frameCount = round(milliseconds * frameRate / 1000.0f);
-
-		var buffer = new byte[frameCount * frameSize];
-
-		try (var line = openLine(format)) {
-
-			int length;
-
-			while ((length = inputStream.read(buffer)) != -1) {
-				line.write(buffer, 0, length);
+				LOGGER.error("error while playing {}", name, ioException);
 			}
 
-			line.drain();
-
-		} catch (LineUnavailableException | IOException exception) {
-
-			LOGGER.error("WAV playing error: {}", name, exception);
-		}
-	}
-
-	/**
-	 * Plays in memory WAV data (for small resources).
-	 *
-	 * @since 0.0.0
-	 */
-	private void playMemoryData() {
-
-		try (var line = openLine(format)) {
+		} else {
 
 			line.write(data, 0, data.length);
-			line.drain();
-
-		} catch (LineUnavailableException exception) {
-
-			LOGGER.error("WAV playing error: {}", name, exception);
 		}
-	}
-
-	@Override
-	public void playAndWait() {
-		run();
-	}
-
-	@Override
-	public void play() {
-		new Thread(this, "WAV playback").start();
-	}
-
-	/**
-	 * Ensures there is a source data line able to read data.
-	 *
-	 * @param format WAV format chunk
-	 * @return open line
-	 * @throws LineUnavailableException error while getting an available line or while opening it
-	 * @since 0.0.0
-	 */
-	private SourceDataLine openLine(Format format) throws LineUnavailableException {
-
-		var mixer = AudioSystem.getMixer(AudioSystem.getMixerInfo()[0]);
-		mixer.getSourceLines();
-
-		var frameRate = format.frameRate();
-		var channelCount = format.channelCount();
-		var sampleSize = format.sampleSize();
-		var audioFormat = new AudioFormat(frameRate, sampleSize, channelCount, SIGNED, BYTE_ORDER == BIG_ENDIAN);
-		var lineInformation = new DataLine.Info(SourceDataLine.class, audioFormat);
-
-		var line = (SourceDataLine) AudioSystem.getLine(lineInformation);
-		line.open(audioFormat);
-		line.start();
-		return line;
 	}
 }

@@ -1,12 +1,13 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.audio.Silence;
+import com.github.achaaab.tetroshow.audio.AudioPlayer;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Direction;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.createAudio;
+import static com.github.achaaab.tetroshow.audio.AudioFactory.getAudio;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
 import static com.github.achaaab.tetroshow.model.piece.Direction.CLOCKWISE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.COUNTERCLOCKWISE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
@@ -38,9 +39,9 @@ public class Move extends AbstractAction {
 		this.direction = direction;
 
 		if (direction == LEFT || direction == RIGHT || direction == DOWN) {
-			soundEffect = createAudio("audio/effect/move.wav");
+			soundEffect = getAudio("audio/effect/move.wav");
 		} else {
-			soundEffect = Silence.INSTANCE;
+			soundEffect = null;
 		}
 	}
 
@@ -78,7 +79,7 @@ public class Move extends AbstractAction {
 		if (movePossible) {
 
 			piece.move(direction);
-			//soundEffect.play();
+			SOUND_EFFECT.play(soundEffect, false);
 
 			if (direction == DOWN) {
 				tetroshow.increaseDropBonus();

@@ -2,9 +2,14 @@ package com.github.achaaab.tetroshow.audio;
 
 import org.slf4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
+ * audio factory, not thread-safe
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -12,23 +17,36 @@ public class AudioFactory {
 
 	private static final Logger LOGGER = getLogger(AudioFactory.class);
 
+	private static final Map<String, Audio> LOADED_AUDIOS = new HashMap<>();
+
 	/**
-	 * Creates an audio from the given path.
+	 * Gets an audio from the given path.
 	 *
 	 * @param path audio path
-	 * @return created audio, {@link Silence#INSTANCE} if the given path is not recognized
+	 * @return created audio
 	 * @since 0.0.0
 	 */
-	public static Audio createAudio(String path) {
+	public static Audio getAudio(String path) {
+		return LOADED_AUDIOS.computeIfAbsent(path, AudioFactory::loadAudio);
+	}
 
-		Audio audio;
+	/**
+	 * Loads an audio from the given path and register it for further usages.
+	 *
+	 * @param path path of the audio to load
+	 * @return loaded and registered audio
+	 * @see #LOADED_AUDIOS
+	 * @since 0.0.0
+	 */
+	private static Audio loadAudio(String path) {
+
+		Audio audio = null;
 
 		var extensionIndex = path.lastIndexOf('.') + 1;
 
 		if (extensionIndex == 0 || extensionIndex == path.length()) {
 
 			LOGGER.error("cannot recognize audio without extension: {}", path);
-			audio = Silence.INSTANCE;
 
 		} else {
 
@@ -38,12 +56,7 @@ public class AudioFactory {
 
 				case Mp3Resource.EXTENSION -> audio = new Mp3Resource(path);
 				case WavResource.EXTENSION -> audio = new WavResource(path);
-				case MidiResource.EXTENSION -> audio = new MidiResource(path);
-
-				default -> {
-					LOGGER.error("unknown audio extension: {}", path);
-					audio = Silence.INSTANCE;
-				}
+				default -> LOGGER.error("unknown audio extension: {}", path);
 			}
 		}
 

@@ -39,7 +39,7 @@ public abstract class AudioResource implements Audio {
 	}
 
 	@Override
-	public String getName() {
+	public String name() {
 		return name;
 	}
 }

@@ -1,14 +1,13 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.settings.Settings;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,7 +37,6 @@ class TestLock {
 		lock.execute();
 
 		verify(tetroshow, never()).lockFallingPiece();
-		verify(soundEffect, never()).play();
 	}
 
 	@Test
@@ -48,17 +46,12 @@ class TestLock {
 
 		when(tetroshow.getLevel()).thenReturn(42);
 		when(settings.getLock(42)).thenReturn(42);
+		lock.settings = settings;
 
-		try (var staticSettings = mockStatic(Settings.class)) {
-
-			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
-
-			lock.start();
-			lock.execute();
-		}
+		lock.start();
+		lock.execute();
 
 		verify(tetroshow, never()).lockFallingPiece();
-		verify(soundEffect, never()).play();
 	}
 
 	@Test
@@ -70,15 +63,11 @@ class TestLock {
 		when(tetroshow.getLevel()).thenReturn(42);
 		when(settings.getLock(42)).thenReturn(1);
 		when(tetroshow.lockFallingPiece()).thenReturn(true);
+		lock.settings = settings;
 
-		try (var staticSettings = mockStatic(Settings.class)) {
-
-			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
-			lock.execute();
-		}
+		lock.execute();
 
 		verify(tetroshow).lockFallingPiece();
-		verify(soundEffect).play();
 	}
 
 	@Test
@@ -88,17 +77,13 @@ class TestLock {
 
 		when(tetroshow.getLevel()).thenReturn(42);
 		when(settings.getLock(42)).thenReturn(2);
+		lock.settings = settings;
 
-		try (var staticSettings = mockStatic(Settings.class)) {
-
-			staticSettings.when(Settings::getDefaultInstance).thenReturn(settings);
-			lock.start();
-			lock.execute();
-			lock.cancel();
-			lock.execute();
-		}
+		lock.start();
+		lock.execute();
+		lock.cancel();
+		lock.execute();
 
 		verify(tetroshow, never()).lockFallingPiece();
-		verify(soundEffect, never()).play();
 	}
 }

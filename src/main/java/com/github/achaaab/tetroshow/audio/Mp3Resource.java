@@ -8,12 +8,10 @@ import javazoom.jl.decoder.SampleBuffer;
 import org.slf4j.Logger;
 
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.DataLine.Info;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
 
-import static javax.sound.sampled.AudioSystem.getLine;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -22,7 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Mp3Resource extends AudioResource implements Runnable {
+public class Mp3Resource extends AudioResource {
 
 	private static final Logger LOGGER = getLogger(Mp3Resource.class);
 
@@ -31,6 +29,7 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	private static final boolean BIG_ENDIAN = false;
 	private static final int SAMPLE_SIZE = 16;
 
+	private AudioFormat format;
 	private byte[] lineBuffer;
 
 	/**
@@ -40,21 +39,31 @@ public class Mp3Resource extends AudioResource implements Runnable {
 	 * @since 0.0.0
 	 */
 	public Mp3Resource(String name) {
+
 		super(name);
+
+		try (var inputStream = openInputStream()) {
+
+			var bitstream = new Bitstream(inputStream);
+			var decoder = new Decoder();
+			var frame = decodeFrame(bitstream, decoder);
+			var frameRate = frame.getSampleFrequency();
+			var channelCount = frame.getChannelCount();
+			format = new AudioFormat(frameRate, SAMPLE_SIZE, channelCount, SIGNED, BIG_ENDIAN);
+
+		} catch (IOException | BitstreamException | DecoderException exception) {
+
+			LOGGER.error("MP3 decoding error", exception);
+		}
 	}
 
 	@Override
-	public void playAndWait() {
-		run();
+	public AudioFormat getFormat() {
+		return format;
 	}
 
 	@Override
-	public void play() {
-		new Thread(this, "MP3 playback").start();
-	}
-
-	@Override
-	public void run() {
+	public void play(SourceDataLine line) {
 
 		try (var inputStream = openInputStream()) {
 
@@ -64,21 +73,18 @@ public class Mp3Resource extends AudioResource implements Runnable {
 
 			if (frame != null) {
 
-				try (var line = openLine(frame)) {
+				playFrame(frame, line);
 
+				while ((frame = decodeFrame(bitstream, decoder)) != null) {
 					playFrame(frame, line);
-
-					while ((frame = decodeFrame(bitstream, decoder)) != null) {
-						playFrame(frame, line);
-					}
-
-					line.drain();
 				}
+
+				line.drain();
 			}
 
 		} catch (BitstreamException | DecoderException | LineUnavailableException | IOException exception) {
 
-			LOGGER.error("MP3 decoding error: {}", name, exception);
+			LOGGER.error("MP3 playing error: {}", name, exception);
 		}
 	}
 
@@ -129,28 +135,6 @@ public class Mp3Resource extends AudioResource implements Runnable {
 		}
 
 		line.write(lineBuffer, 0, sampleCount * 2);
-	}
-
-	/**
-	 * Ensures there is a source data line able to read the given MP3 frame.
-	 *
-	 * @param frame MP3 frame to play
-	 * @return open line
-	 * @throws LineUnavailableException error while getting an available line or while opening it
-	 * @since 0.0.0
-	 */
-	private SourceDataLine openLine(SampleBuffer frame) throws LineUnavailableException {
-
-		var frameRate = frame.getSampleFrequency();
-		var channelCount = frame.getChannelCount();
-		var format = new AudioFormat(frameRate, SAMPLE_SIZE, channelCount, SIGNED, BIG_ENDIAN);
-		var informationLigne = new Info(SourceDataLine.class, format);
-
-		var line = (SourceDataLine) getLine(informationLigne);
-		line.open(format);
-		line.start();
-
-		return line;
 	}
 
 	/**

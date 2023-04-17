@@ -1,9 +1,12 @@
 package com.github.achaaab.tetroshow.scene;
 
+import com.github.achaaab.tetroshow.audio.AudioPlayer;
 import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.menu.OptionView;
 import com.github.achaaab.tetroshow.view.message.Language;
 
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -30,6 +33,8 @@ public class OptionScene extends AbstractScene {
 		view = new OptionView();
 		view.onLanguageChanged(this::languageChange);
 		view.onSkinChanged(this::skinChange);
+		view.onMusicGainChanged(this::musicGainChange);
+		view.onSoundFxChanged(this::soundFxGainChange);
 		view.onBack(this::back);
 	}
 
@@ -37,7 +42,7 @@ public class OptionScene extends AbstractScene {
 	 * @param event
 	 * @since 0.0.0
 	 */
-	public void languageChange(ItemEvent event) {
+	private void languageChange(ItemEvent event) {
 
 		var language = (Language) event.getItem();
 		setLocale(language.getLocale());
@@ -47,7 +52,7 @@ public class OptionScene extends AbstractScene {
 	 * @param event
 	 * @since 0.0.0
 	 */
-	public void skinChange(ItemEvent event) {
+	private void skinChange(ItemEvent event) {
 
 		var skin = (String) event.getItem();
 		Settings.getDefaultInstance().getGraphics().setSkin(skin);
@@ -57,7 +62,27 @@ public class OptionScene extends AbstractScene {
 	 * @param event
 	 * @since 0.0.0
 	 */
-	public void back(ActionEvent event) {
+	private void musicGainChange(ChangeEvent event) {
+
+		var gain = ((JSlider) event.getSource()).getValue();
+		AudioPlayer.BACKGROUND.setGain(gain);
+	}
+
+	/**
+	 * @param event
+	 * @since 0.0.0
+	 */
+	private void soundFxGainChange(ChangeEvent event) {
+
+		var gain = ((JSlider) event.getSource()).getValue();
+		AudioPlayer.SOUND_EFFECT.setGain(gain);
+	}
+
+	/**
+	 * @param event
+	 * @since 0.0.0
+	 */
+	private void back(ActionEvent event) {
 		exit();
 	}
 

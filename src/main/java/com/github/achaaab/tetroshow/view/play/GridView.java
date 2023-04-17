@@ -23,7 +23,7 @@ public class GridView extends JComponent {
 
 	public static final int DEFAULT_BORDER = scale(2.5f);
 	public static final int DEFAULT_CELL_SIZE = scale(20.0f);
-	protected static final int DEFAULT_MARGIN = scale(0.0f);
+	public static final int DEFAULT_MARGIN = scale(0.0f);
 
 	protected final int border;
 	protected final int margin;

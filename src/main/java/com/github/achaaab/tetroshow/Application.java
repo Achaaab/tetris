@@ -29,7 +29,7 @@ public class Application {
 		var playlist = new Playlist();
 		new Thread(playlist, "playlist").start();
 
-		var sceneManager = new SceneManager("Tetroshow", scale(420), scale(500), 60);
+		var sceneManager = new SceneManager("Tetroshow", scale(435), scale(505), 60);
 		var menuScene = new MenuScene(sceneManager);
 		sceneManager.display(menuScene);
 		sceneManager.run();
