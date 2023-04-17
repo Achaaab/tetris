@@ -1,10 +1,10 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.audio.AudioPlayer;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
 import static com.github.achaaab.tetroshow.audio.AudioFactory.getAudio;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
 
 /**
  * action of locking a Tetroshow piece
@@ -60,7 +60,7 @@ public class Lock extends AbstractAction {
 				frameCounter = 0;
 
 				if (tetroshow.lockFallingPiece()) {
-					AudioPlayer.SOUND_EFFECT.play(soundEffect, false);
+					SOUND_EFFECT.play(soundEffect, false);
 				} else {
 					tetroshow.exit();
 				}

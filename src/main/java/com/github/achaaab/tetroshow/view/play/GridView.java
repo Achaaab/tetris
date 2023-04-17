@@ -97,6 +97,19 @@ public class GridView extends JComponent {
 			}
 		}
 
+		paintPieces(graphics);
+	}
+
+	/**
+	 * Paints pieces over this grid.
+	 *
+	 * @param graphics graphics with which to paint
+	 * @since 0.0.0
+	 */
+	protected void paintPieces(Graphics graphics) {
+
+		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
+
 		var pieces = grid.getPieces();
 
 		for (var piece : pieces) {

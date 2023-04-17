@@ -46,6 +46,8 @@ public class PlayfieldView extends GridView {
 			skin.drawPiece(graphics, ghostPiece, x, y, cellSize, GHOST);
 		});
 
+		paintPieces(graphics);
+
 		for (var scrap : playfield.getScraps()) {
 			drawScrap(graphics, scrap);
 		}

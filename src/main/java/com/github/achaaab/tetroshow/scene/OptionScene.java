@@ -1,6 +1,5 @@
 package com.github.achaaab.tetroshow.scene;
 
-import com.github.achaaab.tetroshow.audio.AudioPlayer;
 import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.menu.OptionView;
 import com.github.achaaab.tetroshow.view.message.Language;
@@ -11,6 +10,8 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.BACKGROUND;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
 import static com.github.achaaab.tetroshow.view.message.Messages.setLocale;
 
 /**
@@ -65,7 +66,7 @@ public class OptionScene extends AbstractScene {
 	private void musicGainChange(ChangeEvent event) {
 
 		var gain = ((JSlider) event.getSource()).getValue();
-		AudioPlayer.BACKGROUND.setGain(gain);
+		BACKGROUND.setGain(gain);
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class OptionScene extends AbstractScene {
 	private void soundFxGainChange(ChangeEvent event) {
 
 		var gain = ((JSlider) event.getSource()).getValue();
-		AudioPlayer.SOUND_EFFECT.setGain(gain);
+		SOUND_EFFECT.setGain(gain);
 	}
 
 	/**

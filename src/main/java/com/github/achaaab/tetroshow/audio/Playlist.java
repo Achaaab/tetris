@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 
 import java.util.List;
 
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.BACKGROUND;
 import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 import static java.time.Duration.ofSeconds;
@@ -41,7 +42,7 @@ public class Playlist implements Runnable {
 			for (var track : tracks) {
 
 				LOGGER.info("playing {}", track.name());
-				//AudioPlayer.BACKGROUND.play(track, true);
+				BACKGROUND.play(track, true);
 
 				try {
 
