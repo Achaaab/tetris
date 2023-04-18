@@ -1,4 +1,4 @@
-package com.github.achaaab.tetroshow.codec.wav;
+package com.github.achaaab.tetroshow.audio.wav;
 
 import org.slf4j.Logger;
 

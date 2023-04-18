@@ -6,7 +6,6 @@ import com.github.achaaab.tetroshow.model.piece.State;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.ACTIF;
@@ -47,18 +46,18 @@ public class Lcd implements Skin {
 	}
 
 	@Override
-	public void drawBlock(Graphics graphics, int x, int y, int size, Block block, State state) {
-		drawCell((Graphics2D) graphics, x, y, size, state);
+	public void drawBlock(Graphics2D graphics, int x, int y, int size, Block block, State state) {
+		drawCell(graphics, x, y, size, state);
 	}
 
 	@Override
-	public void drawCell(Graphics graphics, int x, int y, int size, Cell cell) {
+	public void drawCell(Graphics2D graphics, int x, int y, int size, Cell cell) {
 
 		var state = cell.isEmpty() ?
 				OFF :
 				LOCKED;
 
-		drawCell((Graphics2D) graphics, x, y, size, state);
+		drawCell(graphics, x, y, size, state);
 	}
 
 	/**

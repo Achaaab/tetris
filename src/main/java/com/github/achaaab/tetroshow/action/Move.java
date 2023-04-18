@@ -1,7 +1,6 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
-import com.github.achaaab.tetroshow.audio.AudioPlayer;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Direction;
 import com.github.achaaab.tetroshow.model.piece.Piece;
@@ -40,6 +39,7 @@ public class Move extends AbstractAction {
 
 		if (direction == LEFT || direction == RIGHT || direction == DOWN) {
 			soundEffect = getAudio("audio/effect/move.wav");
+			SOUND_EFFECT.getAvailableLine(soundEffect.getFormat());
 		} else {
 			soundEffect = null;
 		}
@@ -110,7 +110,7 @@ public class Move extends AbstractAction {
 			while (!movePossible && wallKickIterator.hasNext()) {
 
 				var wallKick = wallKickIterator.next();
-				correctedDirection = direction.combine(wallKick);
+				correctedDirection = direction.add(wallKick);
 				movePossible = playfield.isMovePossible(piece, correctedDirection);
 			}
 

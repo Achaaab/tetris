@@ -3,6 +3,7 @@ package com.github.achaaab.tetroshow.view.menu;
 import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.message.Language;
 import com.github.achaaab.tetroshow.view.message.Messages;
+import com.github.achaaab.tetroshow.view.play.TetroshowView;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,7 +14,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
@@ -92,6 +92,8 @@ public class OptionView extends JPanel {
 		skins.setSelectedItem(currentSkin);
 
 		addComponents();
+
+		setPreferredSize(TetroshowView.DIMENSION);
 	}
 
 	/**

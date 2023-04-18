@@ -1,6 +1,7 @@
 package com.github.achaaab.tetroshow.view.menu;
 
 import com.github.achaaab.tetroshow.view.message.Messages;
+import com.github.achaaab.tetroshow.view.play.TetroshowView;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -51,6 +52,8 @@ public class MenuView extends JPanel {
 		add(options);
 		add(credits);
 		add(quit);
+
+		setPreferredSize(TetroshowView.DIMENSION);
 	}
 
 	/**

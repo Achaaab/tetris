@@ -2,12 +2,12 @@ package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
-import javax.swing.JPanel;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import javax.swing.JComponent;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-import static java.awt.GridBagConstraints.BOTH;
-import static java.awt.GridBagConstraints.FIRST_LINE_START;
+import static com.github.achaaab.tetroshow.view.skin.Skin.getCurrentSkin;
 
 /**
  * Tetroshow view
@@ -15,7 +15,11 @@ import static java.awt.GridBagConstraints.FIRST_LINE_START;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class TetroshowView extends JPanel {
+public class TetroshowView extends JComponent {
+
+	private static final int WIDTH = StorageView.WIDTH + PlayfieldView.WIDTH + ScoreView.WIDTH;
+	private static final int HEIGHT = PreviewView.HEIGHT + PlayfieldView.HEIGHT;
+	public static final Dimension DIMENSION = new Dimension(WIDTH, HEIGHT);
 
 	private final GridView storageView;
 	private final PreviewView previewView;
@@ -23,6 +27,8 @@ public class TetroshowView extends JPanel {
 	private final ScoreView scoreView;
 
 	/**
+	 * Creates a new Tetroshow view.
+	 *
 	 * @param tetroshow Tetroshow to display
 	 * @since 0.0.0
 	 */
@@ -37,46 +43,32 @@ public class TetroshowView extends JPanel {
 		playfieldView = new PlayfieldView(playfield);
 		scoreView = new ScoreView(tetroshow);
 
-		addComponents();
+		// set constraints
+		storageView.setX(0);
+		storageView.setY(0);
+		previewView.setX(storageView.getWidth());
+		playfieldView.setX(previewView.getX());
+		playfieldView.setY(previewView.getHeight());
+		scoreView.setX(playfieldView.getX() + playfieldView.getWidth());
+		scoreView.setY(playfieldView.getY());
+		previewView.setWidth(playfieldView.getWidth() + scoreView.getWidth());
+		scoreView.setHeight(playfieldView.getHeight());
 
-		setFocusable(true);
+		setPreferredSize(DIMENSION);
 	}
 
-	/**
-	 * Adds components.
-	 *
-	 * @since 0.0.0
-	 */
-	private void addComponents() {
+	@Override
+	public void paint(Graphics graphics) {
 
-		setLayout(new GridBagLayout());
-		var constraints = new GridBagConstraints();
-		constraints.anchor = FIRST_LINE_START;
+		var graphics2d = (Graphics2D) graphics;
+		var skin = getCurrentSkin();
 
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(storageView, constraints);
+		graphics2d.setColor(skin.getBackgroundColor());
+		graphics2d.fillRect(0, 0, getWidth(), getHeight());
 
-		constraints.gridx = 1;
-		constraints.gridy = 1;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(playfieldView, constraints);
-
-		constraints.fill = BOTH;
-
-		constraints.gridx = 1;
-		constraints.gridy = 0;
-		constraints.gridwidth = 2;
-		constraints.gridheight = 1;
-		add(previewView, constraints);
-
-		constraints.gridx = 2;
-		constraints.gridy = 1;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(scoreView, constraints);
+		storageView.paint(graphics2d);
+		previewView.paint(graphics2d);
+		playfieldView.paint(graphics2d);
+		scoreView.paint(graphics2d);
 	}
 }

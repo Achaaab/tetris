@@ -2,48 +2,53 @@ package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.Scrap;
 import com.github.achaaab.tetroshow.model.field.Playfield;
-import com.github.achaaab.tetroshow.settings.Settings;
-import com.github.achaaab.tetroshow.view.skin.Skin;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.GHOST;
-import static java.lang.Math.round;
-import static java.lang.Math.toIntExact;
+import static com.github.achaaab.tetroshow.view.skin.Skin.getCurrentSkin;
 
 /**
+ * playfield view
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class PlayfieldView extends GridView {
 
+	private static final int MARGIN = HALF_BORDER;
+	public static final int WIDTH = 2 * MARGIN + Playfield.WIDTH * CELL_SIZE;
+	public static final int HEIGHT = 2 + MARGIN + Playfield.HEIGHT * CELL_SIZE;
+
 	private final Playfield playfield;
 
 	/**
-	 * @param playfield
+	 * Creates a new playfield view.
+	 *
+	 * @param playfield playfield to display
 	 * @since 0.0.0
 	 */
 	public PlayfieldView(Playfield playfield) {
 
-		super(playfield);
+		super(playfield, MARGIN);
 
 		this.playfield = playfield;
 	}
 
-
 	@Override
-	public void paint(Graphics graphics) {
+	public void paint(Graphics2D graphics) {
 
 		super.paint(graphics);
 
-		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
+		var skin = getCurrentSkin();
 
 		playfield.getGhostPiece().ifPresent(ghostPiece -> {
 
-			var x = border + margin + cellSize * ghostPiece.getX();
-			var y = border + margin + cellSize * ghostPiece.getY();
+			var x = CELL_SIZE * ghostPiece.getX();
+			var y = CELL_SIZE * ghostPiece.getY();
 
-			skin.drawPiece(graphics, ghostPiece, x, y, cellSize, GHOST);
+			skin.drawPiece(graphics, ghostPiece, x, y, CELL_SIZE, GHOST);
 		});
 
 		paintPieces(graphics);
@@ -54,8 +59,10 @@ public class PlayfieldView extends GridView {
 	}
 
 	/**
-	 * @param graphics
-	 * @param scrap
+	 * Draws a scrap.
+	 *
+	 * @param graphics graphics with which to draw
+	 * @param scrap scrap to draw
 	 * @since 0.0.0
 	 */
 	private void drawScrap(Graphics graphics, Scrap scrap) {
@@ -65,8 +72,8 @@ public class PlayfieldView extends GridView {
 
 		var x = scrap.getX();
 		var y = scrap.getY();
-		var size = toIntExact(round(cellSize * scrap.getSize()));
+		var size = scrap.getSize();
 
-		graphics.fillRect(project(x), project(y), size, size);
+		graphics.fillRect(project(x), project(y), project(size), project(size));
 	}
 }

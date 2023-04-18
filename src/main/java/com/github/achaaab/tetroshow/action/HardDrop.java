@@ -19,7 +19,9 @@ public class HardDrop extends AbstractAction {
 	private final Audio soundEffect;
 
 	/**
-	 * @param tetroshow
+	 * Creates a new hard drop action.
+	 *
+	 * @param tetroshow Tetroshow on which to apply hard drop
 	 * @since 0.0.0
 	 */
 	public HardDrop(Tetroshow tetroshow) {
@@ -27,8 +29,10 @@ public class HardDrop extends AbstractAction {
 	}
 
 	/**
-	 * @param tetroshow
-	 * @param soundEffect
+	 * Creates a new hard drop action with a specified sound effect.
+	 *
+	 * @param tetroshow Tetroshow on which to apply hard drop
+	 * @param soundEffect sound effect to play when executed
 	 * @since 0.0.0
 	 */
 	public HardDrop(Tetroshow tetroshow, Audio soundEffect) {

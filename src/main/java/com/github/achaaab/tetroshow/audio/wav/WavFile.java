@@ -1,15 +1,13 @@
-package com.github.achaaab.tetroshow.codec.wav;
+package com.github.achaaab.tetroshow.audio.wav;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.achaaab.tetroshow.codec.wav.Chunk.DATA;
+import static com.github.achaaab.tetroshow.audio.wav.Chunk.DATA;
 import static java.nio.ByteOrder.LITTLE_ENDIAN;
-import static java.nio.charset.StandardCharsets.US_ASCII;
 
 /**
  * WAV file using the Resource Interchange File Format (RIFF) file structure.
@@ -21,7 +19,6 @@ import static java.nio.charset.StandardCharsets.US_ASCII;
 public class WavFile {
 
 	public static final ByteOrder BYTE_ORDER = LITTLE_ENDIAN;
-	public static final Charset CHARSET = US_ASCII;
 
 	private final Header header;
 	private final Format format;

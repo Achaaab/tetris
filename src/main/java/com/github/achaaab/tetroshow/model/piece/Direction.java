@@ -16,11 +16,13 @@ public record Direction(int dx, int dy, int dr) {
 	public static final Direction COUNTERCLOCKWISE = new Direction(0, 0, -1);
 
 	/**
-	 * @param direction
-	 * @return combinaison des 2 directions (this et direction)
+	 * Adds {@code this} and a given direction.
+	 *
+	 * @param direction direction to add
+	 * @return {@code this + direction}
 	 * @since 0.0.0
 	 */
-	public Direction combine(Direction direction) {
+	public Direction add(Direction direction) {
 
 		return new Direction(
 				dx + direction.dx,

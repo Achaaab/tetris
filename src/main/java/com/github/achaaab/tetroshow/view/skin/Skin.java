@@ -4,9 +4,10 @@ import com.github.achaaab.tetroshow.model.field.Cell;
 import com.github.achaaab.tetroshow.model.piece.Block;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 import com.github.achaaab.tetroshow.model.piece.State;
+import com.github.achaaab.tetroshow.settings.Settings;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.LOCKED;
 import static java.awt.Color.BLACK;
@@ -18,13 +19,23 @@ import static java.awt.Color.GRAY;
  */
 public interface Skin {
 
-	Color DEFAULT_BRACKGROUND_COLOR = BLACK;
+	Color DEFAULT_BRACKGROUND_COLOR = new Color(0, 0, 16);
 	Color DEFAULT_BORDER_COLOR = GRAY;
 
 	String ELECTRONIKA_60 = "Electronika 60";
 	String GLASS = "Glass";
 	String LCD = "LCD";
 	String[] SKINS = { ELECTRONIKA_60, GLASS, LCD };
+
+	/**
+	 * @return current skin
+	 * @since 0.0.0
+	 */
+	static Skin getCurrentSkin() {
+
+		var name = Settings.getDefaultInstance().getGraphics().getSkin();
+		return get(name);
+	}
 
 	/**
 	 * @param name skin name
@@ -66,7 +77,7 @@ public interface Skin {
 	 * @param state
 	 * @since 0.0.0
 	 */
-	void drawBlock(Graphics graphics, int x, int y, int size, Block block, State state);
+	void drawBlock(Graphics2D graphics, int x, int y, int size, Block block, State state);
 
 	/**
 	 * @param graphics
@@ -76,7 +87,7 @@ public interface Skin {
 	 * @param cell
 	 * @since 0.0.0
 	 */
-	default void drawCell(Graphics graphics, int x, int y, int size, Cell cell) {
+	default void drawCell(Graphics2D graphics, int x, int y, int size, Cell cell) {
 
 		cell.getBlock().ifPresent(block ->
 				drawBlock(graphics, x, y, size, block, LOCKED));
@@ -93,7 +104,7 @@ public interface Skin {
 	 * @param state piece state
 	 * @since 0.0.0
 	 */
-	default void drawPiece(Graphics graphics, Piece piece, int x, int y, int blockSize, State state) {
+	default void drawPiece(Graphics2D graphics, Piece piece, int x, int y, int blockSize, State state) {
 
 		var blocks = piece.getBlocks();
 

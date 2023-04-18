@@ -20,14 +20,16 @@ public class AbstractPiece implements Piece {
 	private int rotation;
 
 	/**
-	 * @param rotations
-	 * @param enteringColumn
-	 * @param clockwiseWallKicks
-	 * @param counterClockwiseWallKicks
+	 * Creates a new piece.
+	 *
+	 * @param rotations piece rotations
+	 * @param enteringColumn entering column
+	 * @param clockwiseWallKicks possible wall kicks when rotating clockwise
+	 * @param counterClockwiseWallKicks possible wall kicks when rotating counterclockwise
 	 * @since 0.0.0
 	 */
 	public AbstractPiece(List<List<Block>> rotations, int enteringColumn,
-						 List<List<Direction>> clockwiseWallKicks, List<List<Direction>> counterClockwiseWallKicks) {
+			List<List<Direction>> clockwiseWallKicks, List<List<Direction>> counterClockwiseWallKicks) {
 
 		this.rotations = rotations;
 		this.enteringColumn = enteringColumn;

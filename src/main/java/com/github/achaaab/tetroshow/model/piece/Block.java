@@ -15,9 +15,11 @@ public class Block {
 	private int y;
 
 	/**
-	 * @param color
-	 * @param x
-	 * @param y
+	 * Creates a new block.
+	 *
+	 * @param color block preferred color
+	 * @param x x block position in its container (piece or field for example)
+	 * @param y y block position in its container (piece or field for example)
 	 * @since 0.0.0
 	 */
 	public Block(Color color, int x, int y) {
@@ -28,7 +30,7 @@ public class Block {
 	}
 
 	/**
-	 * @return
+	 * @return block preferred color
 	 * @since 0.0.0
 	 */
 	public Color getColor() {
@@ -36,7 +38,7 @@ public class Block {
 	}
 
 	/**
-	 * @param color
+	 * @param color block preferred color
 	 * @since 0.0.0
 	 */
 	public void setColor(Color color) {
@@ -44,7 +46,7 @@ public class Block {
 	}
 
 	/**
-	 * @return
+	 * @return x block position in its container (piece or field for example)
 	 * @since 0.0.0
 	 */
 	public int getX() {
@@ -52,7 +54,7 @@ public class Block {
 	}
 
 	/**
-	 * @param x
+	 * @param x x block position in its container (piece or field for example)
 	 * @since 0.0.0
 	 */
 	public void setX(int x) {
@@ -60,7 +62,7 @@ public class Block {
 	}
 
 	/**
-	 * @return
+	 * @return y block position in its container (piece or field for example)
 	 * @since 0.0.0
 	 */
 	public int getY() {
@@ -68,7 +70,7 @@ public class Block {
 	}
 
 	/**
-	 * @param y
+	 * @param y y block position in its container (piece or field for example)
 	 * @since 0.0.0
 	 */
 	public void setY(int y) {

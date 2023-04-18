@@ -1,15 +1,10 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
-import com.github.achaaab.tetroshow.settings.Settings;
-import com.github.achaaab.tetroshow.view.skin.Skin;
+import com.github.achaaab.tetroshow.view.component.Component;
 
-import javax.swing.JComponent;
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.geom.Point2D;
@@ -30,12 +25,11 @@ import static java.lang.Math.round;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class ScoreView extends JComponent {
+public class ScoreView extends Component {
 
-	private static final int BORDER = scale(2.5f);
-	private static final int MARGIN = scale(5.0f);
+	private static final int MARGIN = scale(10.0f);
+	public static final int WIDTH = 2 * MARGIN + scale(120.0f);
 	private static final int LINE_SPACE = scale(5.0f);
-	private static final int PREFERRED_WIDTH = scale(120.0f);
 	private static final int FONT_SIZE = scale(20.0f);
 
 	private static final Font FONT = new Font(MONOSPACED, PLAIN, FONT_SIZE);
@@ -57,64 +51,54 @@ public class ScoreView extends JComponent {
 
 		this.tetroshow = tetroshow;
 
-		setPreferredSize(new Dimension(PREFERRED_WIDTH, 0));
+		width = WIDTH;
+		height = 0;
+		margin = MARGIN;
 	}
 
 	@Override
-	public void paint(Graphics graphics) {
+	public void paint(Graphics2D graphics) {
+
+		super.paint(graphics);
 
 		var level = tetroshow.getLevel();
 		var time = tetroshow.getTime();
 		var score = tetroshow.getScore();
 
-		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
-		var graphics2d = (Graphics2D) graphics;
-		graphics2d.setColor(skin.getBackgroundColor());
-		graphics2d.fillRect(0, 0, getWidth(), getHeight());
-		graphics2d.setFont(FONT);
+		graphics.setFont(FONT);
 
-		var previousStroke = graphics2d.getStroke();
-		graphics.setColor(skin.getBorderColor());
-		graphics2d.setStroke(new BasicStroke(BORDER));
-
-		graphics.drawRect(
-				round(BORDER / 2.0f),
-				round(BORDER / 2.0f),
-				getWidth() - BORDER,
-				getHeight() - BORDER);
-
-		graphics2d.setStroke(previousStroke);
-
-		var fontMetrics = graphics2d.getFontMetrics();
+		var fontMetrics = graphics.getFontMetrics();
 		var textHeight = fontMetrics.getHeight();
 		var textAscent = fontMetrics.getAscent();
 
-		var x = BORDER + MARGIN;
-		var y = BORDER + MARGIN;
+		var x = 0;
+		var y = 0;
 
 		y += textAscent;
-		drawString(graphics2d, getMessage(LEVEL), x, y, textHeight, KEY_COLORS);
+		drawString(graphics, getMessage(LEVEL), x, y, textHeight, KEY_COLORS);
 		y += textHeight + LINE_SPACE;
-		drawString(graphics2d, Integer.toString(level), x, y, textHeight, VALUE_COLORS);
+		drawString(graphics, Integer.toString(level), x, y, textHeight, VALUE_COLORS);
 
 		y += textHeight + LINE_SPACE + LINE_SPACE;
-		drawString(graphics2d, getMessage(SCORE), x, y, textHeight, KEY_COLORS);
+		drawString(graphics, getMessage(SCORE), x, y, textHeight, KEY_COLORS);
 		y += textHeight + LINE_SPACE;
-		drawString(graphics2d, Integer.toString(score), x, y, textHeight, VALUE_COLORS);
+		drawString(graphics, Integer.toString(score), x, y, textHeight, VALUE_COLORS);
 
 		y += textHeight + LINE_SPACE + LINE_SPACE;
-		drawString(graphics2d, getMessage(TIME), x, y, textHeight, KEY_COLORS);
+		drawString(graphics, getMessage(TIME), x, y, textHeight, KEY_COLORS);
 		y += textHeight + LINE_SPACE;
-		drawString(graphics2d, formatTime(time), x, y, textHeight, VALUE_COLORS);
+		drawString(graphics, formatTime(time), x, y, textHeight, VALUE_COLORS);
 	}
 
 	/**
-	 * @param graphics
+	 * Draws a text.
+	 *
+	 * @param graphics graphics with which to draw
 	 * @param text text to draw
-	 * @param x
-	 * @param y
-	 * @param height
-	 * @param colors
+	 * @param x x position of the text
+	 * @param y y position of the text
+	 * @param height height of the text
+	 * @param colors gradient colors
 	 * @since 0.0.0
 	 */
 	private void drawString(Graphics2D graphics, String text,

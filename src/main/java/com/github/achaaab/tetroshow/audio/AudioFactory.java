@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.audio;
 
+import com.github.achaaab.tetroshow.audio.wav.WavResource;
 import org.slf4j.Logger;
 
 import java.util.HashMap;

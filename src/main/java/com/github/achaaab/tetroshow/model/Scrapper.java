@@ -14,7 +14,7 @@ import static java.lang.Math.sin;
  */
 public class Scrapper {
 
-	private static final int FRACTION = 6;
+	private static final int FRACTION = 10;
 
 	private final double scrapSize;
 	private final double[][] vx;

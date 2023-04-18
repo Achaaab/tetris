@@ -61,5 +61,6 @@ This project is licensed under the GNU General Public License (GPL) - see the [L
 
 ## Acknowledgments
 * Background music via: [Fesliyan Studios](https://www.FesliyanStudios.com)
+* Fonts via: [1001 Fonts](https://www.1001fonts.com)
 * Japanese translation: Matthew Paddick
 * [sfxr](https://www.drpetter.se/project_sfxr.html): Tomas Pettersson

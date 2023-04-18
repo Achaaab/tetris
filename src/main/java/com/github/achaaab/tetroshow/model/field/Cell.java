@@ -42,7 +42,9 @@ public class Cell {
 	}
 
 	/**
-	 * @param block
+	 * Puts a block in this cell.
+	 *
+	 * @param block block to put
 	 * @since 0.0.0
 	 */
 	public void setBlock(Block block) {

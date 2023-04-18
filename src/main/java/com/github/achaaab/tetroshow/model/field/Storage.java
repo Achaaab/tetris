@@ -14,8 +14,8 @@ import static java.util.Optional.ofNullable;
  */
 public class Storage extends Grid {
 
-	private static final int WIDTH = 4;
-	private static final int HEIGHT = 2;
+	public static final int WIDTH = 4;
+	public static final int HEIGHT = 2;
 
 	/**
 	 * Creates a new storage.

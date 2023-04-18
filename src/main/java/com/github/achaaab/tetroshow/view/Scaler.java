@@ -16,10 +16,19 @@ public class Scaler {
 
 	/**
 	 * @param size normalized size for 72 DPI resolution
-	 * @return scaled size
+	 * @return scaled and rounded size
 	 * @since 0.0.0
 	 */
 	public static int scale(float size) {
-		return round(size * RESOLUTION / BASE_RESOLUTION);
+		return round(scaleFloat(size));
+	}
+
+	/**
+	 * @param size normalized size for 72 DPI resolution
+	 * @return scaled size
+	 * @since 0.0.0
+	 */
+	public static float scaleFloat(float size) {
+		return size * RESOLUTION / BASE_RESOLUTION;
 	}
 }

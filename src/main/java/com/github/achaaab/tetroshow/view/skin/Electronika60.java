@@ -5,7 +5,6 @@ import com.github.achaaab.tetroshow.model.piece.State;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
@@ -63,9 +62,7 @@ public class Electronika60 implements Skin {
 	}
 
 	@Override
-	public void drawBlock(Graphics graphics, int x, int y, int size, Block block, State state) {
-
-		var graphics2d = (Graphics2D) graphics;
+	public void drawBlock(Graphics2D graphics, int x, int y, int size, Block block, State state) {
 
 		var color = switch (state) {
 
@@ -77,8 +74,8 @@ public class Electronika60 implements Skin {
 				getGhostStroke(size) :
 				getDefaultStroke(size);
 
-		graphics2d.setStroke(stroke);
-		graphics2d.setColor(color);
+		graphics.setStroke(stroke);
+		graphics.setColor(color);
 
 		var x0 = x + round(0.15f * size);
 		var x1 = x + round(0.38f * size);
@@ -93,7 +90,7 @@ public class Electronika60 implements Skin {
 		var rightBracketX = new int[] { x2, x3, x3, x2 };
 		var rightBracketY = new int[] { y0, y0, y1, y1 };
 
-		graphics2d.drawPolyline(leftBracketX, leftBracketY, 4);
-		graphics2d.drawPolyline(rightBracketX, rightBracketY, 4);
+		graphics.drawPolyline(leftBracketX, leftBracketY, 4);
+		graphics.drawPolyline(rightBracketX, rightBracketY, 4);
 	}
 }

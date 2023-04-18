@@ -1,99 +1,74 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.field.Grid;
-import com.github.achaaab.tetroshow.settings.Settings;
-import com.github.achaaab.tetroshow.view.skin.Skin;
+import com.github.achaaab.tetroshow.view.component.Component;
 
-import javax.swing.JComponent;
-import java.awt.BasicStroke;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.ACTIF;
 import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.view.skin.Skin.getCurrentSkin;
 import static java.lang.Math.round;
 import static java.lang.Math.toIntExact;
 
 /**
+ * grid view
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class GridView extends JComponent {
+public class GridView extends Component {
 
-	public static final int DEFAULT_BORDER = scale(2.5f);
-	public static final int DEFAULT_CELL_SIZE = scale(20.0f);
-	public static final int DEFAULT_MARGIN = scale(0.0f);
+	public static final int CELL_SIZE = scale(20.0f);
 
-	protected final int border;
-	protected final int margin;
-	protected final int cellSize;
+	/**
+	 * Projects a coordinate from model referential to view referential.
+	 *
+	 * @param coordinate x or y coordinate in model referential
+	 * @return corresponding coordinate in view referential
+	 * @since 0.0.0
+	 */
+	protected static int project(double coordinate) {
+		return toIntExact(round(coordinate * CELL_SIZE));
+	}
 
 	private final Grid grid;
 	private final int gridWidth;
 	private final int gridHeight;
 
 	/**
-	 * @param grid modèle du champ
-	 * @since 0.0.0
-	 */
-	public GridView(Grid grid) {
-		this(grid, DEFAULT_BORDER, DEFAULT_MARGIN, DEFAULT_CELL_SIZE);
-	}
-
-	/**
 	 * Creates a new grid view.
 	 *
 	 * @param grid grid to display
-	 * @param border border width (in physical pixels)
-	 * @param margin left, right, top and bottom margin (in physical pixels)
-	 * @param cellSize cell width and height (in physical pixels)
+	 * @param margin margin (in physical pixels)
 	 * @since 0.0.0
 	 */
-	public GridView(Grid grid, int border, int margin, int cellSize) {
+	public GridView(Grid grid, int margin) {
 
 		this.grid = grid;
-		this.border = border;
 		this.margin = margin;
-		this.cellSize = cellSize;
 
 		gridWidth = grid.getWidth();
 		gridHeight = grid.getHeight();
 
-		var preferredWidth = border + margin + cellSize * gridWidth + margin + border;
-		var preferredHeight = border + margin + cellSize * gridHeight + margin + border;
-		var preferredSize = new Dimension(preferredWidth, preferredHeight);
-
-		setPreferredSize(preferredSize);
+		width = 2 * margin + CELL_SIZE * gridWidth;
+		height = 2 * margin + CELL_SIZE * gridHeight;
 	}
 
+
 	@Override
-	public void paint(Graphics graphics) {
+	public void paint(Graphics2D graphics) {
 
-		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
+		super.paint(graphics);
 
-		graphics.setColor(skin.getBackgroundColor());
-		graphics.fillRect(0, 0, getWidth(), getHeight());
-
-		var graphics2d = (Graphics2D) graphics;
-		var previousStroke = graphics2d.getStroke();
-		graphics.setColor(skin.getBorderColor());
-		graphics2d.setStroke(new BasicStroke(border));
-
-		graphics.drawRect(
-				round(border / 2.0f),
-				round(border / 2.0f),
-				getWidth() - border,
-				getHeight() - border);
-
-		graphics2d.setStroke(previousStroke);
+		var skin = getCurrentSkin();
 
 		for (var x = 0; x < gridWidth; x++) {
 
 			for (var y = 0; y < gridHeight; y++) {
 
 				var cell = grid.getCell(x, y);
-				skin.drawCell(graphics, project(x), project(y), cellSize, cell);
+				skin.drawCell(graphics, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, cell);
 			}
 		}
 
@@ -106,9 +81,9 @@ public class GridView extends JComponent {
 	 * @param graphics graphics with which to paint
 	 * @since 0.0.0
 	 */
-	protected void paintPieces(Graphics graphics) {
+	protected void paintPieces(Graphics2D graphics) {
 
-		var skin = Skin.get(Settings.getDefaultInstance().getGraphics().getSkin());
+		var skin = getCurrentSkin();
 
 		var pieces = grid.getPieces();
 
@@ -117,16 +92,7 @@ public class GridView extends JComponent {
 			var x = piece.getX();
 			var y = piece.getY();
 
-			skin.drawPiece(graphics, piece, project(x), project(y), cellSize, ACTIF);
+			skin.drawPiece(graphics, piece, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, ACTIF);
 		}
-	}
-
-	/**
-	 * @param gridCoordinate coordinate in grid model
-	 * @return coordinate on this view
-	 * @since 0.0.0
-	 */
-	protected int project(double gridCoordinate) {
-		return toIntExact(round(border + margin + gridCoordinate * cellSize));
 	}
 }

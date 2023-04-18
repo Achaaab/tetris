@@ -1,4 +1,4 @@
-package com.github.achaaab.tetroshow.codec.wav;
+package com.github.achaaab.tetroshow.audio.wav;
 
 import org.slf4j.Logger;
 
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-import static com.github.achaaab.tetroshow.codec.wav.WavFile.BYTE_ORDER;
 import static java.nio.ByteBuffer.wrap;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -51,7 +50,7 @@ public class Chunk {
 		}
 
 		buffer = wrap(bytes);
-		buffer.order(BYTE_ORDER);
+		buffer.order(WavFile.BYTE_ORDER);
 		id = readString();
 
 		if (expectedId != null && !id.equals(expectedId)) {
@@ -72,7 +71,7 @@ public class Chunk {
 			}
 
 			buffer = wrap(bytes);
-			buffer.order(BYTE_ORDER);
+			buffer.order(WavFile.BYTE_ORDER);
 			offset = 0;
 		}
 	}

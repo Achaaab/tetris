@@ -71,8 +71,10 @@ public class AudioPlayer {
 	}
 
 	/**
-	 * @param audio
-	 * @param wait
+	 * Plays an audio.
+	 *
+	 * @param audio audio to play
+	 * @param wait whether this method must wait the end of the audio before it returns
 	 * @since 0.0.0
 	 */
 	public void play(Audio audio, boolean wait) {
@@ -119,8 +121,10 @@ public class AudioPlayer {
 	}
 
 	/**
-	 * @param audio
-	 * @param line
+	 * Plays an audio on a specified line.
+	 *
+	 * @param audio audio to play
+	 * @param line line on which to play
 	 * @since 0.0.0
 	 */
 	private void play(Audio audio, SourceDataLine line) {
@@ -130,8 +134,10 @@ public class AudioPlayer {
 	}
 
 	/**
-	 * @param format
-	 * @return
+	 * Tries to get or opens a line available and supporting the specified format.
+	 *
+	 * @param format audio format
+	 * @return available line
 	 * @since 0.0.0
 	 */
 	public Optional<SourceDataLine> getAvailableLine(AudioFormat format) {
@@ -174,6 +180,8 @@ public class AudioPlayer {
 	}
 
 	/**
+	 * Tests if a line is available.
+	 *
 	 * @param line any line
 	 * @return whether the given line is available for playback
 	 * @since 0.0.0
@@ -183,6 +191,8 @@ public class AudioPlayer {
 	}
 
 	/**
+	 * Tests if a line has the same format as the given one.
+	 *
 	 * @param line any line
 	 * @param format any audio format
 	 * @return whether the given line has the given format

@@ -11,7 +11,9 @@ import com.github.achaaab.tetroshow.model.Tetroshow;
 public class Exit extends AbstractAction {
 
 	/**
-	 * @param tetroshow
+	 * Creates a new exit action.
+	 *
+	 * @param tetroshow Tetroshow to exit
 	 * @since 0.0.0
 	 */
 	public Exit(Tetroshow tetroshow) {

@@ -1,14 +1,13 @@
-package com.github.achaaab.tetroshow.audio;
+package com.github.achaaab.tetroshow.audio.wav;
 
-import com.github.achaaab.tetroshow.codec.wav.Format;
-import com.github.achaaab.tetroshow.codec.wav.WavFile;
+import com.github.achaaab.tetroshow.audio.AudioResource;
 import org.slf4j.Logger;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
 
-import static com.github.achaaab.tetroshow.codec.wav.WavFile.BYTE_ORDER;
+import static com.github.achaaab.tetroshow.audio.wav.WavFile.BYTE_ORDER;
 import static java.nio.ByteOrder.BIG_ENDIAN;
 import static org.slf4j.LoggerFactory.getLogger;
 

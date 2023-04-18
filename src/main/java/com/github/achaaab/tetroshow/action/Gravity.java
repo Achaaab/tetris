@@ -18,6 +18,8 @@ public class Gravity extends AbstractAction {
 	private int cumulatedForce;
 
 	/**
+	 * Creates a new gravity action.
+	 *
 	 * @param tetroshow Tetroshow on which to apply this gravity
 	 * @since 0.0.0
 	 */
