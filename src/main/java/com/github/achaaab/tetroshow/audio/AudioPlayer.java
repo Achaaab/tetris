@@ -129,8 +129,10 @@ public class AudioPlayer {
 	 */
 	private void play(Audio audio, SourceDataLine line) {
 
+		line.start();
 		audio.play(line);
 		line.drain();
+		line.stop();
 	}
 
 	/**
@@ -165,7 +167,6 @@ public class AudioPlayer {
 			var line = (SourceDataLine) AudioSystem.getLine(lineInformations);
 			line.open(format);
 			applyGain(line);
-			line.start();
 			lines.add(line);
 
 			LOGGER.info("there are now {} lines open", lines.size());

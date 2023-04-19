@@ -10,7 +10,7 @@ keys:
   "counterclockwise": 16
 
 graphics:
-  skin: "LCD"
+  skin: "Brick game"
   synchronizeState: true
 
 tracks:

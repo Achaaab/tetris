@@ -5,7 +5,6 @@ import com.github.achaaab.tetroshow.scene.MenuScene;
 import com.github.achaaab.tetroshow.scene.SceneManager;
 import org.slf4j.Logger;
 
-import static com.github.achaaab.tetroshow.view.Scaler.scale;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -29,7 +28,7 @@ public class Application {
 		var playlist = new Playlist();
 		new Thread(playlist, "playlist").start();
 
-		var sceneManager = new SceneManager("Tetroshow", scale(435), scale(505), 60);
+		var sceneManager = new SceneManager("Tetroshow", 60);
 		var menuScene = new MenuScene(sceneManager);
 		sceneManager.display(menuScene);
 		sceneManager.run();

@@ -6,6 +6,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.github.achaaab.tetroshow.utility.ResourceUtility.openInputStream;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.Arrays.binarySearch;
@@ -33,11 +34,10 @@ public class LevelSettings {
 	public LevelSettings(String type, String style, int defaultValue) {
 
 		var resourceName = style + "/" + type + SETTINGS_RESOURCE_SUFFIX;
-		var classLoader = LevelSettings.class.getClassLoader();
 
 		Map<Integer, Integer> values;
 
-		try (var inputStream = classLoader.getResourceAsStream(resourceName)) {
+		try (var inputStream = openInputStream(resourceName)) {
 
 			var yaml = new Yaml();
 			values = yaml.load(inputStream);

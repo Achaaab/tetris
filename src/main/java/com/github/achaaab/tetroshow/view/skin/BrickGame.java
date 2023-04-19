@@ -3,27 +3,34 @@ package com.github.achaaab.tetroshow.view.skin;
 import com.github.achaaab.tetroshow.model.field.Cell;
 import com.github.achaaab.tetroshow.model.piece.Block;
 import com.github.achaaab.tetroshow.model.piece.State;
+import com.github.achaaab.tetroshow.view.segment.MultiplexedDisplay;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.ACTIF;
 import static com.github.achaaab.tetroshow.model.piece.State.LOCKED;
 import static com.github.achaaab.tetroshow.model.piece.State.OFF;
+import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static java.awt.Font.BOLD;
+import static java.awt.Font.MONOSPACED;
 import static java.lang.Math.round;
 
 /**
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Lcd implements Skin {
+public class BrickGame implements Skin {
 
-	public static final Lcd INSTANCE = new Lcd();
+	public static final BrickGame INSTANCE = new BrickGame();
 
 	private static final Color BACKGROUND_COLOR = new Color(158, 173, 134);
 	private static final Color OFF_COLOR = new Color(135, 147, 114);
 	private static final Color ON_COLOR = new Color(0, 0, 0);
+	private static final int FONT_SIZE = scale(16.0f);
+	private static final Font FONT = new Font(MONOSPACED, BOLD, FONT_SIZE);
 
 	/**
 	 * private constructor ensuring singleton usage
@@ -31,7 +38,7 @@ public class Lcd implements Skin {
 	 * @see #INSTANCE
 	 * @since 0.0.0
 	 */
-	private Lcd() {
+	private BrickGame() {
 
 	}
 
@@ -96,5 +103,23 @@ public class Lcd implements Skin {
 				y + innerMargin,
 				size - 2 * innerMargin,
 				size - 2 * innerMargin);
+	}
+
+	@Override
+	public void drawTitle(Graphics2D graphics, String title, int x, int y) {
+
+		graphics.setColor(ON_COLOR);
+		graphics.setFont(FONT);
+		var fontMetrics = graphics.getFontMetrics();
+		var height = fontMetrics.getHeight();
+
+		graphics.drawString(title, x, y + height);
+	}
+
+	@Override
+	public void drawValue(Graphics2D graphics, String value, int x, int y) {
+
+		var multiplexedDisplay = new MultiplexedDisplay(6, ON_COLOR, OFF_COLOR);
+		multiplexedDisplay.display(value, graphics, x, y);
 	}
 }

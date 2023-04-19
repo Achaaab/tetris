@@ -1,19 +1,27 @@
 package com.github.achaaab.tetroshow.settings;
 
-import com.github.achaaab.tetroshow.Application;
+import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.achaaab.tetroshow.utility.ResourceUtility.openInputStream;
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
+ * Tetroshow settings
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class Settings {
 
-	private static final String RESOURCE_NAME = "tetroshow.yaml";
+	private static final Logger LOGGER = getLogger(Settings.class);
 
+	private static final String RESOURCE_NAME = "tetroshow.yaml";
 	private static final Settings DEFAULT_INSTANCE = load();
 
 	/**
@@ -32,10 +40,15 @@ public class Settings {
 	 */
 	private static Settings load() {
 
-		var yaml = new Yaml();
-		var classLoader = Application.class.getClassLoader();
-		var settingsInputStream = classLoader.getResourceAsStream(RESOURCE_NAME);
-		return yaml.loadAs(settingsInputStream, Settings.class);
+		try (var inputStream = openInputStream(RESOURCE_NAME)) {
+
+			var yaml = new Yaml();
+			return yaml.loadAs(inputStream, Settings.class);
+
+		} catch (IOException cause) {
+
+			throw new UncheckedIOException(cause);
+		}
 	}
 
 	private Map<String, Integer> keys;

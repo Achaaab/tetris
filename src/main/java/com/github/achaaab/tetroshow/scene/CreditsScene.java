@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
+ * credits scene
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -17,8 +19,8 @@ public class CreditsScene extends AbstractScene implements KeyListener {
 	private final CreditsView view;
 
 	/**
-	 * @param manager
-	 * @param parent
+	 * @param manager scene manager
+	 * @param parent parent scene
 	 * @since 0.0.0
 	 */
 	public CreditsScene(SceneManager manager, Scene parent) {

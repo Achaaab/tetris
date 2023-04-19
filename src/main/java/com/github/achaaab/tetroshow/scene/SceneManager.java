@@ -57,19 +57,16 @@ public class SceneManager implements Runnable {
 
 	/**
 	 * @param title window title
-	 * @param width window width in physical pixels
-	 * @param height window height in physical pixels
 	 * @param fps target frame rate in frames per second
 	 * @since 0.0.0
 	 */
-	public SceneManager(String title, int width, int height, double fps) {
+	public SceneManager(String title, double fps) {
 
 		targetFrameDuration = round(1_000_000_000 / fps);
 
 		invokeLater(() -> {
 
 			window = new JFrame(title);
-			window.setSize(width, height);
 			window.setDefaultCloseOperation(EXIT_ON_CLOSE);
 			window.setResizable(false);
 			window.setLocationRelativeTo(null);
@@ -156,6 +153,7 @@ public class SceneManager implements Runnable {
 			window.setContentPane(containerize(view));
 			window.validate();
 			window.pack();
+			window.setLocationRelativeTo(null);
 
 			scene.initialize();
 
@@ -166,7 +164,9 @@ public class SceneManager implements Runnable {
 	}
 
 	/**
-	 * @param scene
+	 * Exits a scene.
+	 *
+	 * @param scene scene to exit
 	 * @since 0.0.0
 	 */
 	public void exit(Scene scene) {

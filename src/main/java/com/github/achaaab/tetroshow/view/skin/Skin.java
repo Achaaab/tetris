@@ -7,11 +7,18 @@ import com.github.achaaab.tetroshow.model.piece.State;
 import com.github.achaaab.tetroshow.settings.Settings;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.LinearGradientPaint;
+import java.awt.geom.Point2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.LOCKED;
-import static java.awt.Color.BLACK;
+import static com.github.achaaab.tetroshow.view.Scaler.scale;
 import static java.awt.Color.GRAY;
+import static java.awt.Color.ORANGE;
+import static java.awt.Color.WHITE;
+import static java.awt.Font.MONOSPACED;
+import static java.awt.Font.PLAIN;
 
 /**
  * @author Jonathan Guéhenneux
@@ -19,13 +26,19 @@ import static java.awt.Color.GRAY;
  */
 public interface Skin {
 
+	int FONT_SIZE = scale(20.0f);
+	Font FONT = new Font(MONOSPACED, PLAIN, FONT_SIZE);
+	Color[] TITLE_COLORS = new Color[] { WHITE, WHITE, WHITE.darker(), WHITE, WHITE };
+	Color[] VALUE_COLORS = new Color[] { ORANGE, ORANGE, ORANGE.darker(), ORANGE, ORANGE };
+	float[] TEXT_GRADIENT_FRACTIONS = new float[] { 0.0f, 0.6f, 0.75f, 0.9f, 1.0f };
+
 	Color DEFAULT_BRACKGROUND_COLOR = new Color(0, 0, 16);
 	Color DEFAULT_BORDER_COLOR = GRAY;
 
 	String ELECTRONIKA_60 = "Electronika 60";
 	String GLASS = "Glass";
-	String LCD = "LCD";
-	String[] SKINS = { ELECTRONIKA_60, GLASS, LCD };
+	String BRICK_GAME = "Brick game";
+	String[] SKINS = { ELECTRONIKA_60, GLASS, BRICK_GAME };
 
 	/**
 	 * @return current skin
@@ -47,7 +60,7 @@ public interface Skin {
 		return switch (name) {
 
 			case ELECTRONIKA_60 -> Electronika60.INSTANCE;
-			case LCD -> Lcd.INSTANCE;
+			case BRICK_GAME -> BrickGame.INSTANCE;
 			default -> Glass.INSTANCE;
 		};
 	}
@@ -117,5 +130,46 @@ public interface Skin {
 				drawBlock(graphics, cellX, cellY, blockSize, block, state);
 			}
 		}
+	}
+
+	/**
+	 * @param graphics
+	 * @param title
+	 * @param x
+	 * @param y
+	 * @since 0.0.0
+	 */
+	default void drawTitle(Graphics2D graphics, String title, int x, int y) {
+
+		graphics.setFont(FONT);
+		var fontMetrics = graphics.getFontMetrics();
+		var height = fontMetrics.getHeight();
+		var top = new Point2D.Float(0, y);
+		var bottom = new Point2D.Float(0, y + height);
+		var gradient = new LinearGradientPaint(top, bottom, TEXT_GRADIENT_FRACTIONS, TITLE_COLORS);
+
+		graphics.setPaint(gradient);
+		graphics.drawString(title, x, y + height);
+	}
+
+	/**
+	 * @param graphics
+	 * @param value
+	 * @param x
+	 * @param y
+	 * @since 0.0.0
+	 */
+	default void drawValue(Graphics2D graphics, String value, int x, int y) {
+
+		graphics.setFont(FONT);
+
+		var fontMetrics = graphics.getFontMetrics();
+		var height = fontMetrics.getHeight();
+		var top = new Point2D.Float(0, y);
+		var bottom = new Point2D.Float(0, y + height);
+		var gradient = new LinearGradientPaint(top, bottom, TEXT_GRADIENT_FRACTIONS, VALUE_COLORS);
+
+		graphics.setPaint(gradient);
+		graphics.drawString(value, x, y + height);
 	}
 }

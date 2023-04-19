@@ -1,5 +1,7 @@
 package com.github.achaaab.tetroshow.audio;
 
+import com.github.achaaab.tetroshow.utility.ResourceUtility;
+
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.MissingResourceException;
@@ -28,8 +30,7 @@ public abstract class AudioResource implements Audio {
 	 */
 	public InputStream openInputStream() {
 
-		var classLoader = getClass().getClassLoader();
-		var inputStream = classLoader.getResourceAsStream(name);
+		var inputStream = ResourceUtility.openInputStream(name);
 
 		if (inputStream == null) {
 			throw new MissingResourceException("missing audio resource", name, null);
