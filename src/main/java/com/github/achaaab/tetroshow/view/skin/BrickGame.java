@@ -3,7 +3,6 @@ package com.github.achaaab.tetroshow.view.skin;
 import com.github.achaaab.tetroshow.model.field.Cell;
 import com.github.achaaab.tetroshow.model.piece.Block;
 import com.github.achaaab.tetroshow.model.piece.State;
-import com.github.achaaab.tetroshow.view.segment.MultiplexedDisplay;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,7 +12,9 @@ import java.awt.Graphics2D;
 import static com.github.achaaab.tetroshow.model.piece.State.ACTIF;
 import static com.github.achaaab.tetroshow.model.piece.State.LOCKED;
 import static com.github.achaaab.tetroshow.model.piece.State.OFF;
+import static com.github.achaaab.tetroshow.utility.ResourceUtility.loadFont;
 import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.view.Scaler.scaleFloat;
 import static java.awt.Font.BOLD;
 import static java.awt.Font.MONOSPACED;
 import static java.lang.Math.round;
@@ -30,7 +31,9 @@ public class BrickGame implements Skin {
 	private static final Color OFF_COLOR = new Color(135, 147, 114);
 	private static final Color ON_COLOR = new Color(0, 0, 0);
 	private static final int FONT_SIZE = scale(16.0f);
+	private static final Font VALUE_FONT = loadFont("font/digital-7.ttf").deriveFont(scaleFloat(28.0f));
 	private static final Font FONT = new Font(MONOSPACED, BOLD, FONT_SIZE);
+	private static final int DIGIT_COUNT = 8;
 
 	/**
 	 * private constructor ensuring singleton usage
@@ -119,7 +122,21 @@ public class BrickGame implements Skin {
 	@Override
 	public void drawValue(Graphics2D graphics, String value, int x, int y) {
 
-		var multiplexedDisplay = new MultiplexedDisplay(6, ON_COLOR, OFF_COLOR);
-		multiplexedDisplay.display(value, graphics, x, y);
+		var valueLength = value.length();
+
+		var displayedValue = valueLength > DIGIT_COUNT ?
+				value.substring(valueLength - DIGIT_COUNT) :
+				" ".repeat(DIGIT_COUNT - valueLength) + value;
+
+		graphics.setFont(VALUE_FONT);
+		var fontMetrics = graphics.getFontMetrics();
+		var height = fontMetrics.getHeight();
+
+		graphics.setColor(OFF_COLOR);
+		var maskValue = displayedValue.replaceAll("[^:]", "8");
+		graphics.drawString(maskValue, x, y + height);
+
+		graphics.setColor(ON_COLOR);
+		graphics.drawString(displayedValue, x, y + height);
 	}
 }

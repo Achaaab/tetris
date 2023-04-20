@@ -54,13 +54,15 @@ The list of improvements and missing features is immeasurable.
 Slow-mode project, probably doomed not to be finished. Contributions are still welcome.
 
 ## Authors
-* **Jonathan Guéhenneux** - *Progammer* - [Achaaab](https://github.com/Achaaab)
+* **Jonathan Guéhenneux** - *Programmer* - [Achaaab](https://github.com/Achaaab)
 
 ## License
 This project is licensed under the GNU General Public License (GPL) - see the [LICENSE.md](LICENSE.md) for the details.
 
 ## Acknowledgments
 * Background music via: [Fesliyan Studios](https://www.FesliyanStudios.com)
-* Fonts via: [1001 Fonts](https://www.1001fonts.com)
-* Japanese translation: Matthew Paddick
 * [sfxr](https://www.drpetter.se/project_sfxr.html): Tomas Pettersson
+* Japanese translation: Matthew Paddick
+* Fonts via: [1001 Fonts](https://www.1001fonts.com)
+* Font "Digital-7": Sizenko Alexander, [Style-7](http://www.styleseven.com)
+* Font "Monofonto": Raymond Larabie

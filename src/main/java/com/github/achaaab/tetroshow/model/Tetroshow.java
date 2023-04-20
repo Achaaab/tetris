@@ -6,11 +6,11 @@ import com.github.achaaab.tetroshow.action.Hold;
 import com.github.achaaab.tetroshow.action.Keyboard;
 import com.github.achaaab.tetroshow.action.Lock;
 import com.github.achaaab.tetroshow.action.Move;
-import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.model.field.Playfield;
 import com.github.achaaab.tetroshow.model.field.Preview;
 import com.github.achaaab.tetroshow.model.field.Storage;
 import com.github.achaaab.tetroshow.model.piece.Piece;
+import com.github.achaaab.tetroshow.settings.Settings;
 import org.slf4j.Logger;
 
 import java.util.Optional;
@@ -239,9 +239,10 @@ public class Tetroshow implements GameComponent {
 	public boolean lockFallingPiece() {
 
 		var locked = playfield.lock(fallingPiece);
+		cancelLocking();
 
 		fallingPiece = null;
-		cancelLocking();
+		level++;
 
 		return locked;
 	}
