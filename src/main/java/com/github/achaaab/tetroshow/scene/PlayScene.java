@@ -21,8 +21,10 @@ public class PlayScene extends AbstractScene {
 	private final TetroshowView view;
 
 	/**
-	 * @param manager
-	 * @param parent
+	 * Creates a play scene.
+	 *
+	 * @param manager scene manager
+	 * @param parent parent scene
 	 * @since 0.0.0
 	 */
 	public PlayScene(SceneManager manager, Scene parent) {

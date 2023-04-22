@@ -20,6 +20,8 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
+ * scene manager
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -147,14 +149,18 @@ public class SceneManager implements Runnable {
 
 			LOGGER.info("displaying scene {}", scene);
 
-			this.scene = scene;
-
 			var view = scene.getView();
 			window.setContentPane(containerize(view));
 			window.validate();
 			window.pack();
-			window.setLocationRelativeTo(null);
 
+			if (this.scene == null) {
+
+				// this is the first scene to display, we center the window on the screen
+				window.setLocationRelativeTo(null);
+			}
+
+			this.scene = scene;
 			scene.initialize();
 
 		} else {

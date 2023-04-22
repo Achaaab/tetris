@@ -28,6 +28,16 @@ public class Keyboard extends AbstractAction implements KeyListener {
 
 	private static final int KEY_COUNT = 1024;
 
+	private final int clockwiseKey;
+	private final int counterclockwiseKey;
+	private final int leftKey;
+	private final int rightKey;
+	private final int softDropKey;
+	private final int hardDropKey;
+	private final int holdKey;
+	private final int pauseKey;
+	private final int exitKey;
+
 	private final Move rotateClockwise;
 	private final Move rotateCounterclockwise;
 	private final Move moveLeft;
@@ -70,15 +80,15 @@ public class Keyboard extends AbstractAction implements KeyListener {
 
 		var keys = settings.getKeys();
 
-		var clockwiseKey = keys.get("clockwise");
-		var counterclockwiseKey = keys.get("counterclockwise");
-		var leftKey = keys.get("left");
-		var rightKey = keys.get("right");
-		var softDropKey = keys.get("soft_drop");
-		var hardDropKey = keys.get("hard_drop");
-		var holdKey = keys.get("hold");
-		var pauseKey = keys.get("pause");
-		var exitKey = keys.get("exit");
+		clockwiseKey = keys.get("clockwise");
+		counterclockwiseKey = keys.get("counterclockwise");
+		leftKey = keys.get("left");
+		rightKey = keys.get("right");
+		softDropKey = keys.get("soft_drop");
+		hardDropKey = keys.get("hard_drop");
+		holdKey = keys.get("hold");
+		pauseKey = keys.get("pause");
+		exitKey = keys.get("exit");
 
 		keyMapping.put(rotateClockwise, clockwiseKey);
 		keyMapping.put(rotateCounterclockwise, counterclockwiseKey);
@@ -178,32 +188,39 @@ public class Keyboard extends AbstractAction implements KeyListener {
 	 */
 	private void executeTranslate() {
 
-		if (!execute(moveRight, false)) {
+		if (execute(moveRight, false)) {
 
-			if (!execute(moveLeft, false)) {
+			// we just pressed right key, we force left key release
+			pressedKeys[leftKey] = false;
 
-				var rightKey = keyMapping.get(moveRight);
-				var leftKey = keyMapping.get(moveLeft);
+		} else if (execute(moveLeft, false)) {
 
-				if (isEffective(rightKey, true)) {
+			// we just pressed left key, we force right key release
+			pressedKeys[rightKey] = false;
 
-					if (isEffective(leftKey, true)) {
+		} else {
 
-						if (frame[leftKey] > frame[rightKey]) {
-							moveLeft.execute();
-						} else {
-							moveRight.execute();
-						}
+			var rightKey = keyMapping.get(moveRight);
+			var leftKey = keyMapping.get(moveLeft);
 
+			if (isEffective(rightKey, true)) {
+
+				if (isEffective(leftKey, true)) {
+
+					if (frame[leftKey] > frame[rightKey]) {
+						moveLeft.execute();
 					} else {
-
 						moveRight.execute();
 					}
 
-				} else if (isEffective(leftKey, true)) {
+				} else {
 
-					moveLeft.execute();
+					moveRight.execute();
 				}
+
+			} else if (isEffective(leftKey, true)) {
+
+				moveLeft.execute();
 			}
 		}
 	}

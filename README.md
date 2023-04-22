@@ -62,7 +62,7 @@ This project is licensed under the GNU General Public License (GPL) - see the [L
 ## Acknowledgments
 * [AudioCue](https://github.com/philfrei/AudioCue-maven): [Phil Freihofner](https://adonax.com/)
 * Background music via: [Fesliyan Studios](https://www.FesliyanStudios.com)
-* [sfxr](https://www.drpetter.se/project_sfxr.html): Tomas Pettersson
+* [sfxr](https://www.drpetter.se/project_sfxr.html): [Tomas Pettersson](https://www.drpetter.se/index.html)
 * Japanese translation: Matthew Paddick
 * Fonts via: [1001 Fonts](https://www.1001fonts.com)
 * Font "Digital-7": Sizenko Alexander, [Style-7](http://www.styleseven.com)

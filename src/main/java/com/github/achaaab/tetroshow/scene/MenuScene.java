@@ -19,7 +19,9 @@ public class MenuScene extends AbstractScene {
 	private final CreditsScene creditsScene;
 
 	/**
-	 * @param manager
+	 * Creates a menu scene.
+	 *
+	 * @param manager scene manager
 	 * @since 0.0.0
 	 */
 	public MenuScene(SceneManager manager) {
@@ -43,7 +45,7 @@ public class MenuScene extends AbstractScene {
 	}
 
 	/**
-	 * @param event
+	 * @param event play action event
 	 * @since 0.0.0
 	 */
 	public void play(ActionEvent event) {
@@ -51,7 +53,7 @@ public class MenuScene extends AbstractScene {
 	}
 
 	/**
-	 * @param event
+	 * @param event options action event
 	 * @since 0.0.0
 	 */
 	public void options(ActionEvent event) {
@@ -59,7 +61,7 @@ public class MenuScene extends AbstractScene {
 	}
 
 	/**
-	 * @param event
+	 * @param event credits action event
 	 * @since 0.0.0
 	 */
 	public void credits(ActionEvent event) {
@@ -67,7 +69,7 @@ public class MenuScene extends AbstractScene {
 	}
 
 	/**
-	 * @param event
+	 * @param event back action event
 	 * @since 0.0.0
 	 */
 	private void back(ActionEvent event) {

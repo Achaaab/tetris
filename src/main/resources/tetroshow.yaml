@@ -11,7 +11,7 @@ keys:
 
 graphics:
   skin: "Brick game"
-  synchronizeState: false
+  synchronizeState: true
 
 tracks:
   - "audio/track/retro_platforming.mp3"
@@ -23,9 +23,9 @@ tracks:
 gameplay:
   holdLimit: 1
 
-gravity: "tgm2_master"
-are: "tgm2_master"
-lineAre: "tgm2_master"
-das: "tgm2_master"
-lock: "tgm2_master"
-clear: "tgm2_master"
+gravity: "tgm3_master"
+are: "tgm3_master"
+lineAre: "tgm3_master"
+das: "tgm3_master"
+lock: "tgm3_master"
+clear: "tgm3_master"

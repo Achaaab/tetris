@@ -5,6 +5,8 @@ import java.util.Optional;
 import static java.util.Optional.ofNullable;
 
 /**
+ * abstract scene with a scene manager and optionally a parent scene
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -14,7 +16,9 @@ public abstract class AbstractScene implements Scene {
 	private final Scene parent;
 
 	/**
-	 * @param manager
+	 * Creates an abstract scene.
+	 *
+	 * @param manager scene manager
 	 * @since 0.0.0
 	 */
 	public AbstractScene(SceneManager manager) {
@@ -22,8 +26,10 @@ public abstract class AbstractScene implements Scene {
 	}
 
 	/**
-	 * @param manager
-	 * @param parent
+	 * Creates an abstract scene.
+	 *
+	 * @param manager scene manager
+	 * @param parent parent scene
 	 * @since 0.0.0
 	 */
 	public AbstractScene(SceneManager manager, Scene parent) {

@@ -25,13 +25,13 @@ public interface Scene {
 	void update(double deltaTime);
 
 	/**
-	 * @return
+	 * @return view of this scene
 	 * @since 0.0.0
 	 */
 	Component getView();
 
 	/**
-	 * @return
+	 * @return parent scene of this scene
 	 * @since 0.0.0
 	 */
 	Optional<Scene> getParent();
