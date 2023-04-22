@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
-import static com.github.achaaab.tetroshow.view.Scaler.scaleFloat;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scaleFloat;
 import static com.github.achaaab.tetroshow.view.skin.Skin.getCurrentSkin;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 import static java.lang.Math.round;

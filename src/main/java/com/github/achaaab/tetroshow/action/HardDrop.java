@@ -1,11 +1,10 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.getAudio;
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 
 /**
@@ -16,7 +15,7 @@ import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
  */
 public class HardDrop extends AbstractAction {
 
-	private final Audio soundEffect;
+	private final SoundEffect soundEffect;
 
 	/**
 	 * Creates a new hard drop action.
@@ -25,7 +24,7 @@ public class HardDrop extends AbstractAction {
 	 * @since 0.0.0
 	 */
 	public HardDrop(Tetroshow tetroshow) {
-		this(tetroshow, getAudio("audio/effect/hard_drop.wav"));
+		this(tetroshow, getSoundEffect("audio/effect/hard_drop.wav", 1));
 	}
 
 	/**
@@ -35,7 +34,7 @@ public class HardDrop extends AbstractAction {
 	 * @param soundEffect sound effect to play when executed
 	 * @since 0.0.0
 	 */
-	public HardDrop(Tetroshow tetroshow, Audio soundEffect) {
+	public HardDrop(Tetroshow tetroshow, SoundEffect soundEffect) {
 
 		super(tetroshow);
 
@@ -62,7 +61,7 @@ public class HardDrop extends AbstractAction {
 		}
 
 		if (tetroshow.lockFallingPiece()) {
-			SOUND_EFFECT.play(soundEffect, false);
+			soundEffect.play();
 		} else {
 			tetroshow.exit();
 		}

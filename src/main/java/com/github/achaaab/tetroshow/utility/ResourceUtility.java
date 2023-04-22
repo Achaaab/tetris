@@ -7,6 +7,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
@@ -43,6 +44,18 @@ public class ResourceUtility {
 	 */
 	public static InputStream openInputStream(String resourceName) {
 		return CLASS_LOADER.getResourceAsStream(resourceName);
+	}
+
+	/**
+	 * Gets a URL to a named resource.
+	 *
+	 * @param resourceName name of the resource
+	 * @return URL to the resource
+	 */
+	public static URL getResourceUrl(String resourceName) {
+
+		var url = CLASS_LOADER.getResource(resourceName);
+		return requireNonNull(url);
 	}
 
 	/**

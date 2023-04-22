@@ -1,9 +1,8 @@
 package com.github.achaaab.tetroshow.audio;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.SourceDataLine;
-
 /**
+ * audio
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -16,16 +15,15 @@ public interface Audio {
 	String name();
 
 	/**
-	 * @return format of this audio, {@code null} if the audio could not be decoded
+	 * @param volume in {@code [0.0, 1.0]}
 	 * @since 0.0.0
 	 */
-	AudioFormat getFormat();
+	void setVolume(double volume);
 
 	/**
 	 * Plays this audio.
 	 *
-	 * @param line line on which to play
 	 * @since 0.0.0
 	 */
-	void play(SourceDataLine line);
+	void play();
 }

@@ -5,6 +5,7 @@ import com.github.achaaab.tetroshow.scene.MenuScene;
 import com.github.achaaab.tetroshow.scene.SceneManager;
 import org.slf4j.Logger;
 
+import static java.lang.System.exit;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -18,6 +19,8 @@ public class Application {
 	private static final Logger LOGGER = getLogger(Application.class);
 
 	/**
+	 * application main method
+	 *
 	 * @param arguments none
 	 * @since 0.0.0
 	 */
@@ -34,6 +37,6 @@ public class Application {
 		sceneManager.run();
 
 		LOGGER.info("exit");
-		System.exit(0);
+		exit(0);
 	}
 }

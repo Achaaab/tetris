@@ -2,7 +2,7 @@ package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.field.Storage;
 
-import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 
 /**
  * storage view

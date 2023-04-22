@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
-import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Messages.CREDITS;
 import static com.github.achaaab.tetroshow.view.message.Messages.OPTIONS;
 import static com.github.achaaab.tetroshow.view.message.Messages.PLAY;
@@ -68,7 +68,7 @@ public class MenuView extends JPanel {
 	}
 
 	/**
-	 * @param playListener
+	 * @param playListener play action listener
 	 * @since 0.0.0
 	 */
 	public void onPlay(ActionListener playListener) {
@@ -76,7 +76,7 @@ public class MenuView extends JPanel {
 	}
 
 	/**
-	 * @param optionsListener
+	 * @param optionsListener options action listener
 	 * @since 0.0.0
 	 */
 	public void onOptions(ActionListener optionsListener) {
@@ -84,7 +84,7 @@ public class MenuView extends JPanel {
 	}
 
 	/**
-	 * @param creditsListener
+	 * @param creditsListener credits action listener
 	 * @since 0.0.0
 	 */
 	public void onCredits(ActionListener creditsListener) {
@@ -92,7 +92,7 @@ public class MenuView extends JPanel {
 	}
 
 	/**
-	 * @param quitListener
+	 * @param quitListener quit action listener
 	 * @since 0.0.0
 	 */
 	public void onQuit(ActionListener quitListener) {

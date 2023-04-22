@@ -18,7 +18,7 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 
-import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Language.getLanguage;
 import static com.github.achaaab.tetroshow.view.message.Messages.BACK;
 import static com.github.achaaab.tetroshow.view.message.Messages.LANGUAGE;
@@ -38,6 +38,8 @@ import static javax.swing.SwingConstants.HORIZONTAL;
  */
 public class OptionView extends JPanel {
 
+	private static final int VOLUME_SCALE = 10;
+
 	private static final int FONT_SIZE = 18;
 	private static final Font FONT = new Font(DIALOG, PLAIN, scale(FONT_SIZE));
 
@@ -47,11 +49,11 @@ public class OptionView extends JPanel {
 	private final JLabel skinLabel;
 	private final JComboBox<String> skins;
 
-	private final JLabel musicGainLabel;
-	private final JSlider musicGain;
+	private final JLabel musicVolumeLabel;
+	private final JSlider musicVolume;
 
-	private final JLabel soundFxGainLabel;
-	private final JSlider soundFxGain;
+	private final JLabel soundEffectVolumeLabel;
+	private final JSlider soundEffectVolume;
 
 	private final JButton back;
 
@@ -68,11 +70,11 @@ public class OptionView extends JPanel {
 		skinLabel = new JLabel(getMessage(SKIN));
 		skins = new JComboBox<>(SKINS);
 
-		musicGainLabel = new JLabel(getMessage(MUSIC_GAIN));
-		musicGain = new JSlider(HORIZONTAL, -80, 0, 0);
+		musicVolumeLabel = new JLabel(getMessage(MUSIC_GAIN));
+		musicVolume = new JSlider(HORIZONTAL, 0, VOLUME_SCALE, VOLUME_SCALE);
 
-		soundFxGainLabel = new JLabel(getMessage(SOUND_FX_GAIN));
-		soundFxGain = new JSlider(HORIZONTAL, -80, 0, 0);
+		soundEffectVolumeLabel = new JLabel(getMessage(SOUND_FX_GAIN));
+		soundEffectVolume = new JSlider(HORIZONTAL, 0, VOLUME_SCALE, VOLUME_SCALE);
 
 		back = new JButton(getMessage(BACK));
 
@@ -80,8 +82,8 @@ public class OptionView extends JPanel {
 		languages.setFont(FONT);
 		skinLabel.setFont(FONT);
 		skins.setFont(FONT);
-		musicGainLabel.setFont(FONT);
-		soundFxGainLabel.setFont(FONT);
+		musicVolumeLabel.setFont(FONT);
+		soundEffectVolumeLabel.setFont(FONT);
 		back.setFont(FONT);
 
 		var currentLocale = Messages.getLocale();
@@ -136,25 +138,25 @@ public class OptionView extends JPanel {
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		add(musicGainLabel, constraints);
+		add(musicVolumeLabel, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		add(musicGain, constraints);
+		add(musicVolume, constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		add(soundFxGainLabel, constraints);
+		add(soundEffectVolumeLabel, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		add(soundFxGain, constraints);
+		add(soundEffectVolume, constraints);
 
 		constraints.gridx = 1;
 		constraints.gridy = 4;
@@ -170,13 +172,13 @@ public class OptionView extends JPanel {
 
 		languageLabel.setText(getMessage(LANGUAGE));
 		skinLabel.setText(getMessage(SKIN));
-		musicGainLabel.setText(getMessage(MUSIC_GAIN));
-		soundFxGainLabel.setText(getMessage(SOUND_FX_GAIN));
+		musicVolumeLabel.setText(getMessage(MUSIC_GAIN));
+		soundEffectVolumeLabel.setText(getMessage(SOUND_FX_GAIN));
 		back.setText(getMessage(BACK));
 	}
 
 	/**
-	 * @param listener
+	 * @param listener language change listener
 	 * @since 0.0.0
 	 */
 	public void onLanguageChanged(ItemListener listener) {
@@ -184,7 +186,7 @@ public class OptionView extends JPanel {
 	}
 
 	/**
-	 * @param listener
+	 * @param listener skin change listener
 	 * @since 0.0.0
 	 */
 	public void onSkinChanged(ItemListener listener) {
@@ -192,26 +194,42 @@ public class OptionView extends JPanel {
 	}
 
 	/**
-	 * @param listener
+	 * @param listener music volume change listener
 	 * @since 0.0.0
 	 */
-	public void onMusicGainChanged(ChangeListener listener) {
-		musicGain.addChangeListener(listener);
+	public void onMusicVolumeChanged(ChangeListener listener) {
+		musicVolume.addChangeListener(listener);
 	}
 
 	/**
-	 * @param listener
+	 * @param listener sound effect volume change listener
 	 * @since 0.0.0
 	 */
-	public void onSoundFxChanged(ChangeListener listener) {
-		soundFxGain.addChangeListener(listener);
+	public void onSoundEffectVolumeChanged(ChangeListener listener) {
+		soundEffectVolume.addChangeListener(listener);
 	}
 
 	/**
-	 * @param listener
+	 * @param listener back action listener
 	 * @since 0.0.0
 	 */
 	public void onBack(ActionListener listener) {
 		back.addActionListener(listener);
+	}
+
+	/**
+	 * @return music amplitude ratio (in {@code [0.0, 1.0]})
+	 * @since 0.0.0
+	 */
+	public double getMusicVolume() {
+		return musicVolume.getValue() / (double) VOLUME_SCALE;
+	}
+
+	/**
+	 * @return sound effects amplitude ratio (in {@code [0.0, 1.0]})
+	 * @since 0.0.0
+	 */
+	public double getSoundEffectVolume() {
+		return soundEffectVolume.getValue() / (double) VOLUME_SCALE;
 	}
 }

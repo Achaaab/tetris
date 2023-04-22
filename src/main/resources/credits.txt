@@ -80,3 +80,15 @@ Raymond Larabie
 "Digital-7"
 Sizenko Alexander - Style-7
 http://www.styleseven.com
+
+
+
+
+*** Libraries ***
+
+
+"AudioCue"
+Philip Freihofner
+
+
+"JLayer"

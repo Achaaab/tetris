@@ -15,21 +15,20 @@ import java.io.IOException;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * MP3 resource
+ * MP3 background track
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Mp3Resource extends AudioResource {
+public class Mp3Track extends Track {
 
-	private static final Logger LOGGER = getLogger(Mp3Resource.class);
+	private static final Logger LOGGER = getLogger(Mp3Track.class);
 
 	public static final String EXTENSION = "mp3";
 	private static final boolean SIGNED = true;
 	private static final boolean BIG_ENDIAN = false;
 	private static final int SAMPLE_SIZE = 16;
 
-	private AudioFormat format;
 	private byte[] lineBuffer;
 
 	/**
@@ -38,7 +37,7 @@ public class Mp3Resource extends AudioResource {
 	 * @param name MP3 resource name
 	 * @since 0.0.0
 	 */
-	public Mp3Resource(String name) {
+	public Mp3Track(String name) {
 
 		super(name);
 
@@ -49,42 +48,48 @@ public class Mp3Resource extends AudioResource {
 			var frame = decodeFrame(bitstream, decoder);
 			var frameRate = frame.getSampleFrequency();
 			var channelCount = frame.getChannelCount();
+
 			format = new AudioFormat(frameRate, SAMPLE_SIZE, channelCount, SIGNED, BIG_ENDIAN);
+			openLine();
 
 		} catch (IOException | BitstreamException | DecoderException exception) {
 
 			LOGGER.error("MP3 decoding error", exception);
+			line = null;
 		}
 	}
 
 	@Override
-	public AudioFormat getFormat() {
-		return format;
-	}
+	public void play() {
 
-	@Override
-	public void play(SourceDataLine line) {
+		if (line != null) {
 
-		try (var inputStream = openInputStream()) {
+			try (var inputStream = openInputStream()) {
 
-			var bitstream = new Bitstream(inputStream);
-			var decoder = new Decoder();
-			var frame = decodeFrame(bitstream, decoder);
+				line.start();
 
-			if (frame != null) {
+				var bitstream = new Bitstream(inputStream);
+				var decoder = new Decoder();
+				var frame = decodeFrame(bitstream, decoder);
 
-				playFrame(frame, line);
+				if (frame != null) {
 
-				while ((frame = decodeFrame(bitstream, decoder)) != null) {
 					playFrame(frame, line);
+
+					while ((frame = decodeFrame(bitstream, decoder)) != null) {
+						playFrame(frame, line);
+					}
 				}
 
+			} catch (BitstreamException | DecoderException | LineUnavailableException | IOException exception) {
+
+				LOGGER.error("MP3 playing error: {}", name, exception);
+
+			} finally {
+
 				line.drain();
+				line.stop();
 			}
-
-		} catch (BitstreamException | DecoderException | LineUnavailableException | IOException exception) {
-
-			LOGGER.error("MP3 playing error: {}", name, exception);
 		}
 	}
 

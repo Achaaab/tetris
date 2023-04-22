@@ -1,10 +1,9 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.getAudio;
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 
 /**
  * action of locking a Tetroshow piece
@@ -14,7 +13,7 @@ import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
  */
 public class Lock extends AbstractAction {
 
-	private final Audio soundEffect;
+	private final SoundEffect soundEffect;
 
 	private boolean active;
 	private int frameCounter;
@@ -26,7 +25,7 @@ public class Lock extends AbstractAction {
 	 * @since 0.0.0
 	 */
 	public Lock(Tetroshow tetroshow) {
-		this(tetroshow, getAudio("audio/effect/lock.wav"));
+		this(tetroshow, getSoundEffect("audio/effect/lock.wav", 1));
 	}
 
 	/**
@@ -36,7 +35,7 @@ public class Lock extends AbstractAction {
 	 * @param soundEffect sound effect to play when executing this lock
 	 * @since 0.0.0
 	 */
-	public Lock(Tetroshow tetroshow, Audio soundEffect) {
+	public Lock(Tetroshow tetroshow, SoundEffect soundEffect) {
 
 		super(tetroshow);
 
@@ -60,7 +59,7 @@ public class Lock extends AbstractAction {
 				frameCounter = 0;
 
 				if (tetroshow.lockFallingPiece()) {
-					SOUND_EFFECT.play(soundEffect, false);
+					soundEffect.play();
 				} else {
 					tetroshow.exit();
 				}

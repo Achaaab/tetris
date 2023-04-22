@@ -1,17 +1,14 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Direction;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.getAudio;
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.model.piece.Direction.CLOCKWISE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.COUNTERCLOCKWISE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
-import static com.github.achaaab.tetroshow.model.piece.Direction.LEFT;
-import static com.github.achaaab.tetroshow.model.piece.Direction.RIGHT;
 
 /**
  * piece moving action
@@ -22,7 +19,7 @@ import static com.github.achaaab.tetroshow.model.piece.Direction.RIGHT;
 public class Move extends AbstractAction {
 
 	private final Direction direction;
-	private final Audio soundEffect;
+	private final SoundEffect soundEffect;
 
 	/**
 	 * Creates a new move action.
@@ -37,12 +34,7 @@ public class Move extends AbstractAction {
 
 		this.direction = direction;
 
-		if (direction == LEFT || direction == RIGHT || direction == DOWN) {
-			soundEffect = getAudio("audio/effect/move.wav");
-			SOUND_EFFECT.getAvailableLine(soundEffect.getFormat());
-		} else {
-			soundEffect = null;
-		}
+		soundEffect = getSoundEffect("audio/effect/move.wav", 6);
 	}
 
 	@Override
@@ -79,7 +71,7 @@ public class Move extends AbstractAction {
 		if (movePossible) {
 
 			piece.move(direction);
-			SOUND_EFFECT.play(soundEffect, false);
+			soundEffect.play();
 
 			if (direction == DOWN) {
 				tetroshow.increaseDropBonus();

@@ -9,7 +9,7 @@ import java.awt.Graphics;
 import java.util.List;
 
 import static com.github.achaaab.tetroshow.utility.ResourceUtility.loadFont;
-import static com.github.achaaab.tetroshow.view.Scaler.scaleFloat;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scaleFloat;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.lang.Math.round;

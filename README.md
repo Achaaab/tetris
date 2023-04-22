@@ -60,6 +60,7 @@ Slow-mode project, probably doomed not to be finished. Contributions are still w
 This project is licensed under the GNU General Public License (GPL) - see the [LICENSE.md](LICENSE.md) for the details.
 
 ## Acknowledgments
+* [AudioCue](https://github.com/philfrei/AudioCue-maven): [Phil Freihofner](https://adonax.com/)
 * Background music via: [Fesliyan Studios](https://www.FesliyanStudios.com)
 * [sfxr](https://www.drpetter.se/project_sfxr.html): Tomas Pettersson
 * Japanese translation: Matthew Paddick

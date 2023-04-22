@@ -13,7 +13,7 @@ import java.awt.LinearGradientPaint;
 import java.awt.geom.Point2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.LOCKED;
-import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static java.awt.Color.GRAY;
 import static java.awt.Color.ORANGE;
 import static java.awt.Color.WHITE;
@@ -82,22 +82,26 @@ public interface Skin {
 	}
 
 	/**
-	 * @param graphics
-	 * @param x
-	 * @param y
-	 * @param size
-	 * @param block
-	 * @param state
+	 * Draws a block.
+	 *
+	 * @param graphics graphics with which to draw
+	 * @param x x position of the block (in pixels)
+	 * @param y y position of the block (in pixels)
+	 * @param size with and height of the block (in pixels)
+	 * @param block block to draw
+	 * @param state block state
 	 * @since 0.0.0
 	 */
 	void drawBlock(Graphics2D graphics, int x, int y, int size, Block block, State state);
 
 	/**
-	 * @param graphics
-	 * @param x
-	 * @param y
-	 * @param size
-	 * @param cell
+	 * Draws a cell.
+	 *
+	 * @param graphics graphics with which to draw
+	 * @param x x position of the cell (in pixels)
+	 * @param y y position of the cell (in pixels)
+	 * @param size with and height of the cell (in pixels)
+	 * @param cell cell to draw
 	 * @since 0.0.0
 	 */
 	default void drawCell(Graphics2D graphics, int x, int y, int size, Cell cell) {
@@ -133,10 +137,12 @@ public interface Skin {
 	}
 
 	/**
-	 * @param graphics
-	 * @param title
-	 * @param x
-	 * @param y
+	 * Draws a title.
+	 *
+	 * @param graphics graphics with which to draw
+	 * @param title title to draw
+	 * @param x x position of the title (in pixels)
+	 * @param y y position of the title (in pixels)
 	 * @since 0.0.0
 	 */
 	default void drawTitle(Graphics2D graphics, String title, int x, int y) {
@@ -153,10 +159,12 @@ public interface Skin {
 	}
 
 	/**
-	 * @param graphics
-	 * @param value
-	 * @param x
-	 * @param y
+	 * Draws a value.
+	 *
+	 * @param graphics graphics with which to draw
+	 * @param value value to draw
+	 * @param x x position of the value (in pixels)
+	 * @param y y position of the value (in pixels)
 	 * @since 0.0.0
 	 */
 	default void drawValue(Graphics2D graphics, String value, int x, int y) {

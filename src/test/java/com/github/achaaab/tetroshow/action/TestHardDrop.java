@@ -1,6 +1,6 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.field.Playfield;
 import com.github.achaaab.tetroshow.model.piece.Piece;
@@ -35,7 +35,7 @@ public class TestHardDrop {
 	private Playfield playfield;
 
 	@Mock
-	private Audio soundEffect;
+	private SoundEffect soundEffect;
 
 	@Mock
 	private Piece piece;

@@ -11,7 +11,7 @@ keys:
 
 graphics:
   skin: "Brick game"
-  synchronizeState: true
+  synchronizeState: false
 
 tracks:
   - "audio/track/retro_platforming.mp3"

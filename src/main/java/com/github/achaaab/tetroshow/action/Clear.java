@@ -1,13 +1,12 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Scrap;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
 import java.util.List;
 
-import static com.github.achaaab.tetroshow.audio.AudioFactory.getAudio;
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 
 /**
  * Action of clearing lines of a Tetroshow.
@@ -17,8 +16,8 @@ import static com.github.achaaab.tetroshow.audio.AudioPlayer.SOUND_EFFECT;
  */
 public class Clear extends AbstractAction {
 
-	private static final Audio CLEAR_SOUND_EFFECT = getAudio("audio/effect/clear.wav");
-	private static final Audio LINE_DROP_SOUND_EFFECT = getAudio("audio/effect/line_drop.wav");
+	private static final SoundEffect CLEAR_SOUND_EFFECT = getSoundEffect("audio/effect/clear.wav", 1);
+	private static final SoundEffect LINE_DROP_SOUND_EFFECT = getSoundEffect("audio/effect/line_drop.wav", 1);
 
 	private final Scoring scoring;
 
@@ -28,6 +27,8 @@ public class Clear extends AbstractAction {
 	private List<Integer> lines;
 
 	/**
+	 * Creates a new clear action.
+	 *
 	 * @param tetroshow Tetroshow on which to execute this action
 	 * @since 0.0.0
 	 */
@@ -80,7 +81,7 @@ public class Clear extends AbstractAction {
 		} else {
 
 			delay = settings.getClear(level);
-			SOUND_EFFECT.play(CLEAR_SOUND_EFFECT, false);
+			CLEAR_SOUND_EFFECT.play();
 		}
 	}
 
@@ -98,7 +99,7 @@ public class Clear extends AbstractAction {
 		if (lineCount > 0) {
 
 			playfield.dropRows(lines);
-			SOUND_EFFECT.play(LINE_DROP_SOUND_EFFECT, false);
+			LINE_DROP_SOUND_EFFECT.play();
 		}
 
 		tetroshow.setLineCount(lineCount);

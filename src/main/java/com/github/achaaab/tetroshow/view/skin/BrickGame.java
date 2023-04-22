@@ -13,8 +13,8 @@ import static com.github.achaaab.tetroshow.model.piece.State.ACTIF;
 import static com.github.achaaab.tetroshow.model.piece.State.LOCKED;
 import static com.github.achaaab.tetroshow.model.piece.State.OFF;
 import static com.github.achaaab.tetroshow.utility.ResourceUtility.loadFont;
-import static com.github.achaaab.tetroshow.view.Scaler.scale;
-import static com.github.achaaab.tetroshow.view.Scaler.scaleFloat;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scaleFloat;
 import static java.awt.Font.BOLD;
 import static java.awt.Font.MONOSPACED;
 import static java.lang.Math.round;
@@ -74,8 +74,8 @@ public class BrickGame implements Skin {
 	 * Draws an LCD cell.
 	 *
 	 * @param graphics graphics with which to draw
-	 * @param x
-	 * @param y
+	 * @param x x position of the cell (in physical pixels)
+	 * @param y y position of the cell (in physical pixels)
 	 * @param size cell width and height (in physical pixels)
 	 * @param state state of the cell
 	 * @since 0.0.0

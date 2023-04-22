@@ -6,7 +6,7 @@ import com.github.achaaab.tetroshow.view.component.Component;
 import java.awt.Graphics2D;
 
 import static com.github.achaaab.tetroshow.model.piece.State.ACTIF;
-import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.skin.Skin.getCurrentSkin;
 import static java.lang.Math.round;
 import static java.lang.Math.toIntExact;

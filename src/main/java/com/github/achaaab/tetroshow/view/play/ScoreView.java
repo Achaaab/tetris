@@ -6,7 +6,7 @@ import com.github.achaaab.tetroshow.view.component.Component;
 import java.awt.Graphics2D;
 import java.text.MessageFormat;
 
-import static com.github.achaaab.tetroshow.view.Scaler.scale;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Messages.LEVEL;
 import static com.github.achaaab.tetroshow.view.message.Messages.SCORE;
 import static com.github.achaaab.tetroshow.view.message.Messages.TIME;

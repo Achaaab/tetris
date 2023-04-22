@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import static com.github.achaaab.tetroshow.utility.SwingUtility.hideCursor;
 import static com.github.achaaab.tetroshow.view.skin.Skin.getCurrentSkin;
 
 /**
@@ -55,6 +56,7 @@ public class TetroshowView extends JComponent {
 		scoreView.setHeight(playfieldView.getHeight());
 
 		setPreferredSize(DIMENSION);
+		hideCursor(this);
 	}
 
 	@Override

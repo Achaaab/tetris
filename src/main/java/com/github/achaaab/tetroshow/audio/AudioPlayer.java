@@ -2,24 +2,14 @@ package com.github.achaaab.tetroshow.audio;
 
 import org.slf4j.Logger;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import static java.lang.System.nanoTime;
-import static javax.sound.sampled.FloatControl.Type.MASTER_GAIN;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * audio player, not thread-safe
+ * An audio player allows to create and manage audios.
+ * Audio players are not thread safe.
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
@@ -28,185 +18,81 @@ public class AudioPlayer {
 
 	private static final Logger LOGGER = getLogger(AudioPlayer.class);
 
-	public static final AudioPlayer BACKGROUND = new AudioPlayer();
-	public static final AudioPlayer SOUND_EFFECT = new AudioPlayer();
-	private static final long MINIMUM_DELAY_BETWEEN_REPETITION = 20_000_000;
-
-	private final List<SourceDataLine> lines;
-	private final Map<Audio, Long> lastPlayed;
-	private float gain;
+	private static final Map<String, Track> LOADED_TRACKS = new HashMap<>();
+	private static final Map<String, SoundEffect> LOADED_EFFECTS = new HashMap<>();
 
 	/**
-	 * Creates a new audio player.
+	 * Sets track volume.
 	 *
-	 * @see #SOUND_EFFECT
+	 * @param volume track amplitude ratio (in {@code [0.0, 1.0])}
 	 * @since 0.0.0
 	 */
-	private AudioPlayer() {
-
-		lines = new ArrayList<>();
-		lastPlayed = new HashMap<>();
-		gain = 0.0f;
+	public static void setTrackVolume(double volume) {
+		LOADED_TRACKS.values().forEach(track -> track.setVolume(volume));
 	}
 
 	/**
-	 * @param gain gain in dB
-	 * @since 0.0.0
-	 */
-	public void setGain(float gain) {
-
-		this.gain = gain;
-
-		lines.forEach(this::applyGain);
-	}
-
-	/**
-	 * @param line line on which to apply gain
-	 * @since 0.0.0
-	 */
-	private void applyGain(SourceDataLine line) {
-
-		var gainControl = (FloatControl) line.getControl(MASTER_GAIN);
-		gainControl.setValue(gain);
-	}
-
-	/**
-	 * Plays an audio.
+	 * Set sound effects volume.
 	 *
-	 * @param audio audio to play
-	 * @param wait whether this method must wait the end of the audio before it returns
+	 * @param volume sound effects amplitude ratio (in {@code [0.0, 1.0])}
 	 * @since 0.0.0
 	 */
-	public void play(Audio audio, boolean wait) {
-
-		if (shouldPlay(audio)) {
-
-			var format = audio.getFormat();
-
-			getAvailableLine(format).ifPresent(line -> {
-
-				if (wait) {
-					play(audio, line);
-				} else {
-					new Thread(() -> play(audio, line)).start();
-				}
-			});
-		}
+	public static void setEffectVolume(double volume) {
+		LOADED_EFFECTS.values().forEach(effect -> effect.setVolume(volume));
 	}
 
 	/**
-	 * Tests if a play request should be honored.
+	 * Gets a track by name.
 	 *
-	 * @param audio audio requested to be played
-	 * @return whether it should be played
+	 * @param name track resource name
+	 * @return created audio
 	 * @since 0.0.0
 	 */
-	private boolean shouldPlay(Audio audio) {
+	public static Track getTrack(String name) {
+		return LOADED_TRACKS.computeIfAbsent(name, AudioPlayer::loadAudio);
+	}
 
-		var shouldPlay = false;
+	/**
+	 * Gets a sound effect by name.
+	 *
+	 * @param name name of the sound effect resource
+	 * @param polyphony maximum number of concurrent instances
+	 * @return sound effect
+	 */
+	public static SoundEffect getSoundEffect(String name, int polyphony) {
+		return LOADED_EFFECTS.computeIfAbsent(name, resourceName -> new SoundEffect(resourceName, polyphony));
+	}
 
-		if (audio != null && audio.getFormat() != null) {
+	/**
+	 * Loads an audio from the given path and register it for further usages.
+	 *
+	 * @param name path of the audio to load
+	 * @return loaded and registered audio
+	 * @see #LOADED_TRACKS
+	 * @since 0.0.0
+	 */
+	private static Track loadAudio(String name) {
 
-			var lastPlayedTime = lastPlayed.get(audio);
-			var time = nanoTime();
+		Track audio = null;
 
-			if (lastPlayedTime == null || time - lastPlayedTime > MINIMUM_DELAY_BETWEEN_REPETITION) {
+		var extensionIndex = name.lastIndexOf('.') + 1;
 
-				lastPlayed.put(audio, time);
-				shouldPlay = true;
+		if (extensionIndex == 0 || extensionIndex == name.length()) {
+
+			LOGGER.error("cannot recognize audio without extension: {}", name);
+
+		} else {
+
+			var extension = name.substring(extensionIndex);
+
+			switch (extension) {
+
+				case Mp3Track.EXTENSION -> audio = new Mp3Track(name);
+				case WavTrack.EXTENSION -> audio = new WavTrack(name);
+				default -> LOGGER.error("unknown audio extension: {}", name);
 			}
 		}
 
-		return shouldPlay;
-	}
-
-	/**
-	 * Plays an audio on a specified line.
-	 *
-	 * @param audio audio to play
-	 * @param line line on which to play
-	 * @since 0.0.0
-	 */
-	private void play(Audio audio, SourceDataLine line) {
-
-		line.start();
-		audio.play(line);
-		line.drain();
-		line.stop();
-	}
-
-	/**
-	 * Tries to get or opens a line available and supporting the specified format.
-	 *
-	 * @param format audio format
-	 * @return available line
-	 * @since 0.0.0
-	 */
-	public Optional<SourceDataLine> getAvailableLine(AudioFormat format) {
-
-		return lines.stream().
-				filter(this::isAvailable).
-				filter(line -> hasFormat(line, format)).
-				findFirst().
-				or(() -> openLine(format));
-	}
-
-	/**
-	 * Tries to open a new source data line.
-	 *
-	 * @param format desired audio format
-	 * @return opened source data line, or empty if there is no available source data line for the given format
-	 * @since 0.0.0
-	 */
-	private Optional<SourceDataLine> openLine(AudioFormat format) {
-
-		var lineInformations = new DataLine.Info(SourceDataLine.class, format);
-
-		try {
-
-			var line = (SourceDataLine) AudioSystem.getLine(lineInformations);
-			line.open(format);
-			applyGain(line);
-			lines.add(line);
-
-			LOGGER.info("there are now {} lines open", lines.size());
-
-			return Optional.of(line);
-
-		} catch (LineUnavailableException lineUnavailableException) {
-
-			LOGGER.error("audio line unavailable", lineUnavailableException);
-			return Optional.empty();
-		}
-	}
-
-	/**
-	 * Tests if a line is available.
-	 *
-	 * @param line any line
-	 * @return whether the given line is available for playback
-	 * @since 0.0.0
-	 */
-	private boolean isAvailable(SourceDataLine line) {
-		return line.available() == line.getBufferSize();
-	}
-
-	/**
-	 * Tests if a line has the same format as the given one.
-	 *
-	 * @param line any line
-	 * @param format any audio format
-	 * @return whether the given line has the given format
-	 * @since 0.0.0
-	 */
-	private boolean hasFormat(SourceDataLine line, AudioFormat format) {
-
-		var lineFormat = line.getFormat();
-
-		return lineFormat.getSampleRate() == format.getSampleRate() &&
-				lineFormat.getSampleSizeInBits() == format.getSampleSizeInBits() &&
-				lineFormat.getChannels() == format.getChannels() &&
-				lineFormat.getEncoding().equals(format.getEncoding()) &&
-				lineFormat.isBigEndian() == format.isBigEndian();
+		return audio;
 	}
 }

@@ -1,6 +1,7 @@
 package com.github.achaaab.tetroshow.action;
 
 import com.github.achaaab.tetroshow.audio.Audio;
+import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.settings.Settings;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ class TestLock {
 	private Settings settings;
 
 	@Mock
-	private Audio soundEffect;
+	private SoundEffect soundEffect;
 
 	@Test
 	void testExecuteInactive() {
