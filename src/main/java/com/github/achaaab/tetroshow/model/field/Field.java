@@ -1,6 +1,6 @@
 package com.github.achaaab.tetroshow.model.field;
 
-import com.github.achaaab.tetroshow.model.GameComponent;
+import com.github.achaaab.tetroshow.model.GamePart;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
 import java.util.Queue;
@@ -11,7 +11,7 @@ import java.util.Queue;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public interface Field extends GameComponent {
+public interface Field extends GamePart {
 
 	/**
 	 * Ajoute une pièce dans le champ.

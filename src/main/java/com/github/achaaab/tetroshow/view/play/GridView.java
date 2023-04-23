@@ -1,7 +1,6 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.field.Grid;
-import com.github.achaaab.tetroshow.view.component.Component;
 
 import java.awt.Graphics2D;
 
@@ -17,7 +16,7 @@ import static java.lang.Math.toIntExact;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class GridView extends Component {
+public class GridView extends PlayComponent {
 
 	public static final int CELL_SIZE = scale(20.0f);
 

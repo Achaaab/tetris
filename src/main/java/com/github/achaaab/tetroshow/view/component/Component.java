@@ -1,13 +1,8 @@
 package com.github.achaaab.tetroshow.view.component;
 
-import java.awt.BasicStroke;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 
-import static com.github.achaaab.tetroshow.utility.SwingUtility.scaleFloat;
-import static com.github.achaaab.tetroshow.view.skin.Skin.getCurrentSkin;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
-import static java.lang.Math.round;
 
 /**
  * UI component as simple as possible, we don't need much
@@ -17,13 +12,8 @@ import static java.lang.Math.round;
  */
 public abstract class Component {
 
-	private static final float BORDER = scaleFloat(4.0f);
-	protected static final int HALF_BORDER = round(BORDER / 2);
-	private static final Stroke DEFAULT_STROKE = new BasicStroke(1.0f);
-	private static final Stroke BORDER_STROKE = new BasicStroke(BORDER);
-
-	private int x;
-	private int y;
+	protected int x;
+	protected int y;
 	protected int width;
 	protected int height;
 	protected int margin;
@@ -39,7 +29,7 @@ public abstract class Component {
 		y = 0;
 		width = 0;
 		height = 0;
-		margin = HALF_BORDER;
+		margin = 0;
 	}
 
 	/**
@@ -50,22 +40,12 @@ public abstract class Component {
 	 */
 	public void paint(Graphics2D graphics) {
 
-		var translation = getTranslateInstance(x, y);
-		graphics.setTransform(translation);
-
-		var skin = getCurrentSkin();
-
-		graphics.setStroke(BORDER_STROKE);
-		graphics.setColor(skin.getBorderColor());
-		graphics.drawRect(0, 0, width, height);
-		graphics.setStroke(DEFAULT_STROKE);
-
-		translation = getTranslateInstance(x + margin, y + margin);
+		var translation = getTranslateInstance(x + margin, y + margin);
 		graphics.setTransform(translation);
 	}
 
 	/**
-	 * @return x relative position of this component in his parent (in physical pixels)
+	 * @return x relative position of this component in his parent (in pixels)
 	 * @since 0.0.0
 	 */
 	public int getX() {
@@ -73,7 +53,7 @@ public abstract class Component {
 	}
 
 	/**
-	 * @param x x relative position of this component in his parent (in physical pixels)
+	 * @param x x relative position of this component in his parent (in pixels)
 	 * @since 0.0.0
 	 */
 	public void setX(int x) {
@@ -81,7 +61,7 @@ public abstract class Component {
 	}
 
 	/**
-	 * @return y relative position of this component in his parent (in physical pixels)
+	 * @return y relative position of this component in his parent (in pixels)
 	 * @since 0.0.0
 	 */
 	public int getY() {
@@ -89,7 +69,7 @@ public abstract class Component {
 	}
 
 	/**
-	 * @param y y relative position of this component in his parent (in physical pixels)
+	 * @param y y relative position of this component in his parent (in pixels)
 	 * @since 0.0.0
 	 */
 	public void setY(int y) {
@@ -97,7 +77,7 @@ public abstract class Component {
 	}
 
 	/**
-	 * @return width of this component (in physical pixels)
+	 * @return width of this component (in pixels)
 	 * @since 0.0.0
 	 */
 	public int getWidth() {
@@ -105,7 +85,7 @@ public abstract class Component {
 	}
 
 	/**
-	 * @param width width of this component (in physical pixels)
+	 * @param width width of this component (in pixels)
 	 * @since 0.0.0
 	 */
 	public void setWidth(int width) {
@@ -113,7 +93,7 @@ public abstract class Component {
 	}
 
 	/**
-	 * @return height of this component (in physical pixels)
+	 * @return height of this component (in pixels)
 	 * @since 0.0.0
 	 */
 	public int getHeight() {
@@ -121,10 +101,26 @@ public abstract class Component {
 	}
 
 	/**
-	 * @param height height of this component (in physical pixels)
+	 * @param height height of this component (in pixels)
 	 * @since 0.0.0
 	 */
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	/**
+	 * @return inner margin of this component (in pixels)
+	 * @since 0.0.0
+	 */
+	public int getMargin() {
+		return margin;
+	}
+
+	/**
+	 * @param margin inner margin of this component (in pixels)
+	 * @since 0.0.0
+	 */
+	public void setMargin(int margin) {
+		this.margin = margin;
 	}
 }

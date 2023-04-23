@@ -3,7 +3,8 @@ package com.github.achaaab.tetroshow.scene;
 import com.github.achaaab.tetroshow.view.menu.MenuView;
 
 import java.awt.Container;
-import java.awt.event.ActionEvent;
+
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * Tetroshow menu scene
@@ -40,39 +41,47 @@ public class MenuScene extends AbstractScene {
 	}
 
 	@Override
+	public void initialize() {
+
+		view.requestFocus();
+		view.selectButton(0);
+	}
+
+	@Override
+	public void update(double deltaTime) {
+		invokeLater(view::repaint);
+	}
+
+	@Override
 	public Container getView() {
 		return view;
 	}
 
 	/**
-	 * @param event play action event
 	 * @since 0.0.0
 	 */
-	public void play(ActionEvent event) {
+	public void play() {
 		manager.display(playScene);
 	}
 
 	/**
-	 * @param event options action event
 	 * @since 0.0.0
 	 */
-	public void options(ActionEvent event) {
+	public void options() {
 		manager.display(optionScene);
 	}
 
 	/**
-	 * @param event credits action event
 	 * @since 0.0.0
 	 */
-	public void credits(ActionEvent event) {
+	public void credits() {
 		manager.display(creditsScene);
 	}
 
 	/**
-	 * @param event back action event
 	 * @since 0.0.0
 	 */
-	private void back(ActionEvent event) {
+	private void back() {
 		exit();
 	}
 }

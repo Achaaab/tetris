@@ -1,7 +1,6 @@
 package com.github.achaaab.tetroshow.view.play;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
-import com.github.achaaab.tetroshow.view.component.Component;
 
 import java.awt.Graphics2D;
 import java.text.MessageFormat;
@@ -20,7 +19,7 @@ import static java.lang.Math.round;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class ScoreView extends Component {
+public class ScoreView extends PlayComponent {
 
 	private static final int MARGIN = scale(10.0f);
 	public static final int WIDTH = 2 * MARGIN + scale(120.0f);

@@ -22,7 +22,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Tetroshow implements GameComponent {
+public class Tetroshow implements GamePart {
 
 	private static final Logger LOGGER = getLogger(Tetroshow.class);
 
@@ -66,7 +66,7 @@ public class Tetroshow implements GameComponent {
 	}
 
 	/**
-	 * @param exitListener
+	 * @param exitListener exit action listener
 	 * @since 0.0.0
 	 */
 	public void setExitListener(Runnable exitListener) {
@@ -101,7 +101,7 @@ public class Tetroshow implements GameComponent {
 	}
 
 	/**
-	 * @param deltaTime
+	 * @param deltaTime time elapsed since the last update (in seconds)
 	 * @since 0.0.0
 	 */
 	public void update(double deltaTime) {
@@ -159,7 +159,7 @@ public class Tetroshow implements GameComponent {
 	}
 
 	/**
-	 * @return
+	 * @return keyboard
 	 * @since 0.0.0
 	 */
 	public Keyboard getKeyboard() {

@@ -7,7 +7,7 @@ package com.github.achaaab.tetroshow.model;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public interface GameComponent {
+public interface GamePart {
 
 	/**
 	 * Resets this game object.

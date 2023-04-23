@@ -11,7 +11,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Credits implements GameComponent {
+public class Credits implements GamePart {
 
 	private static final String RESOURCE_NAME = "credits.txt";
 	private static final List<String> LINES = readLines(RESOURCE_NAME, UTF_8);
