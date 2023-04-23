@@ -2,6 +2,7 @@ package com.github.achaaab.tetroshow.view.menu;
 
 import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.view.component.Button;
+import com.github.achaaab.tetroshow.view.component.SineLabel;
 import com.github.achaaab.tetroshow.view.message.Messages;
 import com.github.achaaab.tetroshow.view.play.TetroshowView;
 
@@ -34,17 +35,21 @@ import static java.awt.event.KeyEvent.VK_SPACE;
 import static java.awt.event.KeyEvent.VK_UP;
 
 /**
+ * menu view
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class MenuView extends JComponent implements KeyListener {
 
+	private static final String TITLE = "TETROSHOW";
 	private static final Color BACKGROUND_COLOR = new Color(0, 0, 16);
 	private static final int FONT_SIZE = scale(25);
 	private static final Font FONT = new Font(DIALOG, PLAIN, FONT_SIZE);
 	private static final int BUTTON_HEIGHT = scale(50);
 	private static final SoundEffect SELECTION_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
 
+	private final SineLabel title;
 	private final Button play;
 	private final Button options;
 	private final Button quit;
@@ -61,6 +66,7 @@ public class MenuView extends JComponent implements KeyListener {
 
 		Messages.register(this::localeChanged);
 
+		title = new SineLabel(TITLE);
 		play = new Button(getMessage(PLAY));
 		options = new Button(getMessage(OPTIONS));
 		credits = new Button(getMessage(CREDITS));
@@ -71,12 +77,11 @@ public class MenuView extends JComponent implements KeyListener {
 		play.setSelected(true);
 		selectedIndex = 0;
 
-		setPreferredSize(TetroshowView.DIMENSION);
-		var height = getPreferredSize().height;
-		var buttonsHeight = buttonCount * BUTTON_HEIGHT;
+		title.setX(scale(90.0f));
+		title.setY(scale(20.0f));
 
-		var y = (height - buttonsHeight) / 2;
-		var x = scale(50.0f);
+		var x = scale(100.0f);
+		var y = scale(250.0f);
 
 		play.setX(x);
 		play.setY(y);
@@ -95,6 +100,18 @@ public class MenuView extends JComponent implements KeyListener {
 
 		addKeyListener(this);
 		hideCursor(this);
+		setPreferredSize(TetroshowView.DIMENSION);
+	}
+
+	/**
+	 * Updates this menu view.
+	 * Used to animate the title.
+	 *
+	 * @param deltaTime time elapsed since the last update (in seconds)
+	 * @since 0.0.0
+	 */
+	public void update(double deltaTime) {
+		title.update(deltaTime);
 	}
 
 	@Override
@@ -106,6 +123,7 @@ public class MenuView extends JComponent implements KeyListener {
 		graphics2d.fillRect(0, 0, getWidth(), getHeight());
 
 		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+		title.paint(graphics2d);
 		graphics.setFont(FONT);
 		buttons.forEach(button -> button.paint(graphics2d));
 		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_OFF);

@@ -49,6 +49,8 @@ public class MenuScene extends AbstractScene {
 
 	@Override
 	public void update(double deltaTime) {
+
+		view.update(deltaTime);
 		invokeLater(view::repaint);
 	}
 

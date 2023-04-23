@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.util.List;
 
 import static com.github.achaaab.tetroshow.utility.ResourceUtility.loadFont;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.hideCursor;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scaleFloat;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -46,6 +47,7 @@ public class CreditsView extends JComponent {
 		this.lines = lines;
 
 		setPreferredSize(TetroshowView.DIMENSION);
+		hideCursor(this);
 	}
 
 	/**

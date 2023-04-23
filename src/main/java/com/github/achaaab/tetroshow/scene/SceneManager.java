@@ -151,8 +151,8 @@ public class SceneManager implements Runnable {
 
 			var view = scene.getView();
 			window.setContentPane(containerize(view));
-			window.validate();
 			window.pack();
+			window.validate();
 
 			if (this.scene == null) {
 
