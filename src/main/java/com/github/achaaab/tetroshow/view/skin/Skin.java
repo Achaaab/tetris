@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.LinearGradientPaint;
 import java.awt.geom.Point2D;
+import java.util.List;
 
 import static com.github.achaaab.tetroshow.model.piece.State.LOCKED;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
@@ -38,7 +39,7 @@ public interface Skin {
 	String ELECTRONIKA_60 = "Electronika 60";
 	String GLASS = "Glass";
 	String BRICK_GAME = "Brick game";
-	String[] SKINS = { ELECTRONIKA_60, GLASS, BRICK_GAME };
+	List<String> SKINS = List.of(ELECTRONIKA_60, GLASS, BRICK_GAME);
 
 	/**
 	 * @return current skin

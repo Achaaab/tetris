@@ -54,7 +54,7 @@ public class Lock extends AbstractAction {
 			var level = tetroshow.getLevel();
 			var delay = settings.getLock(level);
 
-			if (frameCounter == delay) {
+			if (frameCounter >= delay) {
 
 				frameCounter = 0;
 

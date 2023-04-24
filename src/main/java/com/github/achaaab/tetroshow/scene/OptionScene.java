@@ -1,16 +1,15 @@
 package com.github.achaaab.tetroshow.scene;
 
-import com.github.achaaab.tetroshow.audio.AudioPlayer;
 import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.menu.OptionView;
 import com.github.achaaab.tetroshow.view.message.Language;
 
-import javax.swing.event.ChangeEvent;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
 
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.setEffectVolume;
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.setTrackVolume;
 import static com.github.achaaab.tetroshow.view.message.Messages.setLocale;
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * option scene
@@ -41,51 +40,54 @@ public class OptionScene extends AbstractScene {
 		view.onBack(this::back);
 	}
 
+	@Override
+	public void initialize() {
+
+		view.requestFocus();
+		view.selectOption(0);
+	}
+
+	@Override
+	public void update(double deltaTime) {
+		invokeLater(view::repaint);
+	}
+
 	/**
-	 * @param event language change event
+	 * @param language new selected language
 	 * @since 0.0.0
 	 */
-	private void languageChanged(ItemEvent event) {
-
-		var language = (Language) event.getItem();
+	private void languageChanged(Language language) {
 		setLocale(language.getLocale());
 	}
 
 	/**
-	 * @param event skin change event
+	 * @param skin name of the new selected skin
 	 * @since 0.0.0
 	 */
-	private void skinChanged(ItemEvent event) {
-
-		var skin = (String) event.getItem();
+	private void skinChanged(String skin) {
 		Settings.getDefaultInstance().getGraphics().setSkin(skin);
 	}
 
 	/**
-	 * @param event music volume change event
+	 * @param musicVolume new selected music volume
 	 * @since 0.0.0
 	 */
-	private void musicVolumeChanged(ChangeEvent event) {
-
-		var volume = view.getMusicVolume();
-		AudioPlayer.setTrackVolume(volume);
+	private void musicVolumeChanged(double musicVolume) {
+		setTrackVolume(musicVolume);
 	}
 
 	/**
-	 * @param event sound effect volume change event
+	 * @param soundEffectVolume new selected sound effect volume
 	 * @since 0.0.0
 	 */
-	private void soundEffectVolumeChanged(ChangeEvent event) {
-
-		var volume = view.getSoundEffectVolume();
-		AudioPlayer.setEffectVolume(volume);
+	private void soundEffectVolumeChanged(double soundEffectVolume) {
+		setEffectVolume(soundEffectVolume);
 	}
 
 	/**
-	 * @param event back action event
 	 * @since 0.0.0
 	 */
-	private void back(ActionEvent event) {
+	private void back() {
 		exit();
 	}
 

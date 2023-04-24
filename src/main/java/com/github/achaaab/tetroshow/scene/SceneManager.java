@@ -91,6 +91,13 @@ public class SceneManager implements Runnable {
 
 			if (scene != null) {
 
+				if (!window.getSize().equals(window.getPreferredSize())) {
+
+					LOGGER.info("The window does not have its preferred size, packing it.");
+					window.pack();
+					window.setLocationRelativeTo(null);
+				}
+
 				scene.update(deltaTime / 1_000_000_000.0);
 
 				if (Settings.getDefaultInstance().getGraphics().isSynchronizeState()) {
@@ -151,14 +158,7 @@ public class SceneManager implements Runnable {
 
 			var view = scene.getView();
 			window.setContentPane(containerize(view));
-			window.pack();
 			window.validate();
-
-			if (this.scene == null) {
-
-				// this is the first scene to display, we center the window on the screen
-				window.setLocationRelativeTo(null);
-			}
 
 			this.scene = scene;
 			scene.initialize();

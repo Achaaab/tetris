@@ -1,26 +1,26 @@
 package com.github.achaaab.tetroshow.view.menu;
 
+import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.settings.Settings;
+import com.github.achaaab.tetroshow.view.component.Option;
 import com.github.achaaab.tetroshow.view.message.Language;
 import com.github.achaaab.tetroshow.view.message.Messages;
 import com.github.achaaab.tetroshow.view.play.TetroshowView;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeListener;
+import javax.swing.JComponent;
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.List;
+import java.util.function.Consumer;
 
+import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.hideCursor;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Language.getLanguage;
-import static com.github.achaaab.tetroshow.view.message.Messages.BACK;
 import static com.github.achaaab.tetroshow.view.message.Messages.LANGUAGE;
 import static com.github.achaaab.tetroshow.view.message.Messages.MUSIC_GAIN;
 import static com.github.achaaab.tetroshow.view.message.Messages.SKIN;
@@ -29,140 +29,127 @@ import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
 import static com.github.achaaab.tetroshow.view.skin.Skin.SKINS;
 import static java.awt.Font.DIALOG;
 import static java.awt.Font.PLAIN;
-import static java.awt.GridBagConstraints.FIRST_LINE_START;
-import static javax.swing.SwingConstants.HORIZONTAL;
+import static java.awt.RenderingHints.KEY_ANTIALIASING;
+import static java.awt.RenderingHints.VALUE_ANTIALIAS_OFF;
+import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+import static java.awt.event.KeyEvent.VK_DOWN;
+import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_UP;
+import static java.util.function.Function.identity;
+import static java.util.stream.IntStream.rangeClosed;
 
 /**
+ * options view
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class OptionView extends JPanel {
+public class OptionView extends JComponent implements KeyListener {
 
-	private static final int VOLUME_SCALE = 10;
-
+	private static final double VOLUME_SCALE = 10.0;
+	private static final Color BACKGROUND_COLOR = new Color(0, 0, 16);
 	private static final int FONT_SIZE = 18;
 	private static final Font FONT = new Font(DIALOG, PLAIN, scale(FONT_SIZE));
+	private static final int OPTION_HEIGHT = scale(50);
+	private static final int VALUE_X = scale(150);
+	private static final SoundEffect SELECTION_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
 
-	private final JLabel languageLabel;
-	private final JComboBox<Language> languages;
+	private final Option<Language> language;
+	private final Option<String> skin;
+	private final Option<Integer> musicVolume;
+	private final Option<Integer> soundEffectVolume;
 
-	private final JLabel skinLabel;
-	private final JComboBox<String> skins;
+	private final List<Option<?>> options;
+	private final int optionCount;
+	private int selectedOptionIndex;
 
-	private final JLabel musicVolumeLabel;
-	private final JSlider musicVolume;
-
-	private final JLabel soundEffectVolumeLabel;
-	private final JSlider soundEffectVolume;
-
-	private final JButton back;
+	private Runnable backAction;
 
 	/**
+	 * Creates a view to display and change options.
+	 *
 	 * @since 0.0.0
 	 */
 	public OptionView() {
 
 		Messages.register(this::localeChanged);
 
-		languageLabel = new JLabel(getMessage(LANGUAGE));
-		languages = new JComboBox<>(Language.values());
+		language = new Option<>(
+				getMessage(LANGUAGE),
+				List.of(Language.values()),
+				Language::toString,
+				VALUE_X);
 
-		skinLabel = new JLabel(getMessage(SKIN));
-		skins = new JComboBox<>(SKINS);
+		skin = new Option<>(
+				getMessage(SKIN),
+				SKINS,
+				identity(),
+				VALUE_X);
 
-		musicVolumeLabel = new JLabel(getMessage(MUSIC_GAIN));
-		musicVolume = new JSlider(HORIZONTAL, 0, VOLUME_SCALE, VOLUME_SCALE);
+		musicVolume = new Option<>(
+				getMessage(MUSIC_GAIN),
+				rangeClosed(0, 10).boxed().toList(),
+				Object::toString,
+				VALUE_X);
 
-		soundEffectVolumeLabel = new JLabel(getMessage(SOUND_FX_GAIN));
-		soundEffectVolume = new JSlider(HORIZONTAL, 0, VOLUME_SCALE, VOLUME_SCALE);
+		soundEffectVolume = new Option<>(
+				getMessage(SOUND_FX_GAIN),
+				rangeClosed(0, 10).boxed().toList(),
+				Object::toString,
+				VALUE_X);
 
-		back = new JButton(getMessage(BACK));
-
-		languageLabel.setFont(FONT);
-		languages.setFont(FONT);
-		skinLabel.setFont(FONT);
-		skins.setFont(FONT);
-		musicVolumeLabel.setFont(FONT);
-		soundEffectVolumeLabel.setFont(FONT);
-		back.setFont(FONT);
+		options = List.of(language, skin, musicVolume, soundEffectVolume);
+		optionCount = options.size();
+		language.setSelected(true);
+		selectedOptionIndex = 0;
 
 		var currentLocale = Messages.getLocale();
 		var code = currentLocale.getLanguage();
-		languages.setSelectedItem(getLanguage(code));
+		language.select(getLanguage(code));
 
 		var currentSkin = Settings.getDefaultInstance().getGraphics().getSkin();
-		skins.setSelectedItem(currentSkin);
+		skin.select(currentSkin);
 
-		addComponents();
+		musicVolume.select(10);
+		soundEffectVolume.select(10);
 
+		var x = scale(75.0f);
+		var y = scale(100.0f);
+
+		language.setX(x);
+		language.setY(y);
+
+		y += OPTION_HEIGHT;
+		skin.setX(x);
+		skin.setY(y);
+
+		y += OPTION_HEIGHT;
+		musicVolume.setX(x);
+		musicVolume.setY(y);
+
+		y += OPTION_HEIGHT;
+		soundEffectVolume.setX(x);
+		soundEffectVolume.setY(y);
+
+		addKeyListener(this);
+		hideCursor(this);
 		setPreferredSize(TetroshowView.DIMENSION);
 	}
 
-	/**
-	 * Adds and lay out components.
-	 *
-	 * @since 0.0.0
-	 */
-	private void addComponents() {
+	@Override
+	public void paint(Graphics graphics) {
 
-		setLayout(new GridBagLayout());
-		var constraints = new GridBagConstraints();
-		constraints.anchor = FIRST_LINE_START;
+		var graphics2d = (Graphics2D) graphics;
 
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		constraints.insets = new Insets(scale(5.0f), scale(5.0f), scale(5.0f), scale(5.0f));
-		add(languageLabel, constraints);
+		graphics2d.setColor(BACKGROUND_COLOR);
+		graphics2d.fillRect(0, 0, getWidth(), getHeight());
 
-		constraints.gridx = 1;
-		constraints.gridy = 0;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(languages, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy = 1;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(skinLabel, constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy = 1;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(skins, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy = 2;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(musicVolumeLabel, constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy = 2;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(musicVolume, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy = 3;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(soundEffectVolumeLabel, constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy = 3;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(soundEffectVolume, constraints);
-
-		constraints.gridx = 1;
-		constraints.gridy = 4;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		add(back, constraints);
+		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+		graphics.setFont(FONT);
+		options.forEach(option -> option.paint(graphics2d));
+		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_OFF);
 	}
 
 	/**
@@ -170,66 +157,88 @@ public class OptionView extends JPanel {
 	 */
 	private void localeChanged() {
 
-		languageLabel.setText(getMessage(LANGUAGE));
-		skinLabel.setText(getMessage(SKIN));
-		musicVolumeLabel.setText(getMessage(MUSIC_GAIN));
-		soundEffectVolumeLabel.setText(getMessage(SOUND_FX_GAIN));
-		back.setText(getMessage(BACK));
+		language.setName(getMessage(LANGUAGE));
+		skin.setName(getMessage(SKIN));
+		musicVolume.setName(getMessage(MUSIC_GAIN));
+		soundEffectVolume.setName(getMessage(SOUND_FX_GAIN));
 	}
 
 	/**
-	 * @param listener language change listener
+	 * Selects an option.
+	 *
+	 * @param index option index
 	 * @since 0.0.0
 	 */
-	public void onLanguageChanged(ItemListener listener) {
-		languages.addItemListener(listener);
+	public void selectOption(int index) {
+
+		options.get(selectedOptionIndex).setSelected(false);
+		selectedOptionIndex = index;
+		options.get(selectedOptionIndex).setSelected(true);
+		SELECTION_SOUND_EFFECT.play();
 	}
 
 	/**
-	 * @param listener skin change listener
+	 * @param consumer language consumer
 	 * @since 0.0.0
 	 */
-	public void onSkinChanged(ItemListener listener) {
-		skins.addItemListener(listener);
+	public void onLanguageChanged(Consumer<Language> consumer) {
+		language.setConsumer(consumer);
 	}
 
 	/**
-	 * @param listener music volume change listener
+	 * @param consumer skin name consumer
 	 * @since 0.0.0
 	 */
-	public void onMusicVolumeChanged(ChangeListener listener) {
-		musicVolume.addChangeListener(listener);
+	public void onSkinChanged(Consumer<String> consumer) {
+		skin.setConsumer(consumer);
 	}
 
 	/**
-	 * @param listener sound effect volume change listener
+	 * @param consumer music volume consumer
 	 * @since 0.0.0
 	 */
-	public void onSoundEffectVolumeChanged(ChangeListener listener) {
-		soundEffectVolume.addChangeListener(listener);
+	public void onMusicVolumeChanged(Consumer<Double> consumer) {
+		musicVolume.setConsumer(level -> consumer.accept(level / VOLUME_SCALE));
 	}
 
 	/**
-	 * @param listener back action listener
+	 * @param consumer sound effect volume consumer
 	 * @since 0.0.0
 	 */
-	public void onBack(ActionListener listener) {
-		back.addActionListener(listener);
+	public void onSoundEffectVolumeChanged(Consumer<Double> consumer) {
+		soundEffectVolume.setConsumer(level -> consumer.accept(level / VOLUME_SCALE));
 	}
 
 	/**
-	 * @return music amplitude ratio (in {@code [0.0, 1.0]})
+	 * @param action back action
 	 * @since 0.0.0
 	 */
-	public double getMusicVolume() {
-		return musicVolume.getValue() / (double) VOLUME_SCALE;
+	public void onBack(Runnable action) {
+		backAction = action;
 	}
 
-	/**
-	 * @return sound effects amplitude ratio (in {@code [0.0, 1.0]})
-	 * @since 0.0.0
-	 */
-	public double getSoundEffectVolume() {
-		return soundEffectVolume.getValue() / (double) VOLUME_SCALE;
+	@Override
+	public void keyPressed(KeyEvent keyEvent) {
+
+		var keyCode = keyEvent.getKeyCode();
+
+		switch (keyCode) {
+
+			case VK_UP -> selectOption(((selectedOptionIndex - 1) + optionCount) % optionCount);
+			case VK_DOWN -> selectOption((selectedOptionIndex + 1) % optionCount);
+			case VK_LEFT -> options.get(selectedOptionIndex).previous();
+			case VK_RIGHT -> options.get(selectedOptionIndex).next();
+			case VK_ESCAPE -> backAction.run();
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent keyEvent) {
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent keyEvent) {
+
 	}
 }

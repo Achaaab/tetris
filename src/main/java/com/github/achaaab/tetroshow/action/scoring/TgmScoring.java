@@ -1,14 +1,14 @@
-package com.github.achaaab.tetroshow.action;
+package com.github.achaaab.tetroshow.action.scoring;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
 /**
- * Action of scoring.
+ * TGM scoring
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Scoring extends AbstractAction {
+public class TgmScoring extends Scoring {
 
 	private int combo;
 
@@ -18,7 +18,7 @@ public class Scoring extends AbstractAction {
 	 * @param tetroshow Tetroshow in which to apply this scoring
 	 * @since 0.0.0
 	 */
-	public Scoring(Tetroshow tetroshow) {
+	public TgmScoring(Tetroshow tetroshow) {
 
 		super(tetroshow);
 
@@ -54,6 +54,11 @@ public class Scoring extends AbstractAction {
 
 		tetroshow.setLevel(levelAfter);
 		tetroshow.setScore(score);
+	}
+
+	@Override
+	public void pieceLocked(int softDropCount) {
+		tetroshow.setLevel(tetroshow.getLevel() + 1);
 	}
 
 	@Override

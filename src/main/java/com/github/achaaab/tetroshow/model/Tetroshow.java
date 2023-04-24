@@ -6,6 +6,8 @@ import com.github.achaaab.tetroshow.action.Hold;
 import com.github.achaaab.tetroshow.action.Keyboard;
 import com.github.achaaab.tetroshow.action.Lock;
 import com.github.achaaab.tetroshow.action.Move;
+import com.github.achaaab.tetroshow.action.scoring.Scoring;
+import com.github.achaaab.tetroshow.action.scoring.TgmScoring;
 import com.github.achaaab.tetroshow.model.field.Playfield;
 import com.github.achaaab.tetroshow.model.field.Preview;
 import com.github.achaaab.tetroshow.model.field.Storage;
@@ -30,6 +32,7 @@ public class Tetroshow implements GamePart {
 	private final Storage storage;
 	private final Preview preview;
 	private final Lock lock;
+	private final Scoring scoring;
 	private final Gravity gravity;
 	private final Keyboard keyboard;
 	private final Clear clear;
@@ -50,6 +53,8 @@ public class Tetroshow implements GamePart {
 	private Runnable exitListener;
 
 	/**
+	 * Creates a new Tetroshow.
+	 *
 	 * @since 0.0.0
 	 */
 	public Tetroshow() {
@@ -59,7 +64,9 @@ public class Tetroshow implements GamePart {
 		preview = new Preview(3);
 		keyboard = new Keyboard(this);
 		lock = new Lock(this);
+		scoring = new TgmScoring(this);
 		clear = new Clear(this);
+
 		gravity = new Gravity(this);
 
 		reset();
@@ -85,6 +92,7 @@ public class Tetroshow implements GamePart {
 		gravity.reset();
 		lock.reset();
 		clear.reset();
+		scoring.reset();
 
 		fallingPiece = null;
 		initialRotation = null;
@@ -167,6 +175,14 @@ public class Tetroshow implements GamePart {
 	}
 
 	/**
+	 * @return scoring
+	 * @since 0.0.0
+	 */
+	public Scoring getScoring() {
+		return scoring;
+	}
+
+	/**
 	 * Introduit une nouvelle pièce dans le jeu. La nouvelle pièce est prise dans la prévisualisation.
 	 *
 	 * @since 0.0.0
@@ -242,7 +258,7 @@ public class Tetroshow implements GamePart {
 		cancelLocking();
 
 		fallingPiece = null;
-		level++;
+		scoring.pieceLocked(dropBonus);
 
 		return locked;
 	}

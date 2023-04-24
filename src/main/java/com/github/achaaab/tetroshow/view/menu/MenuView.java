@@ -54,9 +54,9 @@ public class MenuView extends JComponent implements KeyListener {
 	private final Button options;
 	private final Button quit;
 	private final Button credits;
+
 	private final List<Button> buttons;
 	private final int buttonCount;
-
 	private int selectedIndex;
 
 	/**

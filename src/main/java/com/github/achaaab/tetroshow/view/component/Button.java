@@ -24,9 +24,9 @@ public class Button extends Component {
 	private static final Color SELECTED_COLOR = WHITE;
 	private static final Color UNSELECTED_COLOR = GRAY;
 
-	protected String text;
-	protected Runnable action;
-	protected boolean selected;
+	private String text;
+	private Runnable action;
+	private boolean selected;
 
 	/**
 	 * Creates a new text button.
