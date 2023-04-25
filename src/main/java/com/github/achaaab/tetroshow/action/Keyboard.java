@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.github.achaaab.tetroshow.model.piece.Direction.CLOCKWISE;
@@ -26,17 +25,17 @@ public class Keyboard extends AbstractAction implements KeyListener {
 
 	private static final Logger LOGGER = getLogger(Keyboard.class);
 
-	private static final int KEY_COUNT = 1024;
+	public static final String LEFT_KEY = "left";
+	public static final String RIGHT_KEY = "right";
+	public static final String CLOCKWISE_KEY = "clockwise";
+	public static final String COUNTERCLOCKWISE_KEY = "counterclockwise";
+	public static final String SOFT_DROP_KEY = "soft_drop";
+	public static final String HARD_DROP_KEY = "hard_drop";
+	public static final String HOLD_KEY = "hold";
+	public static final String PAUSE_KEY = "pause";
+	public static final String EXIT_KEY = "exit";
 
-	private final int clockwiseKey;
-	private final int counterclockwiseKey;
-	private final int leftKey;
-	private final int rightKey;
-	private final int softDropKey;
-	private final int hardDropKey;
-	private final int holdKey;
-	private final int pauseKey;
-	private final int exitKey;
+	private static final int KEY_COUNT = 1024;
 
 	private final Move rotateClockwise;
 	private final Move rotateCounterclockwise;
@@ -48,9 +47,9 @@ public class Keyboard extends AbstractAction implements KeyListener {
 	private final Pause pause;
 	private final Exit exit;
 
+	private final Map<Action, String> actions;
 	private final boolean[] pressedKeys;
 	private final int[] frame;
-	private final Map<Action, Integer> keyMapping;
 
 	private int frameCounter;
 
@@ -66,39 +65,27 @@ public class Keyboard extends AbstractAction implements KeyListener {
 
 		pressedKeys = new boolean[KEY_COUNT];
 		frame = new int[KEY_COUNT];
-		keyMapping = new HashMap<>();
 
-		rotateClockwise = new Move(tetroshow, CLOCKWISE);
-		rotateCounterclockwise = new Move(tetroshow, COUNTERCLOCKWISE);
 		moveLeft = new Move(tetroshow, LEFT);
 		moveRight = new Move(tetroshow, RIGHT);
+		rotateClockwise = new Move(tetroshow, CLOCKWISE);
+		rotateCounterclockwise = new Move(tetroshow, COUNTERCLOCKWISE);
 		softDrop = new Move(tetroshow, DOWN);
 		hardDrop = new HardDrop(tetroshow);
 		hold = new Hold(tetroshow);
 		pause = new Pause(tetroshow);
 		exit = new Exit(tetroshow);
 
-		var keys = settings.getKeys();
-
-		clockwiseKey = keys.get("clockwise");
-		counterclockwiseKey = keys.get("counterclockwise");
-		leftKey = keys.get("left");
-		rightKey = keys.get("right");
-		softDropKey = keys.get("soft_drop");
-		hardDropKey = keys.get("hard_drop");
-		holdKey = keys.get("hold");
-		pauseKey = keys.get("pause");
-		exitKey = keys.get("exit");
-
-		keyMapping.put(rotateClockwise, clockwiseKey);
-		keyMapping.put(rotateCounterclockwise, counterclockwiseKey);
-		keyMapping.put(moveLeft, leftKey);
-		keyMapping.put(moveRight, rightKey);
-		keyMapping.put(softDrop, softDropKey);
-		keyMapping.put(hardDrop, hardDropKey);
-		keyMapping.put(hold, holdKey);
-		keyMapping.put(pause, pauseKey);
-		keyMapping.put(exit, exitKey);
+		actions = Map.of(
+				moveLeft, LEFT_KEY,
+				moveRight, RIGHT_KEY,
+				rotateClockwise, CLOCKWISE_KEY,
+				rotateCounterclockwise, COUNTERCLOCKWISE_KEY,
+				softDrop, SOFT_DROP_KEY,
+				hardDrop, HARD_DROP_KEY,
+				hold, HOLD_KEY,
+				pause, PAUSE_KEY,
+				exit, EXIT_KEY);
 
 		reset();
 	}
@@ -112,13 +99,25 @@ public class Keyboard extends AbstractAction implements KeyListener {
 	}
 
 	/**
-	 * @param key to test
-	 * @param repeatable whether the given key is repeatable after a delay without releasing the key
-	 * @return whether the key is effective
+	 * @param action action
+	 * @return key code associated with this action
 	 * @since 0.0.0
 	 */
-	private boolean isEffective(int key, boolean repeatable) {
+	private int getKey(Action action) {
 
+		var keyKey = actions.get(action);
+		return settings.getKeys().get(keyKey);
+	}
+
+	/**
+	 * @param action to test
+	 * @param repeatable whether the given action is repeatable after a delay without releasing the key
+	 * @return whether the action is effective
+	 * @since 0.0.0
+	 */
+	private boolean isEffective(Action action, boolean repeatable) {
+
+		var key = getKey(action);
 		var effective = false;
 		var pressed = pressedKeys[key];
 
@@ -191,23 +190,20 @@ public class Keyboard extends AbstractAction implements KeyListener {
 		if (execute(moveRight, false)) {
 
 			// we just pressed right key, we force left key release
-			pressedKeys[leftKey] = false;
+			pressedKeys[getKey(moveLeft)] = false;
 
 		} else if (execute(moveLeft, false)) {
 
 			// we just pressed left key, we force right key release
-			pressedKeys[rightKey] = false;
+			pressedKeys[getKey(moveRight)] = false;
 
 		} else {
 
-			var rightKey = keyMapping.get(moveRight);
-			var leftKey = keyMapping.get(moveLeft);
+			if (isEffective(moveRight, true)) {
 
-			if (isEffective(rightKey, true)) {
+				if (isEffective(moveLeft, true)) {
 
-				if (isEffective(leftKey, true)) {
-
-					if (frame[leftKey] > frame[rightKey]) {
+					if (frame[getKey(moveLeft)] > frame[getKey(moveRight)]) {
 						moveLeft.execute();
 					} else {
 						moveRight.execute();
@@ -218,7 +214,7 @@ public class Keyboard extends AbstractAction implements KeyListener {
 					moveRight.execute();
 				}
 
-			} else if (isEffective(leftKey, true)) {
+			} else if (isEffective(moveLeft, true)) {
 
 				moveLeft.execute();
 			}
@@ -233,8 +229,7 @@ public class Keyboard extends AbstractAction implements KeyListener {
 	 */
 	private boolean execute(Action action, boolean repeatable) {
 
-		var key = keyMapping.get(action);
-		var effective = isEffective(key, repeatable);
+		var effective = isEffective(action, repeatable);
 
 		if (effective) {
 			action.execute();

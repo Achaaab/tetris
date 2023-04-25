@@ -14,10 +14,11 @@ import static javax.swing.SwingUtilities.invokeLater;
  */
 public class MenuScene extends AbstractScene {
 
-	private final MenuView view;
 	private final PlayScene playScene;
 	private final OptionScene optionScene;
 	private final CreditsScene creditsScene;
+
+	private final MenuView view;
 
 	/**
 	 * Creates a menu scene.
@@ -34,9 +35,9 @@ public class MenuScene extends AbstractScene {
 		creditsScene = new CreditsScene(manager, this);
 
 		view = new MenuView();
-		view.onPlay(this::play);
-		view.onOptions(this::options);
-		view.onCredits(this::credits);
+		view.onPlay(this::startsGame);
+		view.onOptions(this::displayOptions);
+		view.onCredits(this::displayCredits);
 		view.onQuit(this::back);
 	}
 
@@ -60,23 +61,29 @@ public class MenuScene extends AbstractScene {
 	}
 
 	/**
+	 * Starts game.
+	 *
 	 * @since 0.0.0
 	 */
-	public void play() {
+	public void startsGame() {
 		manager.display(playScene);
 	}
 
 	/**
+	 * Displays options.
+	 *
 	 * @since 0.0.0
 	 */
-	public void options() {
+	public void displayOptions() {
 		manager.display(optionScene);
 	}
 
 	/**
+	 * Displays credits.
+	 *
 	 * @since 0.0.0
 	 */
-	public void credits() {
+	public void displayCredits() {
 		manager.display(creditsScene);
 	}
 

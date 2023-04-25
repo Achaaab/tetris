@@ -12,6 +12,8 @@ import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
+import static java.awt.event.KeyEvent.VK_LEFT;
+import static java.awt.event.KeyEvent.VK_RIGHT;
 
 /**
  * simple select
@@ -20,7 +22,7 @@ import static java.awt.Color.WHITE;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Option<T> extends Component {
+public class Option<T> extends Input {
 
 	private static final SoundEffect OPTION_CHANGED_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
 	private static final int SELECTED_SHIFT = scale(10.0f);
@@ -35,7 +37,6 @@ public class Option<T> extends Component {
 	private final int valueX;
 	private String name;
 	private int index;
-	private boolean selected;
 	private Consumer<T> consumer;
 
 	/**
@@ -44,7 +45,7 @@ public class Option<T> extends Component {
 	 * @param name displayed option name
 	 * @param values selectable values
 	 * @param valueToStringFunction function converting a value to its string representation
-	 * @param valueX distance between title start and value start
+	 * @param valueX distance between name and value (in pixels)
 	 * @since 0.0.0
 	 */
 	public Option(String name, List<T> values, Function<T, String> valueToStringFunction, int valueX) {
@@ -54,7 +55,6 @@ public class Option<T> extends Component {
 		this.valueToStringFunction = valueToStringFunction;
 		this.valueX = valueX;
 
-		selected = false;
 		select(0);
 	}
 
@@ -84,14 +84,6 @@ public class Option<T> extends Component {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @param selected whether this button is selected
-	 * @since 0.0.0
-	 */
-	public void setSelected(boolean selected) {
-		this.selected = selected;
 	}
 
 	/**
@@ -145,5 +137,15 @@ public class Option<T> extends Component {
 		OPTION_CHANGED_SOUND_EFFECT.play();
 		select((index + 1) % values.size());
 		consumer.accept(selectedValue());
+	}
+
+	@Override
+	public void keyTyped(int keyCode) {
+
+		switch (keyCode) {
+
+			case VK_LEFT -> previous();
+			case VK_RIGHT -> next();
+		}
 	}
 }

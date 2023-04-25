@@ -2,6 +2,8 @@ package com.github.achaaab.tetroshow.view.menu;
 
 import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.settings.Settings;
+import com.github.achaaab.tetroshow.view.component.Button;
+import com.github.achaaab.tetroshow.view.component.Input;
 import com.github.achaaab.tetroshow.view.component.Option;
 import com.github.achaaab.tetroshow.view.message.Language;
 import com.github.achaaab.tetroshow.view.message.Messages;
@@ -21,10 +23,12 @@ import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.hideCursor;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Language.getLanguage;
+import static com.github.achaaab.tetroshow.view.message.Messages.BACK;
+import static com.github.achaaab.tetroshow.view.message.Messages.CONTROLS;
 import static com.github.achaaab.tetroshow.view.message.Messages.LANGUAGE;
-import static com.github.achaaab.tetroshow.view.message.Messages.MUSIC_GAIN;
+import static com.github.achaaab.tetroshow.view.message.Messages.MUSIC;
 import static com.github.achaaab.tetroshow.view.message.Messages.SKIN;
-import static com.github.achaaab.tetroshow.view.message.Messages.SOUND_FX_GAIN;
+import static com.github.achaaab.tetroshow.view.message.Messages.SOUND_EFFECT;
 import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
 import static com.github.achaaab.tetroshow.view.skin.Skin.SKINS;
 import static java.awt.Font.DIALOG;
@@ -34,14 +38,12 @@ import static java.awt.RenderingHints.VALUE_ANTIALIAS_OFF;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
-import static java.awt.event.KeyEvent.VK_LEFT;
-import static java.awt.event.KeyEvent.VK_RIGHT;
 import static java.awt.event.KeyEvent.VK_UP;
 import static java.util.function.Function.identity;
 import static java.util.stream.IntStream.rangeClosed;
 
 /**
- * options view
+ * view to display and change options
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
@@ -52,7 +54,7 @@ public class OptionView extends JComponent implements KeyListener {
 	private static final Color BACKGROUND_COLOR = new Color(0, 0, 16);
 	private static final int FONT_SIZE = 18;
 	private static final Font FONT = new Font(DIALOG, PLAIN, scale(FONT_SIZE));
-	private static final int OPTION_HEIGHT = scale(50);
+	private static final int INPUT_HEIGHT = scale(50);
 	private static final int VALUE_X = scale(150);
 	private static final SoundEffect SELECTION_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
 
@@ -60,12 +62,12 @@ public class OptionView extends JComponent implements KeyListener {
 	private final Option<String> skin;
 	private final Option<Integer> musicVolume;
 	private final Option<Integer> soundEffectVolume;
+	private final Button controls;
+	private final Button back;
 
-	private final List<Option<?>> options;
-	private final int optionCount;
-	private int selectedOptionIndex;
-
-	private Runnable backAction;
+	private final List<Input> inputs;
+	private final int inputCount;
+	private int selectedInputIndex;
 
 	/**
 	 * Creates a view to display and change options.
@@ -89,21 +91,31 @@ public class OptionView extends JComponent implements KeyListener {
 				VALUE_X);
 
 		musicVolume = new Option<>(
-				getMessage(MUSIC_GAIN),
+				getMessage(MUSIC),
 				rangeClosed(0, 10).boxed().toList(),
 				Object::toString,
 				VALUE_X);
 
 		soundEffectVolume = new Option<>(
-				getMessage(SOUND_FX_GAIN),
+				getMessage(SOUND_EFFECT),
 				rangeClosed(0, 10).boxed().toList(),
 				Object::toString,
 				VALUE_X);
 
-		options = List.of(language, skin, musicVolume, soundEffectVolume);
-		optionCount = options.size();
+		controls = new Button(getMessage(CONTROLS));
+		back = new Button(getMessage(BACK));
+
+		inputs = List.of(
+				language,
+				skin,
+				musicVolume,
+				soundEffectVolume,
+				controls,
+				back);
+
+		inputCount = inputs.size();
 		language.setSelected(true);
-		selectedOptionIndex = 0;
+		selectedInputIndex = 0;
 
 		var currentLocale = Messages.getLocale();
 		var code = currentLocale.getLanguage();
@@ -121,17 +133,25 @@ public class OptionView extends JComponent implements KeyListener {
 		language.setX(x);
 		language.setY(y);
 
-		y += OPTION_HEIGHT;
+		y += INPUT_HEIGHT;
 		skin.setX(x);
 		skin.setY(y);
 
-		y += OPTION_HEIGHT;
+		y += INPUT_HEIGHT;
 		musicVolume.setX(x);
 		musicVolume.setY(y);
 
-		y += OPTION_HEIGHT;
+		y += INPUT_HEIGHT;
 		soundEffectVolume.setX(x);
 		soundEffectVolume.setY(y);
+
+		y += INPUT_HEIGHT;
+		controls.setX(x);
+		controls.setY(y);
+
+		y += INPUT_HEIGHT;
+		back.setX(x);
+		back.setY(y);
 
 		addKeyListener(this);
 		hideCursor(this);
@@ -148,7 +168,7 @@ public class OptionView extends JComponent implements KeyListener {
 
 		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
 		graphics.setFont(FONT);
-		options.forEach(option -> option.paint(graphics2d));
+		inputs.forEach(input -> input.paint(graphics2d));
 		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_OFF);
 	}
 
@@ -159,21 +179,23 @@ public class OptionView extends JComponent implements KeyListener {
 
 		language.setName(getMessage(LANGUAGE));
 		skin.setName(getMessage(SKIN));
-		musicVolume.setName(getMessage(MUSIC_GAIN));
-		soundEffectVolume.setName(getMessage(SOUND_FX_GAIN));
+		musicVolume.setName(getMessage(MUSIC));
+		soundEffectVolume.setName(getMessage(SOUND_EFFECT));
+		controls.setText(getMessage(CONTROLS));
+		back.setText(getMessage(BACK));
 	}
 
 	/**
-	 * Selects an option.
+	 * Selects an input.
 	 *
-	 * @param index option index
+	 * @param index input index
 	 * @since 0.0.0
 	 */
-	public void selectOption(int index) {
+	public void selectInput(int index) {
 
-		options.get(selectedOptionIndex).setSelected(false);
-		selectedOptionIndex = index;
-		options.get(selectedOptionIndex).setSelected(true);
+		inputs.get(selectedInputIndex).setSelected(false);
+		selectedInputIndex = index;
+		inputs.get(selectedInputIndex).setSelected(true);
 		SELECTION_SOUND_EFFECT.play();
 	}
 
@@ -210,11 +232,19 @@ public class OptionView extends JComponent implements KeyListener {
 	}
 
 	/**
+	 * @param action controls action
+	 * @since 0.0.0
+	 */
+	public void onControls(Runnable action) {
+		controls.setAction(action);
+	}
+
+	/**
 	 * @param action back action
 	 * @since 0.0.0
 	 */
 	public void onBack(Runnable action) {
-		backAction = action;
+		back.setAction(action);
 	}
 
 	@Override
@@ -224,11 +254,10 @@ public class OptionView extends JComponent implements KeyListener {
 
 		switch (keyCode) {
 
-			case VK_UP -> selectOption(((selectedOptionIndex - 1) + optionCount) % optionCount);
-			case VK_DOWN -> selectOption((selectedOptionIndex + 1) % optionCount);
-			case VK_LEFT -> options.get(selectedOptionIndex).previous();
-			case VK_RIGHT -> options.get(selectedOptionIndex).next();
-			case VK_ESCAPE -> backAction.run();
+			case VK_UP -> selectInput(((selectedInputIndex - 1) + inputCount) % inputCount);
+			case VK_DOWN -> selectInput((selectedInputIndex + 1) % inputCount);
+			case VK_ESCAPE -> back.executeAction();
+			default -> inputs.get(selectedInputIndex).keyTyped(keyCode);
 		}
 	}
 

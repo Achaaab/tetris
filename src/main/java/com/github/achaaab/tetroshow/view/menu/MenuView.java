@@ -29,9 +29,7 @@ import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_OFF;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import static java.awt.event.KeyEvent.VK_DOWN;
-import static java.awt.event.KeyEvent.VK_ENTER;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
-import static java.awt.event.KeyEvent.VK_SPACE;
 import static java.awt.event.KeyEvent.VK_UP;
 
 /**
@@ -195,8 +193,8 @@ public class MenuView extends JComponent implements KeyListener {
 
 			case VK_UP -> selectButton(((selectedIndex - 1) + buttonCount) % buttons.size());
 			case VK_DOWN -> selectButton((selectedIndex + 1) % buttons.size());
-			case VK_ENTER, VK_SPACE -> buttons.get(selectedIndex).executeAction();
 			case VK_ESCAPE -> quit.executeAction();
+			default -> buttons.get(selectedIndex).keyTyped(keyCode);
 		}
 	}
 

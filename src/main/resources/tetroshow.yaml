@@ -1,13 +1,13 @@
 keys:
-  "pause": 80
-  "exit": 27
   "left": 37
   "right": 39
+  "clockwise": 32
+  "counterclockwise": 16
   "soft_drop": 40
   "hard_drop": 38
   "hold": 17
-  "clockwise": 32
-  "counterclockwise": 16
+  "pause": 80
+  "exit": 27
 
 graphics:
   skin: "Brick game"

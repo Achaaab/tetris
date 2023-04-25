@@ -19,6 +19,8 @@ import static javax.swing.SwingUtilities.invokeLater;
  */
 public class OptionScene extends AbstractScene {
 
+	private final ControlsScene controlsScene;
+
 	private final OptionView view;
 
 	/**
@@ -32,11 +34,14 @@ public class OptionScene extends AbstractScene {
 
 		super(manager, parent);
 
+		controlsScene = new ControlsScene(manager, this);
+
 		view = new OptionView();
 		view.onLanguageChanged(this::languageChanged);
 		view.onSkinChanged(this::skinChanged);
 		view.onMusicVolumeChanged(this::musicVolumeChanged);
 		view.onSoundEffectVolumeChanged(this::soundEffectVolumeChanged);
+		view.onControls(this::displayControls);
 		view.onBack(this::back);
 	}
 
@@ -44,7 +49,7 @@ public class OptionScene extends AbstractScene {
 	public void initialize() {
 
 		view.requestFocus();
-		view.selectOption(0);
+		view.selectInput(0);
 	}
 
 	@Override
@@ -89,6 +94,15 @@ public class OptionScene extends AbstractScene {
 	 */
 	private void back() {
 		exit();
+	}
+
+	/**
+	 * Displays control scene.
+	 *
+	 * @since 0.0.0
+	 */
+	private void displayControls() {
+		manager.display(controlsScene);
 	}
 
 	@Override

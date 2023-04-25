@@ -9,6 +9,8 @@ import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
+import static java.awt.event.KeyEvent.VK_ENTER;
+import static java.awt.event.KeyEvent.VK_SPACE;
 
 /**
  * simple text button
@@ -16,7 +18,7 @@ import static java.awt.Color.WHITE;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Button extends Component {
+public class Button extends Input {
 
 	private static final SoundEffect EXECUTION_SOUND_EFFECT = getSoundEffect("audio/effect/hard_drop.wav", 2);
 	private static final int SELECTED_SHIFT = scale(10.0f);
@@ -26,7 +28,6 @@ public class Button extends Component {
 
 	private String text;
 	private Runnable action;
-	private boolean selected;
 
 	/**
 	 * Creates a new text button.
@@ -35,10 +36,7 @@ public class Button extends Component {
 	 * @since 0.0.0
 	 */
 	public Button(String text) {
-
 		this.text = text;
-
-		selected = false;
 	}
 
 	/**
@@ -55,14 +53,6 @@ public class Button extends Component {
 	 */
 	public void setAction(Runnable action) {
 		this.action = action;
-	}
-
-	/**
-	 * @param selected whether this button is selected
-	 * @since 0.0.0
-	 */
-	public void setSelected(boolean selected) {
-		this.selected = selected;
 	}
 
 	@Override
@@ -83,5 +73,13 @@ public class Button extends Component {
 
 		EXECUTION_SOUND_EFFECT.play();
 		action.run();
+	}
+
+	@Override
+	public void keyTyped(int keyCode) {
+
+		switch (keyCode) {
+			case VK_ENTER, VK_SPACE -> executeAction();
+		}
 	}
 }

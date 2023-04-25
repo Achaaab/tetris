@@ -17,16 +17,17 @@ public class Messages {
 
 	public static final String BACK = "back";
 	public static final String CREDITS = "credits";
-	public static final String MUSIC_GAIN = "music_gain";
+	public static final String CONTROLS = "controls";
 	public static final String LANGUAGE = "language";
 	public static final String LEVEL = "level";
+	public static final String MUSIC = "music";
 	public static final String OPTIONS = "options";
 	public static final String PLAY = "play";
 	public static final String QUIT = "quit";
 	public static final String QUIT_CONFIRM = "quit_confirm";
 	public static final String SCORE = "score";
 	public static final String SKIN = "skin";
-	public static final String SOUND_FX_GAIN = "sound_fx_gain";
+	public static final String SOUND_EFFECT = "sound_effect";
 	public static final String TIME = "time";
 
 	private static final List<LocaleListener> LISTENERS = new ArrayList<>();
