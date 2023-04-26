@@ -1,7 +1,11 @@
 package com.github.achaaab.tetroshow.view.component;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
 
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
+import static java.awt.Font.DIALOG;
+import static java.awt.Font.PLAIN;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 
 /**
@@ -12,11 +16,14 @@ import static java.awt.geom.AffineTransform.getTranslateInstance;
  */
 public abstract class Component {
 
+	private static final Font DEFAULT_FONT = new Font(DIALOG, PLAIN, scale(18));
+
 	protected int x;
 	protected int y;
 	protected int width;
 	protected int height;
 	protected int margin;
+	protected Font font;
 
 	/**
 	 * Creates a new component.
@@ -30,6 +37,15 @@ public abstract class Component {
 		width = 0;
 		height = 0;
 		margin = 0;
+		font = DEFAULT_FONT;
+	}
+
+	/**
+	 * @param font font to use to draw the text of this component
+	 * @since 0.0.0
+	 */
+	public void setFont(Font font) {
+		this.font = font;
 	}
 
 	/**
@@ -42,6 +58,7 @@ public abstract class Component {
 
 		var translation = getTranslateInstance(x + margin, y + margin);
 		graphics.setTransform(translation);
+		graphics.setFont(font);
 	}
 
 	/**

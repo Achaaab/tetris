@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 
 import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
+import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
 import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
 import static java.awt.event.KeyEvent.VK_ENTER;
@@ -26,25 +27,16 @@ public class Button extends Input {
 	private static final Color SELECTED_COLOR = WHITE;
 	private static final Color UNSELECTED_COLOR = GRAY;
 
-	private String text;
 	private Runnable action;
 
 	/**
 	 * Creates a new text button.
 	 *
-	 * @param text text to display as a button
+	 * @param textKey key of the text
 	 * @since 0.0.0
 	 */
-	public Button(String text) {
-		this.text = text;
-	}
-
-	/**
-	 * @param text text to display
-	 * @since 0.0.0
-	 */
-	public void setText(String text) {
-		this.text = text;
+	public Button(String textKey) {
+		super(textKey);
 	}
 
 	/**
@@ -59,6 +51,8 @@ public class Button extends Input {
 	public void paint(Graphics2D graphics) {
 
 		super.paint(graphics);
+
+		var text = getMessage(textKey);
 
 		graphics.setColor(selected ? SELECTED_COLOR : UNSELECTED_COLOR);
 		graphics.drawString(text, selected ? SELECTED_SHIFT : 0, 0);

@@ -8,14 +8,19 @@ package com.github.achaaab.tetroshow.view.component;
  */
 public abstract class Input extends Component {
 
+	protected final String textKey;
 	protected boolean selected;
 
 	/**
 	 * Creates a new input component, initially not selected.
 	 *
+	 * @param textKey key of the text describing the input to create
 	 * @since 0.0.0
 	 */
-	public Input() {
+	public Input(String textKey) {
+
+		this.textKey = textKey;
+
 		selected = false;
 	}
 

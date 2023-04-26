@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 import static java.util.ResourceBundle.getBundle;
 
 /**
+ * Localized messages control center.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -16,17 +18,24 @@ public class Messages {
 	public static final String BUNDLE_NAME = "messages/messages";
 
 	public static final String BACK = "back";
-	public static final String CREDITS = "credits";
 	public static final String CONTROLS = "controls";
+	public static final String CREDITS = "credits";
+	public static final String HARD_DROP = "hard_drop";
+	public static final String HOLD = "hold";
 	public static final String LANGUAGE = "language";
+	public static final String LEFT = "left";
 	public static final String LEVEL = "level";
 	public static final String MUSIC = "music";
 	public static final String OPTIONS = "options";
+	public static final String PAUSE = "pause";
 	public static final String PLAY = "play";
+	public static final String RIGHT = "right";
+	public static final String ROTATE = "rotate";
 	public static final String QUIT = "quit";
 	public static final String QUIT_CONFIRM = "quit_confirm";
 	public static final String SCORE = "score";
 	public static final String SKIN = "skin";
+	public static final String SOFT_DROP = "soft_drop";
 	public static final String SOUND_EFFECT = "sound_effect";
 	public static final String TIME = "time";
 
@@ -44,7 +53,7 @@ public class Messages {
 	}
 
 	/**
-	 * @param locale
+	 * @param locale new locale to apply
 	 * @since 0.0.0
 	 */
 	public static void setLocale(Locale locale) {
@@ -59,7 +68,9 @@ public class Messages {
 	}
 
 	/**
-	 * @param listener
+	 * Registers a locale change listener.
+	 *
+	 * @param listener locale change listener to register
 	 * @since 0.0.0
 	 */
 	public static void register(LocaleListener listener) {
@@ -67,8 +78,8 @@ public class Messages {
 	}
 
 	/**
-	 * @param key
-	 * @return
+	 * @param key message key
+	 * @return localized message value
 	 * @since 0.0.0
 	 */
 	public static String getMessage(String key) {

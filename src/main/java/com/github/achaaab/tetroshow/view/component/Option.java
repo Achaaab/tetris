@@ -10,6 +10,7 @@ import java.util.function.Function;
 
 import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
+import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
 import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
 import static java.awt.event.KeyEvent.VK_LEFT;
@@ -29,28 +30,28 @@ public class Option<T> extends Input {
 
 	private static final Color SELECTED_NAME_COLOR = WHITE;
 	private static final Color UNSELECTED_NAME_COLOR = GRAY;
-	private static final Color SELECTED_VALUE_COLOR = new Color(96, 224, 255);
+	private static final Color SELECTED_VALUE_COLOR = new Color(160, 208, 255);
 	private static final Color UNSELECTED_VALUE_COLOR = new Color(0, 101, 189);
 
 	private final Function<T, String> valueToStringFunction;
 	private final List<T> values;
 	private final int valueX;
-	private String name;
 	private int index;
 	private Consumer<T> consumer;
 
 	/**
 	 * Creates a new select.
 	 *
-	 * @param name displayed option name
+	 * @param textKey key of the displayed option name
 	 * @param values selectable values
 	 * @param valueToStringFunction function converting a value to its string representation
 	 * @param valueX distance between name and value (in pixels)
 	 * @since 0.0.0
 	 */
-	public Option(String name, List<T> values, Function<T, String> valueToStringFunction, int valueX) {
+	public Option(String textKey, List<T> values, Function<T, String> valueToStringFunction, int valueX) {
 
-		this.name = name;
+		super(textKey);
+
 		this.values = values;
 		this.valueToStringFunction = valueToStringFunction;
 		this.valueX = valueX;
@@ -79,14 +80,6 @@ public class Option<T> extends Input {
 	}
 
 	/**
-	 * @param name displayed option name
-	 * @since 0.0.0
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return selected value
 	 * @since 0.0.0
 	 */
@@ -107,12 +100,14 @@ public class Option<T> extends Input {
 
 		super.paint(graphics);
 
+		var text = getMessage(textKey);
 		var selectedValue = selectedValue();
 		var selectedString = valueToStringFunction.apply(selectedValue);
+
 		graphics.setColor(selected ? SELECTED_NAME_COLOR : UNSELECTED_NAME_COLOR);
-		graphics.drawString(name, selected ? SELECTED_SHIFT : 0, 0);
+		graphics.drawString(text, selected ? SELECTED_SHIFT : 0, 0);
 		graphics.setColor(selected ? SELECTED_VALUE_COLOR : UNSELECTED_VALUE_COLOR);
-		graphics.drawString("< " + selectedString + " >", valueX, 0);
+		graphics.drawString("⏴ " + selectedString + " ⏵", valueX, 0);
 	}
 
 	/**

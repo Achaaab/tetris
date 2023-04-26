@@ -49,7 +49,7 @@ public class OptionScene extends AbstractScene {
 	public void initialize() {
 
 		view.requestFocus();
-		view.selectInput(0);
+		view.selectFirstInput();
 	}
 
 	@Override

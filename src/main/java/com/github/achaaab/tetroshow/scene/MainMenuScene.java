@@ -1,6 +1,6 @@
 package com.github.achaaab.tetroshow.scene;
 
-import com.github.achaaab.tetroshow.view.menu.MenuView;
+import com.github.achaaab.tetroshow.view.menu.MainMenuView;
 
 import java.awt.Container;
 
@@ -12,13 +12,13 @@ import static javax.swing.SwingUtilities.invokeLater;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class MenuScene extends AbstractScene {
+public class MainMenuScene extends AbstractScene {
 
 	private final PlayScene playScene;
 	private final OptionScene optionScene;
 	private final CreditsScene creditsScene;
 
-	private final MenuView view;
+	private final MainMenuView view;
 
 	/**
 	 * Creates a menu scene.
@@ -26,7 +26,7 @@ public class MenuScene extends AbstractScene {
 	 * @param manager scene manager
 	 * @since 0.0.0
 	 */
-	public MenuScene(SceneManager manager) {
+	public MainMenuScene(SceneManager manager) {
 
 		super(manager);
 
@@ -34,7 +34,7 @@ public class MenuScene extends AbstractScene {
 		optionScene = new OptionScene(manager, this);
 		creditsScene = new CreditsScene(manager, this);
 
-		view = new MenuView();
+		view = new MainMenuView();
 		view.onPlay(this::startsGame);
 		view.onOptions(this::displayOptions);
 		view.onCredits(this::displayCredits);
@@ -45,7 +45,7 @@ public class MenuScene extends AbstractScene {
 	public void initialize() {
 
 		view.requestFocus();
-		view.selectButton(0);
+		view.selectFirstInput();
 	}
 
 	@Override

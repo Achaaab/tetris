@@ -1,7 +1,7 @@
 package com.github.achaaab.tetroshow;
 
 import com.github.achaaab.tetroshow.audio.Playlist;
-import com.github.achaaab.tetroshow.scene.MenuScene;
+import com.github.achaaab.tetroshow.scene.MainMenuScene;
 import com.github.achaaab.tetroshow.scene.SceneManager;
 import org.slf4j.Logger;
 
@@ -32,7 +32,7 @@ public class Application {
 		new Thread(playlist, "playlist").start();
 
 		var sceneManager = new SceneManager("Tetroshow", 60);
-		var menuScene = new MenuScene(sceneManager);
+		var menuScene = new MainMenuScene(sceneManager);
 		sceneManager.display(menuScene);
 		sceneManager.run();
 

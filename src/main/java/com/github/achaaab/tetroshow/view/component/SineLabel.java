@@ -73,6 +73,8 @@ public class SineLabel extends Component {
 		this.amplitude = amplitude;
 		this.periodCount = periodCount;
 		this.palette = palette;
+
+		font = FONT;
 	}
 
 	/**
@@ -114,7 +116,6 @@ public class SineLabel extends Component {
 
 		super.paint(graphics);
 
-		graphics.setFont(FONT);
 		var fontMetrics = graphics.getFontMetrics();
 		var letterHeight = fontMetrics.getHeight();
 		var x = 0;

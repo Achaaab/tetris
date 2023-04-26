@@ -1,21 +1,10 @@
 package com.github.achaaab.tetroshow.view.menu;
 
-import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.component.Button;
-import com.github.achaaab.tetroshow.view.component.Input;
 import com.github.achaaab.tetroshow.view.component.KeyInput;
-import com.github.achaaab.tetroshow.view.message.Messages;
-import com.github.achaaab.tetroshow.view.play.TetroshowView;
 
-import javax.swing.JComponent;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.List;
 
 import static com.github.achaaab.tetroshow.action.Keyboard.CLOCKWISE_KEY;
 import static com.github.achaaab.tetroshow.action.Keyboard.COUNTERCLOCKWISE_KEY;
@@ -25,16 +14,15 @@ import static com.github.achaaab.tetroshow.action.Keyboard.LEFT_KEY;
 import static com.github.achaaab.tetroshow.action.Keyboard.PAUSE_KEY;
 import static com.github.achaaab.tetroshow.action.Keyboard.RIGHT_KEY;
 import static com.github.achaaab.tetroshow.action.Keyboard.SOFT_DROP_KEY;
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
-import static com.github.achaaab.tetroshow.utility.SwingUtility.hideCursor;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Messages.BACK;
-import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
-import static java.awt.Font.DIALOG;
-import static java.awt.Font.PLAIN;
-import static java.awt.RenderingHints.KEY_ANTIALIASING;
-import static java.awt.RenderingHints.VALUE_ANTIALIAS_OFF;
-import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+import static com.github.achaaab.tetroshow.view.message.Messages.HARD_DROP;
+import static com.github.achaaab.tetroshow.view.message.Messages.HOLD;
+import static com.github.achaaab.tetroshow.view.message.Messages.LEFT;
+import static com.github.achaaab.tetroshow.view.message.Messages.PAUSE;
+import static com.github.achaaab.tetroshow.view.message.Messages.RIGHT;
+import static com.github.achaaab.tetroshow.view.message.Messages.ROTATE;
+import static com.github.achaaab.tetroshow.view.message.Messages.SOFT_DROP;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.awt.event.KeyEvent.VK_UP;
@@ -45,20 +33,12 @@ import static java.awt.event.KeyEvent.VK_UP;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class ControlsView extends JComponent implements KeyListener {
+public class ControlsView extends MenuView {
 
-	private static final Color BACKGROUND_COLOR = new Color(0, 0, 16);
-	private static final int FONT_SIZE = 18;
-	private static final Font FONT = new Font(DIALOG, PLAIN, scale(FONT_SIZE));
 	private static final int INPUT_HEIGHT = scale(40);
 	private static final int VALUE_X = scale(200);
-	private static final SoundEffect SELECTION_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
 
 	private final Button back;
-
-	private final List<Input> inputs;
-	private final int inputCount;
-	private int selectedInputIndex;
 
 	/**
 	 * Creates a view to display and change controls.
@@ -67,35 +47,30 @@ public class ControlsView extends JComponent implements KeyListener {
 	 */
 	public ControlsView() {
 
-		Messages.register(this::localeChanged);
-
 		var keys = Settings.getDefaultInstance().getKeys();
 
-		var left = new KeyInput("Left", LEFT_KEY, keys, VALUE_X);
-		var right = new KeyInput("Right", RIGHT_KEY, keys, VALUE_X);
-		var clockwise = new KeyInput("Clockwise", CLOCKWISE_KEY, keys, VALUE_X);
-		var counterClockwise = new KeyInput("Counterclockwise", COUNTERCLOCKWISE_KEY, keys, VALUE_X);
-		var softDrop = new KeyInput("Soft drop", SOFT_DROP_KEY, keys, VALUE_X);
-		var hardDrop = new KeyInput("Hard drop", HARD_DROP_KEY, keys, VALUE_X);
-		var hold = new KeyInput("Hold", HOLD_KEY, keys, VALUE_X);
-		var pause = new KeyInput("Pause", PAUSE_KEY, keys, VALUE_X);
+		var left = new KeyInput(LEFT, '⏴', LEFT_KEY, keys, VALUE_X);
+		var right = new KeyInput(RIGHT, '⏵', RIGHT_KEY, keys, VALUE_X);
+		var clockwise = new KeyInput(ROTATE, '↶', CLOCKWISE_KEY, keys, VALUE_X);
+		var counterClockwise = new KeyInput(ROTATE, '↷', COUNTERCLOCKWISE_KEY, keys, VALUE_X);
+		var softDrop = new KeyInput(SOFT_DROP, '⇣', SOFT_DROP_KEY, keys, VALUE_X);
+		var hardDrop = new KeyInput(HARD_DROP, '↓', HARD_DROP_KEY, keys, VALUE_X);
+		var hold = new KeyInput(HOLD, '↸', HOLD_KEY, keys, VALUE_X);
+		var pause = new KeyInput(PAUSE, '⏸', PAUSE_KEY, keys, VALUE_X);
 
-		back = new Button(getMessage(BACK));
+		back = new Button(BACK);
 
-		inputs = List.of(
-				left,
-				right,
-				clockwise,
-				counterClockwise,
-				softDrop,
-				hardDrop,
-				hold,
-				pause,
-				back);
+		add(left);
+		add(right);
+		add(clockwise);
+		add(counterClockwise);
+		add(softDrop);
+		add(hardDrop);
+		add(hold);
+		add(pause);
+		add(back);
 
-		inputCount = inputs.size();
-		left.setSelected(true);
-		selectedInputIndex = 0;
+		selectFirstInput();
 
 		var x = scale(75.0f);
 		var y = scale(75.0f);
@@ -134,45 +109,6 @@ public class ControlsView extends JComponent implements KeyListener {
 		y += INPUT_HEIGHT;
 		back.setX(x);
 		back.setY(y);
-
-		addKeyListener(this);
-		hideCursor(this);
-		setPreferredSize(TetroshowView.DIMENSION);
-	}
-
-	@Override
-	public void paint(Graphics graphics) {
-
-		var graphics2d = (Graphics2D) graphics;
-
-		graphics2d.setColor(BACKGROUND_COLOR);
-		graphics2d.fillRect(0, 0, getWidth(), getHeight());
-
-		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
-		graphics.setFont(FONT);
-		inputs.forEach(input -> input.paint(graphics2d));
-		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_OFF);
-	}
-
-	/**
-	 * @since 0.0.0
-	 */
-	private void localeChanged() {
-		back.setText(getMessage(BACK));
-	}
-
-	/**
-	 * Selects an input.
-	 *
-	 * @param index input index
-	 * @since 0.0.0
-	 */
-	public void selectInput(int index) {
-
-		inputs.get(selectedInputIndex).setSelected(false);
-		selectedInputIndex = index;
-		inputs.get(selectedInputIndex).setSelected(true);
-		SELECTION_SOUND_EFFECT.play();
 	}
 
 	/**
@@ -187,8 +123,7 @@ public class ControlsView extends JComponent implements KeyListener {
 	public void keyPressed(KeyEvent keyEvent) {
 
 		var keyCode = keyEvent.getKeyCode();
-
-		var selectedInput = inputs.get(selectedInputIndex);
+		var selectedInput = getSelectedInput();
 
 		if (selectedInput instanceof KeyInput keyInput && keyInput.isEditing()) {
 
@@ -198,21 +133,11 @@ public class ControlsView extends JComponent implements KeyListener {
 
 			switch (keyCode) {
 
-				case VK_UP -> selectInput(((selectedInputIndex - 1) + inputCount) % inputCount);
-				case VK_DOWN -> selectInput((selectedInputIndex + 1) % inputCount);
+				case VK_UP -> selectPreviousInput();
+				case VK_DOWN -> selectNextInput();
 				case VK_ESCAPE -> back.executeAction();
 				default -> selectedInput.keyTyped(keyCode);
 			}
 		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent keyEvent) {
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent keyEvent) {
-
 	}
 }

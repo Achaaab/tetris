@@ -8,6 +8,7 @@ import java.util.Map;
 
 import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
+import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
 import static java.awt.Color.GRAY;
 import static java.awt.Color.WHITE;
 import static java.awt.event.KeyEvent.VK_ENTER;
@@ -23,7 +24,7 @@ import static java.awt.event.KeyEvent.getKeyText;
  */
 public class KeyInput extends Input {
 
-	private static final SoundEffect OPTION_CHANGED_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
+	private static final SoundEffect KEY_SET_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
 	private static final int SELECTED_SHIFT = scale(10.0f);
 
 	private static final Color SELECTED_NAME_COLOR = WHITE;
@@ -31,7 +32,7 @@ public class KeyInput extends Input {
 	private static final Color SELECTED_VALUE_COLOR = new Color(96, 224, 255);
 	private static final Color UNSELECTED_VALUE_COLOR = new Color(0, 101, 189);
 
-	private String action;
+	private final char symbol;
 	private final String keyKey;
 	private final Map<String, Integer> keyCodes;
 	private final int keyTextX;
@@ -41,20 +42,24 @@ public class KeyInput extends Input {
 	/**
 	 * Creates a new key input.
 	 *
-	 * @param action action description
-	 * @param keyKey key of the key
+	 * @param textKey key of the action description
+	 * @param symbol single character representing the action in a more visual way
+	 * @param actionKey key of the action
 	 * @param keyCodes key codes to adjust
 	 * @param keyTextX distance between action and key text (in pixels)
 	 * @since 0.0.0
 	 */
-	public KeyInput(String action, String keyKey, Map<String, Integer> keyCodes, int keyTextX) {
+	public KeyInput(String textKey, char symbol, String actionKey, Map<String, Integer> keyCodes, int keyTextX) {
 
-		this.action = action;
-		this.keyKey = keyKey;
+		super(textKey);
+
+		this.symbol = symbol;
+		this.keyKey = actionKey;
 		this.keyCodes = keyCodes;
 		this.keyTextX = keyTextX;
 
-		setKeyCode(keyCodes.get(keyKey));
+		var keyCode = keyCodes.get(actionKey);
+		setKeyCode(keyCode);
 	}
 
 	/**
@@ -67,6 +72,8 @@ public class KeyInput extends Input {
 		editing = false;
 
 		keyCodes.put(keyKey, keyCode);
+
+		KEY_SET_SOUND_EFFECT.play();
 	}
 
 	@Override
@@ -74,8 +81,10 @@ public class KeyInput extends Input {
 
 		super.paint(graphics);
 
+		var text = getMessage(textKey);
+
 		graphics.setColor(selected ? SELECTED_NAME_COLOR : UNSELECTED_NAME_COLOR);
-		graphics.drawString(action, selected ? SELECTED_SHIFT : 0, 0);
+		graphics.drawString(text + " " + symbol, selected ? SELECTED_SHIFT : 0, 0);
 		graphics.setColor(editing ? SELECTED_VALUE_COLOR : UNSELECTED_VALUE_COLOR);
 		graphics.drawString(editing ? "???" : keyText, keyTextX, 0);
 	}
