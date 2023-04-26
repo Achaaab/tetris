@@ -33,7 +33,7 @@ java -jar target/tetroshow-0.0.0.jar
 ```
 
 ### Usage
-Keys are configured in [tetroshow.yaml](src/main/resources/tetroshow.yaml), but they are not yet configurable in game.
+Keys are configurable in options, controls. Default settings are:
 * <kbd>Space</kbd> rotate the falling piece clockwise
 * <kbd>Shift</kbd> rotate the falling piece counterclockwise
 * <kbd>↑</kbd> hard drop the falling piece
@@ -44,11 +44,13 @@ Keys are configured in [tetroshow.yaml](src/main/resources/tetroshow.yaml), but 
 * <kbd>Esc</kbd> exit the game
 
 ### Screenshots
+<img src=".github/pictures/screenshot_options.png" width="320"  alt="options screenshot"/>
+<img src=".github/pictures/screenshot_controls.png" width="320"  alt="controls screenshot"/>
 <img src=".github/pictures/screenshot_gameplay.png" width="320"  alt="gameplay screenshot"/>
 <img src=".github/pictures/screenshot_credits.png" width="320"  alt="credits screenshot"/>
 
-## Improvements
-The list of improvements and missing features is immeasurable.
+## Enhancements
+See [repository enhancements](https://github.com/Achaaab/tetroshow/issues?q=label%3Aenhancement).
 
 ## Contributing
 Slow-mode project, probably doomed not to be finished. Contributions are still welcome.

@@ -3,14 +3,15 @@ package com.github.achaaab.tetroshow.view.component;
 import com.github.achaaab.tetroshow.audio.SoundEffect;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.Map;
 
 import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
-import static java.awt.Color.GRAY;
-import static java.awt.Color.WHITE;
+import static java.awt.Font.BOLD;
+import static java.awt.Font.DIALOG;
 import static java.awt.event.KeyEvent.VK_ENTER;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.awt.event.KeyEvent.VK_SPACE;
@@ -24,13 +25,16 @@ import static java.awt.event.KeyEvent.getKeyText;
  */
 public class KeyInput extends Input {
 
-	private static final SoundEffect KEY_SET_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
+	private static final Font SYMBOL_FONT = new Font(DIALOG, BOLD, scale(18));
 	private static final int SELECTED_SHIFT = scale(10.0f);
+	private static final SoundEffect KEY_SET_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
 
-	private static final Color SELECTED_NAME_COLOR = WHITE;
-	private static final Color UNSELECTED_NAME_COLOR = GRAY;
+	private static final Color SELECTED_NAME_COLOR = new Color(255, 255, 255);
+	private static final Color UNSELECTED_NAME_COLOR = new Color(128, 128, 128);
 	private static final Color SELECTED_VALUE_COLOR = new Color(96, 224, 255);
 	private static final Color UNSELECTED_VALUE_COLOR = new Color(0, 101, 189);
+	private static final Color SELECTED_SYMBOL_COLOR = new Color(255, 32, 16);
+	private static final Color UNSELECTED_SYMBOL_COLOR = new Color(128, 16, 8);
 
 	private final char symbol;
 	private final String keyKey;
@@ -84,9 +88,16 @@ public class KeyInput extends Input {
 		var text = getMessage(textKey);
 
 		graphics.setColor(selected ? SELECTED_NAME_COLOR : UNSELECTED_NAME_COLOR);
-		graphics.drawString(text + " " + symbol, selected ? SELECTED_SHIFT : 0, 0);
+		graphics.drawString(text, selected ? SELECTED_SHIFT : 0, 0);
+
 		graphics.setColor(editing ? SELECTED_VALUE_COLOR : UNSELECTED_VALUE_COLOR);
 		graphics.drawString(editing ? "???" : keyText, keyTextX, 0);
+
+		var fontMetrics = graphics.getFontMetrics();
+		var textWidth = fontMetrics.stringWidth(text + " ");
+		graphics.setFont(SYMBOL_FONT);
+		graphics.setColor(selected ? SELECTED_SYMBOL_COLOR : UNSELECTED_SYMBOL_COLOR);
+		graphics.drawString(Character.toString(symbol), selected ? SELECTED_SHIFT + textWidth : textWidth, 0);
 	}
 
 	@Override
