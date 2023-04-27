@@ -109,6 +109,8 @@ public class ControlsView extends MenuView {
 		y += INPUT_HEIGHT;
 		back.setX(x);
 		back.setY(y);
+
+		setFocusTraversalKeysEnabled(false);
 	}
 
 	/**
@@ -122,12 +124,12 @@ public class ControlsView extends MenuView {
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {
 
-		var keyCode = keyEvent.getKeyCode();
+		var keyCode = keyEvent.getExtendedKeyCode();
 		var selectedInput = getSelectedInput();
 
 		if (selectedInput instanceof KeyInput keyInput && keyInput.isEditing()) {
 
-			keyInput.keyTyped(keyCode);
+			keyInput.keyTyped(keyEvent);
 
 		} else {
 
@@ -136,7 +138,7 @@ public class ControlsView extends MenuView {
 				case VK_UP -> selectPreviousInput();
 				case VK_DOWN -> selectNextInput();
 				case VK_ESCAPE -> back.executeAction();
-				default -> selectedInput.keyTyped(keyCode);
+				default -> selectedInput.keyTyped(keyEvent);
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import com.github.achaaab.tetroshow.audio.SoundEffect;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
@@ -70,9 +71,9 @@ public class Button extends Input {
 	}
 
 	@Override
-	public void keyTyped(int keyCode) {
+	public void keyTyped(KeyEvent keyEvent) {
 
-		switch (keyCode) {
+		switch (keyEvent.getKeyCode()) {
 			case VK_ENTER, VK_SPACE -> executeAction();
 		}
 	}

@@ -136,7 +136,7 @@ public class MainMenuView extends MenuView {
 			case VK_UP -> selectPreviousInput();
 			case VK_DOWN -> selectNextInput();
 			case VK_ESCAPE -> quit.executeAction();
-			default -> getSelectedInput().keyTyped(keyCode);
+			default -> getSelectedInput().keyTyped(keyEvent);
 		}
 	}
 }

@@ -4,6 +4,7 @@ import com.github.achaaab.tetroshow.audio.SoundEffect;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -135,9 +136,9 @@ public class Option<T> extends Input {
 	}
 
 	@Override
-	public void keyTyped(int keyCode) {
+	public void keyTyped(KeyEvent keyEvent) {
 
-		switch (keyCode) {
+		switch (keyEvent.getKeyCode()) {
 
 			case VK_LEFT -> previous();
 			case VK_RIGHT -> next();

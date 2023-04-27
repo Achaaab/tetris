@@ -182,7 +182,7 @@ public class OptionView extends MenuView {
 			case VK_UP -> selectPreviousInput();
 			case VK_DOWN -> selectNextInput();
 			case VK_ESCAPE -> back.executeAction();
-			default -> getSelectedInput().keyTyped(keyCode);
+			default -> getSelectedInput().keyTyped(keyEvent);
 		}
 	}
 }

@@ -39,6 +39,8 @@ public class Messages {
 	public static final String SOUND_EFFECT = "sound_effect";
 	public static final String TIME = "time";
 
+	private static final String KEY_TEXT_PREFIX = "key_";
+
 	private static final List<LocaleListener> LISTENERS = new ArrayList<>();
 
 	private static Locale locale = Locale.getDefault();
@@ -84,5 +86,23 @@ public class Messages {
 	 */
 	public static String getMessage(String key) {
 		return bundle.getString(key);
+	}
+
+	/**
+	 * @param keyCode code of the key to test
+	 * @return whether a message exists for the given key
+	 * @since 0.0.0
+	 */
+	public static boolean containsKeyText(int keyCode) {
+		return bundle.containsKey(KEY_TEXT_PREFIX + keyCode);
+	}
+
+	/**
+	 * @param keyCode key code
+	 * @return corresponding key text
+	 * @since 0.0.0
+	 */
+	public static String getKeyText(int keyCode) {
+		return getMessage(KEY_TEXT_PREFIX + keyCode);
 	}
 }

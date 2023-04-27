@@ -1,5 +1,7 @@
 package com.github.achaaab.tetroshow.view.component;
 
+import java.awt.event.KeyEvent;
+
 /**
  * input component (button, select, text field...)
  *
@@ -33,8 +35,8 @@ public abstract class Input extends Component {
 	}
 
 	/**
-	 * @param keyCode code of the typed key
+	 * @param keyEvent key event
 	 * @since 0.0.0
 	 */
-	public abstract void keyTyped(int keyCode);
+	public abstract void keyTyped(KeyEvent keyEvent);
 }
