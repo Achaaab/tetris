@@ -13,19 +13,21 @@ graphics:
   skin: "Brick game"
   synchronizeState: true
 
-tracks:
-  - "audio/track/retro_platforming.mp3"
-  - "audio/track/korobeïniki.wav"
-  - "audio/track/arcade_kid.mp3"
-  - "audio/track/funny_bit.mp3"
-  - "audio/track/8_bit_retro_funk.mp3"
+audio:
+  musicVolume: 10
+  soundEffectVolume: 10
+  tracks:
+    - "audio/track/retro_platforming.mp3"
+    - "audio/track/korobeïniki.wav"
+    - "audio/track/arcade_kid.mp3"
+    - "audio/track/funny_bit.mp3"
+    - "audio/track/8_bit_retro_funk.mp3"
 
 gameplay:
   holdLimit: 1
-
-gravity: "tgm3_master"
-are: "tgm3_master"
-lineAre: "tgm3_master"
-das: "tgm3_master"
-lock: "tgm3_master"
-clear: "tgm3_master"
+  gravity: "tgm3_master"
+  are: "tgm3_master"
+  lineAre: "tgm3_master"
+  das: "tgm3_master"
+  lock: "tgm3_master"
+  clear: "tgm3_master"

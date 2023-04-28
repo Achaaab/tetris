@@ -35,11 +35,12 @@ public class Mp3Track extends Track {
 	 * Creates a new MP3 resource.
 	 *
 	 * @param name MP3 resource name
+	 * @param volume volume (in {@code [0, 10]})
 	 * @since 0.0.0
 	 */
-	public Mp3Track(String name) {
+	public Mp3Track(String name, int volume) {
 
-		super(name);
+		super(name, volume);
 
 		try (var inputStream = openInputStream()) {
 

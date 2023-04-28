@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.scene;
 
+import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.menu.ControlsView;
 
 import java.awt.Container;
@@ -47,6 +48,8 @@ public class ControlsScene extends AbstractScene {
 	 * @since 0.0.0
 	 */
 	private void back() {
+
+		Settings.getDefaultInstance().save();
 		exit();
 	}
 

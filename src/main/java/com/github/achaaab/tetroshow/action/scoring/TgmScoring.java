@@ -45,7 +45,7 @@ public class TgmScoring extends Scoring {
 		score += ((levelBefore + lineCount + 3) / 4 + dropBonus) * lineCount * combo
 				+ (levelAfter + 1) / 2;
 
-		var lockDelay = settings.getLock(levelBefore);
+		var lockDelay = settings.getGameplay().getLock(levelBefore);
 		var speedBonus = lockDelay - pieceFrames;
 
 		if (speedBonus > 0) {

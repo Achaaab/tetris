@@ -3,6 +3,7 @@ package com.github.achaaab.tetroshow.audio;
 import com.github.achaaab.tetroshow.settings.Settings;
 import org.slf4j.Logger;
 
+import java.time.Duration;
 import java.util.List;
 
 import static java.lang.Thread.currentThread;
@@ -21,6 +22,8 @@ public class Playlist implements Runnable {
 
 	private static final Logger LOGGER = getLogger(Playlist.class);
 
+	private static final Duration SILENCE_BETWEEN_TRACKS = ofSeconds(2);
+
 	private final List<Audio> tracks;
 
 	/**
@@ -30,7 +33,8 @@ public class Playlist implements Runnable {
 	 */
 	public Playlist() {
 
-		var trackNames = Settings.getDefaultInstance().getTracks();
+		var audioSettings = Settings.getDefaultInstance().getAudio();
+		var trackNames = audioSettings.getTracks();
 
 		tracks = trackNames.stream().
 				map(AudioPlayer::getTrack).
@@ -49,7 +53,7 @@ public class Playlist implements Runnable {
 
 				try {
 
-					sleep(ofSeconds(2));
+					sleep(SILENCE_BETWEEN_TRACKS);
 
 				} catch (InterruptedException interruptedException) {
 

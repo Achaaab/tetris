@@ -77,11 +77,11 @@ public class Clear extends AbstractAction {
 
 		if (lines.isEmpty()) {
 
-			delay = settings.getAre(level);
+			delay = settings.getGameplay().getAre(level);
 
 		} else {
 
-			delay = settings.getClear(level);
+			delay = settings.getGameplay().getClear(level);
 			CLEAR_SOUND_EFFECT.play();
 		}
 	}

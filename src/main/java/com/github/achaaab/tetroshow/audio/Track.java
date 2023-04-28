@@ -33,25 +33,30 @@ public abstract class Track extends NamedAudio {
 	private static final Duration LINE_BUFFER_DURATION = ofMillis(100);
 
 	/**
-	 * @param volume signal amplitude ratio (in {@code [0.0, 1.0]})
+	 * @param volume volume (in {@code [0, 10]})
 	 * @return signal gain (in dB)
 	 * @since 0.0.0
 	 */
-	private static float convertVolumeToGain(double volume) {
-		return (float) (20 * log10(volume));
+	private static float convertVolumeToGain(int volume) {
+		return (float) (20 * log10(volume / VOLUME_SCALE));
 	}
 
 	protected AudioFormat format;
 	protected SourceDataLine line;
+	protected float gain;
 
 	/**
 	 * Creates a new track.
 	 *
 	 * @param name resource name
+	 * @param volume volume (in {@code [0, 10]})
 	 * @since 0.0.0
 	 */
-	public Track(String name) {
+	public Track(String name, int volume) {
+
 		super(name);
+
+		setVolume(volume);
 	}
 
 	/**
@@ -87,6 +92,7 @@ public abstract class Track extends NamedAudio {
 			var bufferDuration = LINE_BUFFER_DURATION.toMillis() / 1_000.0f;
 			var bufferSize = round(byteRate * bufferDuration);
 			line.open(format, bufferSize);
+			applyGain();
 
 		} catch (LineUnavailableException lineUnavailableException) {
 
@@ -96,9 +102,23 @@ public abstract class Track extends NamedAudio {
 	}
 
 	@Override
-	public void setVolume(double volume) {
+	public void setVolume(int volume) {
 
-		var gainControl = (FloatControl) line.getControl(MASTER_GAIN);
-		gainControl.setValue(convertVolumeToGain(volume));
+		gain = convertVolumeToGain(volume);
+		applyGain();
+	}
+
+	/**
+	 * Applies gain to open line.
+	 *
+	 * @since 0.0.0
+	 */
+	private void applyGain() {
+
+		if (line != null) {
+
+			var gainControl = (FloatControl) line.getControl(MASTER_GAIN);
+			gainControl.setValue(gain);
+		}
 	}
 }

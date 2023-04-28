@@ -1,6 +1,8 @@
 package com.github.achaaab.tetroshow.settings;
 
 /**
+ * graphics settings
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

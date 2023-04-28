@@ -20,8 +20,8 @@ import static javax.swing.SwingUtilities.invokeLater;
 public class OptionScene extends AbstractScene {
 
 	private final ControlsScene controlsScene;
-
 	private final OptionView view;
+	private final Settings settings;
 
 	/**
 	 * Creates a new option scene.
@@ -35,6 +35,7 @@ public class OptionScene extends AbstractScene {
 		super(manager, parent);
 
 		controlsScene = new ControlsScene(manager, this);
+		settings = Settings.getDefaultInstance();
 
 		view = new OptionView();
 		view.onLanguageChanged(this::languageChanged);
@@ -70,22 +71,26 @@ public class OptionScene extends AbstractScene {
 	 * @since 0.0.0
 	 */
 	private void skinChanged(String skin) {
-		Settings.getDefaultInstance().getGraphics().setSkin(skin);
+		settings.getGraphics().setSkin(skin);
 	}
 
 	/**
-	 * @param musicVolume new selected music volume
+	 * @param musicVolume new selected music volume (in {@code [0, 10]})
 	 * @since 0.0.0
 	 */
-	private void musicVolumeChanged(double musicVolume) {
+	private void musicVolumeChanged(int musicVolume) {
+
+		settings.getAudio().setMusicVolume(musicVolume);
 		setTrackVolume(musicVolume);
 	}
 
 	/**
-	 * @param soundEffectVolume new selected sound effect volume
+	 * @param soundEffectVolume new selected sound effect volume (in {@code [0, 10]})
 	 * @since 0.0.0
 	 */
-	private void soundEffectVolumeChanged(double soundEffectVolume) {
+	private void soundEffectVolumeChanged(int soundEffectVolume) {
+
+		settings.getAudio().setSoundEffectVolume(soundEffectVolume);
 		setEffectVolume(soundEffectVolume);
 	}
 
@@ -93,6 +98,8 @@ public class OptionScene extends AbstractScene {
 	 * @since 0.0.0
 	 */
 	private void back() {
+
+		settings.save();
 		exit();
 	}
 

@@ -132,7 +132,7 @@ public class Keyboard extends AbstractAction implements KeyListener {
 			} else if (repeatable) {
 
 				var level = tetroshow.getLevel();
-				var das = settings.getDas(level);
+				var das = settings.getGameplay().getDas(level);
 				effective = duration >= das;
 			}
 		}

@@ -1,10 +1,13 @@
 package com.github.achaaab.tetroshow.view.message;
 
+import com.github.achaaab.tetroshow.settings.Settings;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static com.github.achaaab.tetroshow.view.message.Language.getLanguageByName;
 import static java.util.ResourceBundle.getBundle;
 
 /**
@@ -43,8 +46,31 @@ public class Messages {
 
 	private static final List<LocaleListener> LISTENERS = new ArrayList<>();
 
-	private static Locale locale = Locale.getDefault();
-	private static ResourceBundle bundle = getBundle(BUNDLE_NAME);
+	private static Locale locale = determineLocale();
+	private static ResourceBundle bundle = getBundle(BUNDLE_NAME, locale);
+
+	/**
+	 * Gets user locale defined in settings.
+	 * If not defined, uses default system locale.
+	 *
+	 * @return determined locale
+	 * @since 0.0.0
+	 */
+	private static Locale determineLocale() {
+
+		var settings = Settings.getDefaultInstance();
+		var languageName = settings.getLanguage();
+
+		Language language = null;
+
+		if (languageName != null) {
+			language = getLanguageByName(languageName);
+		}
+
+		return language == null ?
+				Locale.getDefault() :
+				language.getLocale();
+	}
 
 	/**
 	 * @return current locale
@@ -59,6 +85,11 @@ public class Messages {
 	 * @since 0.0.0
 	 */
 	public static void setLocale(Locale locale) {
+
+		var languageCode = locale.getLanguage();
+		var language = Language.getLanguageByCode(languageCode);
+		var languageName = language.toString();
+		Settings.getDefaultInstance().setLanguage(languageName);
 
 		if (locale != Messages.locale) {
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
-import static com.github.achaaab.tetroshow.view.message.Language.getLanguage;
+import static com.github.achaaab.tetroshow.view.message.Language.getLanguageByCode;
 import static com.github.achaaab.tetroshow.view.message.Messages.BACK;
 import static com.github.achaaab.tetroshow.view.message.Messages.CONTROLS;
 import static com.github.achaaab.tetroshow.view.message.Messages.LANGUAGE;
@@ -33,7 +33,6 @@ import static java.util.stream.IntStream.rangeClosed;
  */
 public class OptionView extends MenuView {
 
-	private static final double VOLUME_SCALE = 10.0;
 	private static final int INPUT_HEIGHT = scale(50);
 	private static final int VALUE_X = scale(150);
 
@@ -89,13 +88,14 @@ public class OptionView extends MenuView {
 
 		var currentLocale = Messages.getLocale();
 		var code = currentLocale.getLanguage();
-		language.select(getLanguage(code));
+		language.select(getLanguageByCode(code));
 
-		var currentSkin = Settings.getDefaultInstance().getGraphics().getSkin();
+		var settings = Settings.getDefaultInstance();
+		var currentSkin = settings.getGraphics().getSkin();
 		skin.select(currentSkin);
 
-		musicVolume.select(10);
-		soundEffectVolume.select(10);
+		musicVolume.select(settings.getAudio().getMusicVolume());
+		soundEffectVolume.select(settings.getAudio().getSoundEffectVolume());
 
 		var x = scale(75.0f);
 		var y = scale(100.0f);
@@ -144,16 +144,16 @@ public class OptionView extends MenuView {
 	 * @param consumer music volume consumer
 	 * @since 0.0.0
 	 */
-	public void onMusicVolumeChanged(Consumer<Double> consumer) {
-		musicVolume.setConsumer(level -> consumer.accept(level / VOLUME_SCALE));
+	public void onMusicVolumeChanged(Consumer<Integer> consumer) {
+		musicVolume.setConsumer(consumer);
 	}
 
 	/**
 	 * @param consumer sound effect volume consumer
 	 * @since 0.0.0
 	 */
-	public void onSoundEffectVolumeChanged(Consumer<Double> consumer) {
-		soundEffectVolume.setConsumer(level -> consumer.accept(level / VOLUME_SCALE));
+	public void onSoundEffectVolumeChanged(Consumer<Integer> consumer) {
+		soundEffectVolume.setConsumer(consumer);
 	}
 
 	/**

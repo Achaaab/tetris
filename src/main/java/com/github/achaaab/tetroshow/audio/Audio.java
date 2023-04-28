@@ -8,6 +8,8 @@ package com.github.achaaab.tetroshow.audio;
  */
 public interface Audio {
 
+	double VOLUME_SCALE = 10.0;
+
 	/**
 	 * @return name of this audio
 	 * @since 0.0.0
@@ -15,10 +17,10 @@ public interface Audio {
 	String name();
 
 	/**
-	 * @param volume in {@code [0.0, 1.0]}
+	 * @param volume in {@code [0, 10]}
 	 * @since 0.0.0
 	 */
-	void setVolume(double volume);
+	void setVolume(int volume);
 
 	/**
 	 * Plays this audio.

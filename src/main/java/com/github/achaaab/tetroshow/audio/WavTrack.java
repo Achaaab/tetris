@@ -27,11 +27,12 @@ public class WavTrack extends Track {
 	 * Creates a new WAV resource.
 	 *
 	 * @param name WAV resource name
+	 * @param volume volume (in {@code [0, 10]})
 	 * @since 0.2.0
 	 */
-	public WavTrack(String name) {
+	public WavTrack(String name, int volume) {
 
-		super(name);
+		super(name, volume);
 
 		try (var inputStream = openInputStream()) {
 

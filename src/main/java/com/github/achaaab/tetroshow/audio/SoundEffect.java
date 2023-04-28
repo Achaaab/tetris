@@ -21,7 +21,7 @@ public class SoundEffect extends NamedAudio {
 
 	private final int polyphony;
 
-	private double volume;
+	private int volume;
 	private AudioCue cue;
 	private Long lastPlayTime;
 	private long minimumDelay;
@@ -31,20 +31,21 @@ public class SoundEffect extends NamedAudio {
 	 *
 	 * @param name sound effect resource name
 	 * @param polyphony maximum number of concurrent instances
+	 * @param volume volume in {@code [0, 10]}
 	 * @since 0.0.0
 	 */
-	public SoundEffect(String name, int polyphony) {
+	public SoundEffect(String name, int polyphony, int volume) {
 
 		super(name);
 
 		this.polyphony = polyphony;
+		this.volume = volume;
 
 		try {
 
 			var url = getResourceUrl(name);
 			cue = makeStereoCue(url, polyphony);
 			cue.open();
-			volume = 1.0;
 			lastPlayTime = null;
 
 			var microseconds = cue.getMicrosecondLength();
@@ -58,7 +59,7 @@ public class SoundEffect extends NamedAudio {
 	}
 
 	@Override
-	public void setVolume(double volume) {
+	public void setVolume(int volume) {
 
 		if (cue != null) {
 
@@ -66,7 +67,7 @@ public class SoundEffect extends NamedAudio {
 
 			range(0, polyphony).
 					filter(instanceId -> cue.getIsActive(instanceId)).
-					forEach(instanceId -> cue.setVolume(instanceId, volume));
+					forEach(instanceId -> cue.setVolume(instanceId, volume / VOLUME_SCALE));
 		}
 	}
 
@@ -80,7 +81,7 @@ public class SoundEffect extends NamedAudio {
 			if (lastPlayTime == null || nanoTime - lastPlayTime > minimumDelay) {
 
 				lastPlayTime = nanoTime;
-				cue.play(volume);
+				cue.play(volume / VOLUME_SCALE);
 			}
 		}
 	}

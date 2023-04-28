@@ -42,7 +42,7 @@ public class Gravity extends AbstractAction {
 	private void apply(Piece piece) {
 
 		var level = tetroshow.getLevel();
-		cumulatedForce += settings.getGravity(level);
+		cumulatedForce += settings.getGameplay().getGravity(level);
 
 		while (cumulatedForce >= ROW && playfield.isMovePossible(piece, DOWN)) {
 
