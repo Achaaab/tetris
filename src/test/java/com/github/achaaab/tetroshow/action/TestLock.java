@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,7 +38,7 @@ class TestLock {
 
 	@BeforeEach
 	void setUp() {
-		when(settings.getGameplay()).thenReturn(gameplaySettings);
+		lenient().when(settings.getGameplay()).thenReturn(gameplaySettings);
 	}
 
 	@Test

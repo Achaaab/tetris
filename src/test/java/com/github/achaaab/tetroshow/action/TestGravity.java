@@ -18,6 +18,7 @@ import static com.github.achaaab.tetroshow.action.Gravity.ROW;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 import static java.util.Optional.empty;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -52,7 +53,7 @@ class TestGravity {
 	void setUp() {
 
 		when(tetroshow.getPlayfield()).thenReturn(playfield);
-		when(settings.getGameplay()).thenReturn(gameplaySettings);
+		lenient().when(settings.getGameplay()).thenReturn(gameplaySettings);
 	}
 
 	@Test

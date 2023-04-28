@@ -12,7 +12,7 @@ import com.github.achaaab.tetroshow.model.Tetroshow;
 public abstract class Scoring extends AbstractAction {
 
 	/**
-	 * @param tetroshow
+	 * @param tetroshow Tetroshow in which to apply scoring
 	 * @since 0.0.0
 	 */
 	public Scoring(Tetroshow tetroshow) {
@@ -20,7 +20,7 @@ public abstract class Scoring extends AbstractAction {
 	}
 
 	/**
-	 * @param softDropCount
+	 * @param softDropCount number of soft drop rows for the locked piece
 	 * @since 0.0.0
 	 */
 	public abstract void pieceLocked(int softDropCount);
