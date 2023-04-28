@@ -1,9 +1,10 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.audio.Audio;
 import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Tetroshow;
+import com.github.achaaab.tetroshow.settings.GameplaySettings;
 import com.github.achaaab.tetroshow.settings.Settings;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -29,7 +30,15 @@ class TestLock {
 	private Settings settings;
 
 	@Mock
+	private GameplaySettings gameplaySettings;
+
+	@Mock
 	private SoundEffect soundEffect;
+
+	@BeforeEach
+	void setUp() {
+		when(settings.getGameplay()).thenReturn(gameplaySettings);
+	}
 
 	@Test
 	void testExecuteInactive() {
@@ -46,7 +55,7 @@ class TestLock {
 		var lock = new Lock(tetroshow, soundEffect);
 
 		when(tetroshow.getLevel()).thenReturn(42);
-		when(settings.getLock(42)).thenReturn(42);
+		when(gameplaySettings.getLock(42)).thenReturn(42);
 		lock.settings = settings;
 
 		lock.start();
@@ -62,7 +71,7 @@ class TestLock {
 		lock.start();
 
 		when(tetroshow.getLevel()).thenReturn(42);
-		when(settings.getLock(42)).thenReturn(1);
+		when(gameplaySettings.getLock(42)).thenReturn(1);
 		when(tetroshow.lockFallingPiece()).thenReturn(true);
 		lock.settings = settings;
 
@@ -77,7 +86,7 @@ class TestLock {
 		var lock = new Lock(tetroshow, soundEffect);
 
 		when(tetroshow.getLevel()).thenReturn(42);
-		when(settings.getLock(42)).thenReturn(2);
+		when(gameplaySettings.getLock(42)).thenReturn(2);
 		lock.settings = settings;
 
 		lock.start();

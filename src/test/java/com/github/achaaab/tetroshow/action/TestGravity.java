@@ -4,6 +4,7 @@ import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.field.Playfield;
 import com.github.achaaab.tetroshow.model.piece.Direction;
 import com.github.achaaab.tetroshow.model.piece.Piece;
+import com.github.achaaab.tetroshow.settings.GameplaySettings;
 import com.github.achaaab.tetroshow.settings.Settings;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,11 +43,16 @@ class TestGravity {
 	private Settings settings;
 
 	@Mock
+	private GameplaySettings gameplaySettings;
+
+	@Mock
 	private Piece piece;
 
 	@BeforeEach
 	void setUp() {
+
 		when(tetroshow.getPlayfield()).thenReturn(playfield);
+		when(settings.getGameplay()).thenReturn(gameplaySettings);
 	}
 
 	@Test
@@ -65,7 +71,7 @@ class TestGravity {
 
 		when(tetroshow.getFallingPiece()).thenReturn(Optional.of(piece));
 		when(tetroshow.getLevel()).thenReturn(42);
-		when(settings.getGravity(42)).thenReturn(ROW - 1);
+		when(gameplaySettings.getGravity(42)).thenReturn(ROW - 1);
 		gravity.settings = settings;
 
 		gravity.execute();
@@ -81,7 +87,7 @@ class TestGravity {
 
 		when(tetroshow.getFallingPiece()).thenReturn(Optional.of(piece));
 		when(tetroshow.getLevel()).thenReturn(42);
-		when(settings.getGravity(42)).thenReturn(ROW);
+		when(gameplaySettings.getGravity(42)).thenReturn(ROW);
 		when(playfield.isMovePossible(piece, DOWN)).thenReturn(true);
 		gravity.settings = settings;
 
@@ -98,7 +104,7 @@ class TestGravity {
 
 		when(tetroshow.getFallingPiece()).thenReturn(Optional.of(piece));
 		when(tetroshow.getLevel()).thenReturn(42);
-		when(settings.getGravity(42)).thenReturn(2 * ROW);
+		when(gameplaySettings.getGravity(42)).thenReturn(2 * ROW);
 		when(playfield.isMovePossible(piece, DOWN)).thenReturn(true);
 		gravity.settings = settings;
 
@@ -115,7 +121,7 @@ class TestGravity {
 
 		when(tetroshow.getFallingPiece()).thenReturn(Optional.of(piece));
 		when(tetroshow.getLevel()).thenReturn(42);
-		when(settings.getGravity(42)).thenReturn(ROW);
+		when(gameplaySettings.getGravity(42)).thenReturn(ROW);
 		when(playfield.isMovePossible(piece, DOWN)).thenReturn(false);
 		gravity.settings = settings;
 
