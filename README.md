@@ -46,6 +46,7 @@ Keys are configurable in options, controls. Default settings are:
 ### Screenshots
 <img src=".github/pictures/screenshot_main_menu.png" width="320"  alt="main menu screenshot"/>
 <img src=".github/pictures/screenshot_gameplay.png" width="320"  alt="gameplay screenshot"/>
+<img src=".github/pictures/screenshot_line_clear.png" width="320"  alt="line clear screenshot"/>
 <img src=".github/pictures/screenshot_options.png" width="320"  alt="options screenshot"/>
 <img src=".github/pictures/screenshot_controls.png" width="320"  alt="controls screenshot"/>
 <img src=".github/pictures/screenshot_graphics.png" width="320"  alt="graphics options screenshot"/>
