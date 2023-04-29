@@ -66,7 +66,7 @@ public class AudioPlayer {
 	 * @param polyphony maximum number of concurrent instances
 	 * @return sound effect
 	 */
-	public static SoundEffect getSoundEffect(String name, int polyphony) {
+	static SoundEffect getSoundEffect(String name, int polyphony) {
 
 		return LOADED_EFFECTS.computeIfAbsent(name, resourceName ->
 				new SoundEffect(resourceName, polyphony, effectVolume));

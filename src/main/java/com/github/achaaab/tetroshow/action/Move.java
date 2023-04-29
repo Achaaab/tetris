@@ -5,7 +5,7 @@ import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Direction;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.audio.AudioBank.MOVE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.CLOCKWISE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.COUNTERCLOCKWISE;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
@@ -34,7 +34,7 @@ public class Move extends AbstractAction {
 
 		this.direction = direction;
 
-		soundEffect = getSoundEffect("audio/effect/move.wav", 6);
+		soundEffect = MOVE;
 	}
 
 	@Override

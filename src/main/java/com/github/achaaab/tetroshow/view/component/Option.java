@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.audio.AudioBank.MOVE;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
 import static java.awt.Color.GRAY;
@@ -26,7 +26,7 @@ import static java.awt.event.KeyEvent.VK_RIGHT;
  */
 public class Option<T> extends Input {
 
-	private static final SoundEffect OPTION_CHANGED_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
+	private static final SoundEffect OPTION_CHANGED_SOUND_EFFECT = MOVE;
 	private static final int SELECTED_SHIFT = scale(10.0f);
 
 	private static final Color SELECTED_NAME_COLOR = WHITE;

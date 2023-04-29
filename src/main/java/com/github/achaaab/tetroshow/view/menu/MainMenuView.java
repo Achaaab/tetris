@@ -30,6 +30,7 @@ public class MainMenuView extends MenuView {
 	private static final int BUTTON_HEIGHT = scale(50);
 
 	private final SineLabel title;
+
 	private final Button play;
 	private final Button options;
 	private final Button quit;

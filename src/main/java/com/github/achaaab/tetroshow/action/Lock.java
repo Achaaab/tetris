@@ -3,7 +3,7 @@ package com.github.achaaab.tetroshow.action;
 import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.audio.AudioBank.LOCK;
 
 /**
  * action of locking a Tetroshow piece
@@ -25,7 +25,7 @@ public class Lock extends AbstractAction {
 	 * @since 0.0.0
 	 */
 	public Lock(Tetroshow tetroshow) {
-		this(tetroshow, getSoundEffect("audio/effect/lock.wav", 1));
+		this(tetroshow, LOCK);
 	}
 
 	/**

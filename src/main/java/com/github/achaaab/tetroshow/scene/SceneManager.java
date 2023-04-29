@@ -103,7 +103,7 @@ public class SceneManager implements Runnable {
 
 				scene.update(deltaTime / 1_000_000_000.0);
 
-				if (settings.isSynchronizeState()) {
+				if (settings.isSynchronization()) {
 					getDefaultToolkit().sync();
 				}
 			}

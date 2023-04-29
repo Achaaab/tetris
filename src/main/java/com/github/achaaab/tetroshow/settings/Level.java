@@ -7,5 +7,5 @@ package com.github.achaaab.tetroshow.settings;
  * @since 0.0.0
  */
 public enum Level {
-	LOW, MEDIUM, HIGH, VERY_HIGH, INSANE;
+	LOW, MEDIUM, HIGH, ULTRA
 }

@@ -11,7 +11,7 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Point2D;
 import java.util.Map;
 
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.audio.AudioBank.MOVE;
 import static com.github.achaaab.tetroshow.utility.KeyUtility.getKeyText;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scaleFloat;
@@ -34,7 +34,7 @@ public class KeyInput extends Input {
 
 	private static final Font SYMBOL_FONT = new Font(DIALOG, BOLD, scale(22));
 	private static final int SELECTED_SHIFT = scale(10.0f);
-	private static final SoundEffect KEY_SET_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
+	private static final SoundEffect KEY_SET_SOUND_EFFECT = MOVE;
 
 	private static final Color SELECTED_NAME_COLOR = new Color(255, 255, 255);
 	private static final Color UNSELECTED_NAME_COLOR = new Color(128, 128, 128);

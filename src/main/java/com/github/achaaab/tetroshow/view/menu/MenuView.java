@@ -7,6 +7,7 @@ import com.github.achaaab.tetroshow.view.play.TetroshowView;
 
 import javax.swing.JComponent;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -14,8 +15,11 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.audio.AudioBank.MOVE;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.hideCursor;
+import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
+import static java.awt.Font.DIALOG;
+import static java.awt.Font.PLAIN;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_OFF;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
@@ -29,7 +33,8 @@ import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 public abstract class MenuView extends JComponent implements KeyListener {
 
 	private static final Color BACKGROUND_COLOR = new Color(0, 0, 16);
-	private static final SoundEffect SELECTION_SOUND_EFFECT = getSoundEffect("audio/effect/move.wav", 6);
+	private static final SoundEffect SELECTION_SOUND_EFFECT = MOVE;
+	protected static final Font DEFAULT_TITLE_FONT = new Font(DIALOG, PLAIN, scale(35));
 
 	private final List<Component> components;
 	private final List<Input> inputs;

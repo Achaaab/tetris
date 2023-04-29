@@ -44,9 +44,11 @@ Keys are configurable in options, controls. Default settings are:
 * <kbd>Esc</kbd> exit the game
 
 ### Screenshots
+<img src=".github/pictures/screenshot_main_menu.png" width="320"  alt="main menu screenshot"/>
+<img src=".github/pictures/screenshot_gameplay.png" width="320"  alt="gameplay screenshot"/>
 <img src=".github/pictures/screenshot_options.png" width="320"  alt="options screenshot"/>
 <img src=".github/pictures/screenshot_controls.png" width="320"  alt="controls screenshot"/>
-<img src=".github/pictures/screenshot_gameplay.png" width="320"  alt="gameplay screenshot"/>
+<img src=".github/pictures/screenshot_graphics.png" width="320"  alt="graphics options screenshot"/>
 <img src=".github/pictures/screenshot_credits.png" width="320"  alt="credits screenshot"/>
 
 ## Enhancements

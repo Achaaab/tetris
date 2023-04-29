@@ -12,7 +12,7 @@ keys:
 graphics:
   skin: "Brick game"
   particleLevel: MEDIUM
-  synchronizeState: true
+  synchronization: true
 
 audio:
   musicVolume: 10

@@ -9,7 +9,7 @@ package com.github.achaaab.tetroshow.settings;
 public class GraphicsSettings {
 
 	private String skin;
-	private boolean synchronizeState;
+	private boolean synchronization;
 	private Level particleLevel;
 
 	/**
@@ -32,21 +32,21 @@ public class GraphicsSettings {
 	 * @return whether to synchronize graphics state (useful for some animations that could stutter otherwise)
 	 * @since 0.0.0
 	 */
-	public boolean isSynchronizeState() {
-		return synchronizeState;
+	public boolean isSynchronization() {
+		return synchronization;
 	}
 
 	/**
-	 * @param synchronizeState whether to synchronize graphics state
+	 * @param synchronization whether to synchronize graphics state
 	 * (useful for some animations that could stutter otherwise)
 	 * @since 0.0.0
 	 */
-	public void setSynchronizeState(boolean synchronizeState) {
-		this.synchronizeState = synchronizeState;
+	public void setSynchronization(boolean synchronization) {
+		this.synchronization = synchronization;
 	}
 
 	/**
-	 * @return particle level
+	 * @return level of details for particle effects
 	 * @since 0.0.0
 	 */
 	public Level getParticleLevel() {
@@ -54,7 +54,7 @@ public class GraphicsSettings {
 	}
 
 	/**
-	 * @param particleLevel particle level
+	 * @param particleLevel level of details for particle effects
 	 * @since 0.0.0
 	 */
 	public void setParticleLevel(Level particleLevel) {

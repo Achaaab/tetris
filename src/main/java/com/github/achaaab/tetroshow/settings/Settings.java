@@ -6,6 +6,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class Settings {
 
 	private static final Logger LOGGER = getLogger(Settings.class);
 
-	private static final String FILE_NAME = "tetroshow.yaml";
+	private static final String FILE_NAME = "settings.yaml";
 	private static final String USER_HOME_PROPERTY = getProperty("user.home");
 	private static final String APPLICATION_DIRECTORY_NAME = ".tetroshow";
 

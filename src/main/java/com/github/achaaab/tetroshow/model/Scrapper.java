@@ -39,11 +39,10 @@ public class Scrapper {
 		var particleLevel = graphicsSettings.getParticleLevel();
 
 		var fraction = switch (particleLevel) {
-			case LOW -> 5;
+			case LOW -> 6;
 			case MEDIUM -> 10;
 			case HIGH -> 15;
-			case VERY_HIGH -> 20;
-			case INSANE -> 30;
+			case ULTRA -> 30;
 		};
 
 		var size = 1.0 / fraction;

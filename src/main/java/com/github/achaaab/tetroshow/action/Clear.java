@@ -7,7 +7,8 @@ import com.github.achaaab.tetroshow.model.Tetroshow;
 
 import java.util.List;
 
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.audio.AudioBank.CLEAR;
+import static com.github.achaaab.tetroshow.audio.AudioBank.LINE_DROP;
 
 /**
  * Action of clearing lines of a Tetroshow.
@@ -17,8 +18,8 @@ import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
  */
 public class Clear extends AbstractAction {
 
-	private static final SoundEffect CLEAR_SOUND_EFFECT = getSoundEffect("audio/effect/clear.wav", 1);
-	private static final SoundEffect LINE_DROP_SOUND_EFFECT = getSoundEffect("audio/effect/line_drop.wav", 1);
+	private static final SoundEffect CLEAR_SOUND_EFFECT = CLEAR;
+	private static final SoundEffect LINE_DROP_SOUND_EFFECT = LINE_DROP;
 
 	private final Scoring scoring;
 

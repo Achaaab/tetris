@@ -2,6 +2,7 @@ package com.github.achaaab.tetroshow.view.menu;
 
 import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.component.Button;
+import com.github.achaaab.tetroshow.view.component.Label;
 import com.github.achaaab.tetroshow.view.component.Option;
 import com.github.achaaab.tetroshow.view.message.Language;
 import com.github.achaaab.tetroshow.view.message.Messages;
@@ -17,6 +18,7 @@ import static com.github.achaaab.tetroshow.view.message.Messages.CONTROLS;
 import static com.github.achaaab.tetroshow.view.message.Messages.GRAPHICS;
 import static com.github.achaaab.tetroshow.view.message.Messages.LANGUAGE;
 import static com.github.achaaab.tetroshow.view.message.Messages.MUSIC;
+import static com.github.achaaab.tetroshow.view.message.Messages.OPTIONS;
 import static com.github.achaaab.tetroshow.view.message.Messages.SOUND_EFFECT;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
@@ -31,7 +33,9 @@ import static java.util.stream.IntStream.rangeClosed;
  */
 public class SettingsView extends MenuView {
 
-	private static final int INPUT_HEIGHT = scale(50);
+	private static final int INPUT_HEIGHT = scale(40);
+	private static final int INPUT_X = scale(75);
+	private static final int FIRST_INPUT_Y = scale(150);
 	private static final int VALUE_X = scale(150);
 
 	private final Option<Language> language;
@@ -47,6 +51,9 @@ public class SettingsView extends MenuView {
 	 * @since 0.0.0
 	 */
 	public SettingsView() {
+
+		var title = new Label(OPTIONS);
+		title.setFont(DEFAULT_TITLE_FONT);
 
 		language = new Option<>(
 				LANGUAGE,
@@ -70,6 +77,7 @@ public class SettingsView extends MenuView {
 		graphics = new Button(GRAPHICS);
 		back = new Button(BACK);
 
+		add(title);
 		add(language);
 		add(musicVolume);
 		add(soundEffectVolume);
@@ -88,30 +96,32 @@ public class SettingsView extends MenuView {
 		musicVolume.select(settings.getAudio().getMusicVolume());
 		soundEffectVolume.select(settings.getAudio().getSoundEffectVolume());
 
-		var x = scale(75.0f);
-		var y = scale(100.0f);
+		title.setX(scale(130.0f));
+		title.setY(scale(50.0f));
 
-		language.setX(x);
+		var y = FIRST_INPUT_Y;
+
+		language.setX(INPUT_X);
 		language.setY(y);
 
 		y += INPUT_HEIGHT;
-		musicVolume.setX(x);
+		musicVolume.setX(INPUT_X);
 		musicVolume.setY(y);
 
 		y += INPUT_HEIGHT;
-		soundEffectVolume.setX(x);
+		soundEffectVolume.setX(INPUT_X);
 		soundEffectVolume.setY(y);
 
 		y += INPUT_HEIGHT;
-		controls.setX(x);
+		controls.setX(INPUT_X);
 		controls.setY(y);
 
 		y += INPUT_HEIGHT;
-		graphics.setX(x);
+		graphics.setX(INPUT_X);
 		graphics.setY(y);
 
-		y += INPUT_HEIGHT;
-		back.setX(x);
+		y += INPUT_HEIGHT + INPUT_HEIGHT / 2;
+		back.setX(INPUT_X);
 		back.setY(y);
 	}
 

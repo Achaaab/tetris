@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.audio.AudioBank.HARD_DROP;
 import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Messages.getMessage;
 import static java.awt.Color.GRAY;
@@ -22,7 +22,7 @@ import static java.awt.event.KeyEvent.VK_SPACE;
  */
 public class Button extends Input {
 
-	private static final SoundEffect EXECUTION_SOUND_EFFECT = getSoundEffect("audio/effect/hard_drop.wav", 2);
+	private static final SoundEffect EXECUTION_SOUND_EFFECT = HARD_DROP;
 	private static final int SELECTED_SHIFT = scale(10.0f);
 
 	private static final Color SELECTED_COLOR = WHITE;

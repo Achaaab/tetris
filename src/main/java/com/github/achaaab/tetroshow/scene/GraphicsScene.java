@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.scene;
 
+import com.github.achaaab.tetroshow.settings.Level;
 import com.github.achaaab.tetroshow.settings.Settings;
 import com.github.achaaab.tetroshow.view.menu.GraphicsView;
 
@@ -32,6 +33,9 @@ public class GraphicsScene extends AbstractScene {
 		settings = Settings.getDefaultInstance();
 
 		view = new GraphicsView();
+		view.onSkinChanged(this::skinChanged);
+		view.onSynchronizationChanged(this::synchronizationChanged);
+		view.onParticleLevelChanged(this::particleLevelChanged);
 		view.onBack(this::back);
 	}
 
@@ -45,6 +49,30 @@ public class GraphicsScene extends AbstractScene {
 	@Override
 	public void update(double deltaTime) {
 		invokeLater(view::repaint);
+	}
+
+	/**
+	 * @param skinName name of the new skin to apply
+	 * @since 0.0.0
+	 */
+	private void skinChanged(String skinName) {
+		settings.getGraphics().setSkin(skinName);
+	}
+
+	/**
+	 * @param synchronization whether to synchronize graphics state
+	 * @since 0.0.0
+	 */
+	private void synchronizationChanged(boolean synchronization) {
+		settings.getGraphics().setSynchronization(synchronization);
+	}
+
+	/**
+	 * @param particleLevel level of details for particle effects
+	 * @since 0.0.0
+	 */
+	private void particleLevelChanged(Level particleLevel) {
+		settings.getGraphics().setParticleLevel(particleLevel);
 	}
 
 	/**

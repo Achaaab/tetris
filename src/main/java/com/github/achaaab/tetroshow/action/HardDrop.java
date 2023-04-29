@@ -4,7 +4,7 @@ import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
-import static com.github.achaaab.tetroshow.audio.AudioPlayer.getSoundEffect;
+import static com.github.achaaab.tetroshow.audio.AudioBank.HARD_DROP;
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 
 /**
@@ -24,7 +24,7 @@ public class HardDrop extends AbstractAction {
 	 * @since 0.0.0
 	 */
 	public HardDrop(Tetroshow tetroshow) {
-		this(tetroshow, getSoundEffect("audio/effect/hard_drop.wav", 1));
+		this(tetroshow, HARD_DROP);
 	}
 
 	/**
