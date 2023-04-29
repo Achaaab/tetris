@@ -23,6 +23,7 @@ public class Messages {
 	public static final String BACK = "back";
 	public static final String CONTROLS = "controls";
 	public static final String CREDITS = "credits";
+	public static final String GRAPHICS = "graphics";
 	public static final String HARD_DROP = "hard_drop";
 	public static final String HOLD = "hold";
 	public static final String LANGUAGE = "language";
@@ -30,6 +31,7 @@ public class Messages {
 	public static final String LEVEL = "level";
 	public static final String MUSIC = "music";
 	public static final String OPTIONS = "options";
+	public static final String PARTICLES = "particles";
 	public static final String PAUSE = "pause";
 	public static final String PLAY = "play";
 	public static final String RIGHT = "right";
@@ -40,6 +42,7 @@ public class Messages {
 	public static final String SKIN = "skin";
 	public static final String SOFT_DROP = "soft_drop";
 	public static final String SOUND_EFFECT = "sound_effect";
+	public static final String SYNCHRONIZATION = "synchronization";
 	public static final String TIME = "time";
 
 	private static final String KEY_TEXT_PREFIX = "key_";

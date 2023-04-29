@@ -115,7 +115,10 @@ public class Clear extends AbstractAction {
 	private void updateScraps() {
 
 		var scraps = playfield.getScraps();
-		scraps.removeIf(Scrap::update);
+
+		scraps.forEach(Scrap::update);
+		scraps.removeIf(Scrap::isDead);
+
 		age++;
 	}
 

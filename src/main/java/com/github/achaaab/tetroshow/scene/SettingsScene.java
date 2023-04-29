@@ -1,7 +1,7 @@
 package com.github.achaaab.tetroshow.scene;
 
 import com.github.achaaab.tetroshow.settings.Settings;
-import com.github.achaaab.tetroshow.view.menu.OptionView;
+import com.github.achaaab.tetroshow.view.menu.SettingsView;
 import com.github.achaaab.tetroshow.view.message.Language;
 
 import java.awt.Container;
@@ -17,10 +17,11 @@ import static javax.swing.SwingUtilities.invokeLater;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class OptionScene extends AbstractScene {
+public class SettingsScene extends AbstractScene {
 
 	private final ControlsScene controlsScene;
-	private final OptionView view;
+	private final GraphicsScene graphicsScene;
+	private final SettingsView view;
 	private final Settings settings;
 
 	/**
@@ -30,19 +31,20 @@ public class OptionScene extends AbstractScene {
 	 * @param parent parent scene
 	 * @since 0.0.0
 	 */
-	public OptionScene(SceneManager manager, Scene parent) {
+	public SettingsScene(SceneManager manager, Scene parent) {
 
 		super(manager, parent);
 
 		controlsScene = new ControlsScene(manager, this);
+		graphicsScene = new GraphicsScene(manager, this);
 		settings = Settings.getDefaultInstance();
 
-		view = new OptionView();
+		view = new SettingsView();
 		view.onLanguageChanged(this::languageChanged);
-		view.onSkinChanged(this::skinChanged);
 		view.onMusicVolumeChanged(this::musicVolumeChanged);
 		view.onSoundEffectVolumeChanged(this::soundEffectVolumeChanged);
 		view.onControls(this::displayControls);
+		view.onGraphics(this::displayGraphics);
 		view.onBack(this::back);
 	}
 
@@ -64,14 +66,6 @@ public class OptionScene extends AbstractScene {
 	 */
 	private void languageChanged(Language language) {
 		setLocale(language.getLocale());
-	}
-
-	/**
-	 * @param skin name of the new selected skin
-	 * @since 0.0.0
-	 */
-	private void skinChanged(String skin) {
-		settings.getGraphics().setSkin(skin);
 	}
 
 	/**
@@ -104,12 +98,21 @@ public class OptionScene extends AbstractScene {
 	}
 
 	/**
-	 * Displays control scene.
+	 * Displays controls settings scene.
 	 *
 	 * @since 0.0.0
 	 */
 	private void displayControls() {
 		manager.display(controlsScene);
+	}
+
+	/**
+	 * Displays graphics settings scene.
+	 *
+	 * @since 0.0.0
+	 */
+	private void displayGraphics() {
+		manager.display(graphicsScene);
 	}
 
 	@Override

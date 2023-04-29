@@ -1,5 +1,6 @@
 package com.github.achaaab.tetroshow.scene;
 
+import com.github.achaaab.tetroshow.settings.GraphicsSettings;
 import com.github.achaaab.tetroshow.settings.Settings;
 import org.slf4j.Logger;
 
@@ -52,6 +53,7 @@ public class SceneManager implements Runnable {
 	}
 
 	private final long targetFrameDuration;
+	private final GraphicsSettings settings;
 
 	private JFrame window;
 	private boolean running;
@@ -65,6 +67,7 @@ public class SceneManager implements Runnable {
 	public SceneManager(String title, double fps) {
 
 		targetFrameDuration = round(1_000_000_000 / fps);
+		settings = Settings.getDefaultInstance().getGraphics();
 
 		invokeLater(() -> {
 
@@ -100,7 +103,7 @@ public class SceneManager implements Runnable {
 
 				scene.update(deltaTime / 1_000_000_000.0);
 
-				if (Settings.getDefaultInstance().getGraphics().isSynchronizeState()) {
+				if (settings.isSynchronizeState()) {
 					getDefaultToolkit().sync();
 				}
 			}
@@ -157,6 +160,7 @@ public class SceneManager implements Runnable {
 			LOGGER.info("displaying scene {}", scene);
 
 			var view = scene.getView();
+			view.setIgnoreRepaint(true);
 			window.setContentPane(containerize(view));
 			window.validate();
 
@@ -183,6 +187,8 @@ public class SceneManager implements Runnable {
 	}
 
 	/**
+	 * Exits the scene manager.
+	 *
 	 * @since 0.0.0
 	 */
 	public void exit() {

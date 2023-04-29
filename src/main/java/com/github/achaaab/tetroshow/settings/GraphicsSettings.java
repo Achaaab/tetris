@@ -10,6 +10,7 @@ public class GraphicsSettings {
 
 	private String skin;
 	private boolean synchronizeState;
+	private Level particleLevel;
 
 	/**
 	 * @return skin name
@@ -42,5 +43,21 @@ public class GraphicsSettings {
 	 */
 	public void setSynchronizeState(boolean synchronizeState) {
 		this.synchronizeState = synchronizeState;
+	}
+
+	/**
+	 * @return particle level
+	 * @since 0.0.0
+	 */
+	public Level getParticleLevel() {
+		return particleLevel;
+	}
+
+	/**
+	 * @param particleLevel particle level
+	 * @since 0.0.0
+	 */
+	public void setParticleLevel(Level particleLevel) {
+		this.particleLevel = particleLevel;
 	}
 }

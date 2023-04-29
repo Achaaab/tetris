@@ -1,72 +1,70 @@
 package com.github.achaaab.tetroshow.model;
 
-import java.awt.Color;
-import java.util.List;
+import com.github.achaaab.tetroshow.settings.Settings;
 
-import static java.lang.Math.atan2;
+import java.awt.Color;
+import java.util.Queue;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static java.lang.Math.PI;
 import static java.lang.Math.cos;
-import static java.lang.Math.hypot;
 import static java.lang.Math.sin;
 
 /**
+ * A scrapper is responsible for scraps creation after a block explosion.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class Scrapper {
 
-	private static final int FRACTION = 10;
-
-	private final double scrapSize;
-	private final double[][] vx;
-	private final double[][] vy;
+	/**
+	 * maximum initial scrap velocity (in block per second)
+	 */
+	private static final double MAXIMUM_SCRAP_VELOCITY = 1.0;
 
 	/**
+	 * Adds scraps after a block explosion.
+	 *
+	 * @param x block column
+	 * @param y block row
+	 * @param color block color
+	 * @param scraps list in which to add new scraps
 	 * @since 0.0.0
 	 */
-	public Scrapper() {
+	public void addScraps(int x, int y, Color color, Queue<Scrap> scraps) {
 
-		scrapSize = 1.0 / FRACTION;
-		vx = new double[FRACTION][FRACTION];
-		vy = new double[FRACTION][FRACTION];
+		var settings = Settings.getDefaultInstance();
+		var graphicsSettings = settings.getGraphics();
+		var particleLevel = graphicsSettings.getParticleLevel();
 
-		for (var i = 0; i < FRACTION; i++) {
+		var fraction = switch (particleLevel) {
+			case LOW -> 5;
+			case MEDIUM -> 10;
+			case HIGH -> 15;
+			case VERY_HIGH -> 20;
+			case INSANE -> 30;
+		};
 
-			var x = (i + 0.5) * scrapSize;
+		var size = 1.0 / fraction;
 
-			for (var j = 0; j < FRACTION; j++) {
+		var random = ThreadLocalRandom.current();
 
-				var y = (j + 0.5) * scrapSize;
+		for (var i = 0; i < fraction; i++) {
+			for (var j = 0; j < fraction; j++) {
 
-				var distance = hypot(0.5 - x, 0.5 - y);
-				var angle = atan2(0.5 - y, 0.5 - x);
-				var velocity = distance;
+				var scrapX = x + i * size;
+				var scrapY = y + j * size;
 
-				vx[i][j] = velocity * cos(angle);
-				vy[i][j] = velocity * sin(angle);
-			}
-		}
-	}
+				var scrap = new Scrap(scrapX, scrapY, size, color);
+				var velocity = MAXIMUM_SCRAP_VELOCITY * random.nextDouble();
+				var angle = PI * random.nextDouble();
 
-	/**
-	 * @param x
-	 * @param y
-	 * @param color
-	 * @param scraps
-	 * @since 0.0.0
-	 */
-	public void addScraps(int x, int y, Color color, List<Scrap> scraps) {
+				scrap.setVelocity(
+						velocity * cos(angle),
+						-velocity * sin(angle));
 
-		for (var i = 0; i < FRACTION; i++) {
-
-			for (var j = 0; j < FRACTION; j++) {
-
-				var scrapX = x + i * scrapSize;
-				var scrapY = y + j * scrapSize;
-
-				var scrap = new Scrap(scrapX, scrapY, scrapSize, color);
-				scrap.setVelocity(vx[i][j], vy[i][j]);
-
-				scraps.add(scrap);
+				scraps.offer(scrap);
 			}
 		}
 	}

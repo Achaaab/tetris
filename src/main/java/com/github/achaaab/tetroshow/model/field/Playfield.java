@@ -5,9 +5,11 @@ import com.github.achaaab.tetroshow.model.Scrapper;
 import com.github.achaaab.tetroshow.model.piece.Direction;
 import com.github.achaaab.tetroshow.model.piece.Piece;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 
 import static com.github.achaaab.tetroshow.model.piece.Direction.DOWN;
 import static java.util.Arrays.stream;
@@ -24,7 +26,7 @@ public class Playfield extends Grid {
 	public static final int HEIGHT = 20;
 
 	private final Scrapper scrapper;
-	private final List<Scrap> scraps;
+	private final Queue<Scrap> scraps;
 
 	/**
 	 * Create a new playfield.
@@ -36,7 +38,7 @@ public class Playfield extends Grid {
 		super(WIDTH, HEIGHT);
 
 		scrapper = new Scrapper();
-		scraps = new ArrayList<>();
+		scraps = new ArrayDeque<>();
 	}
 
 	/**
@@ -143,7 +145,7 @@ public class Playfield extends Grid {
 	 * @return scraps resulting from cleared lines
 	 * @since 0.0.0
 	 */
-	public List<Scrap> getScraps() {
+	public Queue<Scrap> getScraps() {
 		return scraps;
 	}
 

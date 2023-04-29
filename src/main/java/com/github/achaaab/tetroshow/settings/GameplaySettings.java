@@ -48,7 +48,7 @@ public class GameplaySettings {
 	}
 
 	/**
-	 * @param level
+	 * @param level Tetroshow level
 	 * @return gravity value at given level in (frame per second) / 256
 	 * @since 0.0.0
 	 */
@@ -76,7 +76,7 @@ public class GameplaySettings {
 	}
 
 	/**
-	 * @param level
+	 * @param level Tetroshow level
 	 * @return entry delay at given delay (in frames)
 	 */
 	public int getAre(int level) {
@@ -103,7 +103,7 @@ public class GameplaySettings {
 	}
 
 	/**
-	 * @param level
+	 * @param level Tetroshow level
 	 * @return entry delay after a line clear at given level (in frames)
 	 * @since 0.0.0
 	 */
@@ -131,7 +131,7 @@ public class GameplaySettings {
 	}
 
 	/**
-	 * @param level
+	 * @param level Tetroshow level
 	 * @return DAS at given level (in frames)
 	 * @since 0.0.0
 	 */
@@ -159,7 +159,7 @@ public class GameplaySettings {
 	}
 
 	/**
-	 * @param level
+	 * @param level Tetroshow level
 	 * @return lock delay at given level (in frames)
 	 * @since 0.0.0
 	 */
@@ -187,7 +187,7 @@ public class GameplaySettings {
 	}
 
 	/**
-	 * @param level
+	 * @param level Tetroshow level
 	 * @return clear delay at given level (in frames)
 	 * @since 0.0.0
 	 */

@@ -34,6 +34,8 @@ public class Application {
 		var sceneManager = new SceneManager("Tetroshow", 60);
 		var menuScene = new MainMenuScene(sceneManager);
 		sceneManager.display(menuScene);
+
+		// the scene manager runs in the main thread
 		sceneManager.run();
 
 		LOGGER.info("exit");

@@ -2,10 +2,13 @@ package com.github.achaaab.tetroshow.scene;
 
 import com.github.achaaab.tetroshow.model.Tetroshow;
 import com.github.achaaab.tetroshow.view.play.TetroshowView;
+import org.slf4j.Logger;
 
 import java.awt.Container;
+import java.lang.reflect.InvocationTargetException;
 
-import static javax.swing.SwingUtilities.invokeLater;
+import static javax.swing.SwingUtilities.invokeAndWait;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * play scene
@@ -14,6 +17,8 @@ import static javax.swing.SwingUtilities.invokeLater;
  * @since 0.0.0
  */
 public class PlayScene extends AbstractScene {
+
+	private static final Logger LOGGER = getLogger(PlayScene.class);
 
 	private final Tetroshow tetroshow;
 	private final TetroshowView view;
@@ -50,7 +55,11 @@ public class PlayScene extends AbstractScene {
 
 		tetroshow.update(deltaTime);
 
-		invokeLater(view::repaint);
+		try {
+			invokeAndWait(() -> view.paintImmediately(view.getBounds()));
+		} catch (InterruptedException | InvocationTargetException exception) {
+			LOGGER.error(exception.getMessage(), exception);
+		}
 	}
 
 	@Override

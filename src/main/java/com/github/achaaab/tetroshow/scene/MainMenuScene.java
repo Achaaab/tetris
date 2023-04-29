@@ -15,7 +15,7 @@ import static javax.swing.SwingUtilities.invokeLater;
 public class MainMenuScene extends AbstractScene {
 
 	private final PlayScene playScene;
-	private final OptionScene optionScene;
+	private final SettingsScene settingsScene;
 	private final CreditsScene creditsScene;
 
 	private final MainMenuView view;
@@ -31,7 +31,7 @@ public class MainMenuScene extends AbstractScene {
 		super(manager);
 
 		playScene = new PlayScene(manager, this);
-		optionScene = new OptionScene(manager, this);
+		settingsScene = new SettingsScene(manager, this);
 		creditsScene = new CreditsScene(manager, this);
 
 		view = new MainMenuView();
@@ -75,7 +75,7 @@ public class MainMenuScene extends AbstractScene {
 	 * @since 0.0.0
 	 */
 	public void displayOptions() {
-		manager.display(optionScene);
+		manager.display(settingsScene);
 	}
 
 	/**

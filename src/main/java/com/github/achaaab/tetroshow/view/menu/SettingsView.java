@@ -14,15 +14,13 @@ import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Language.getLanguageByCode;
 import static com.github.achaaab.tetroshow.view.message.Messages.BACK;
 import static com.github.achaaab.tetroshow.view.message.Messages.CONTROLS;
+import static com.github.achaaab.tetroshow.view.message.Messages.GRAPHICS;
 import static com.github.achaaab.tetroshow.view.message.Messages.LANGUAGE;
 import static com.github.achaaab.tetroshow.view.message.Messages.MUSIC;
-import static com.github.achaaab.tetroshow.view.message.Messages.SKIN;
 import static com.github.achaaab.tetroshow.view.message.Messages.SOUND_EFFECT;
-import static com.github.achaaab.tetroshow.view.skin.Skin.SKINS;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.awt.event.KeyEvent.VK_UP;
-import static java.util.function.Function.identity;
 import static java.util.stream.IntStream.rangeClosed;
 
 /**
@@ -31,16 +29,16 @@ import static java.util.stream.IntStream.rangeClosed;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class OptionView extends MenuView {
+public class SettingsView extends MenuView {
 
 	private static final int INPUT_HEIGHT = scale(50);
 	private static final int VALUE_X = scale(150);
 
 	private final Option<Language> language;
-	private final Option<String> skin;
 	private final Option<Integer> musicVolume;
 	private final Option<Integer> soundEffectVolume;
 	private final Button controls;
+	private final Button graphics;
 	private final Button back;
 
 	/**
@@ -48,18 +46,12 @@ public class OptionView extends MenuView {
 	 *
 	 * @since 0.0.0
 	 */
-	public OptionView() {
+	public SettingsView() {
 
 		language = new Option<>(
 				LANGUAGE,
 				List.of(Language.values()),
 				Language::toString,
-				VALUE_X);
-
-		skin = new Option<>(
-				SKIN,
-				SKINS,
-				identity(),
 				VALUE_X);
 
 		musicVolume = new Option<>(
@@ -75,13 +67,14 @@ public class OptionView extends MenuView {
 				VALUE_X);
 
 		controls = new Button(CONTROLS);
+		graphics = new Button(GRAPHICS);
 		back = new Button(BACK);
 
 		add(language);
-		add(skin);
 		add(musicVolume);
 		add(soundEffectVolume);
 		add(controls);
+		add(graphics);
 		add(back);
 
 		selectFirstInput();
@@ -91,8 +84,6 @@ public class OptionView extends MenuView {
 		language.select(getLanguageByCode(code));
 
 		var settings = Settings.getDefaultInstance();
-		var currentSkin = settings.getGraphics().getSkin();
-		skin.select(currentSkin);
 
 		musicVolume.select(settings.getAudio().getMusicVolume());
 		soundEffectVolume.select(settings.getAudio().getSoundEffectVolume());
@@ -102,10 +93,6 @@ public class OptionView extends MenuView {
 
 		language.setX(x);
 		language.setY(y);
-
-		y += INPUT_HEIGHT;
-		skin.setX(x);
-		skin.setY(y);
 
 		y += INPUT_HEIGHT;
 		musicVolume.setX(x);
@@ -120,6 +107,10 @@ public class OptionView extends MenuView {
 		controls.setY(y);
 
 		y += INPUT_HEIGHT;
+		graphics.setX(x);
+		graphics.setY(y);
+
+		y += INPUT_HEIGHT;
 		back.setX(x);
 		back.setY(y);
 	}
@@ -130,14 +121,6 @@ public class OptionView extends MenuView {
 	 */
 	public void onLanguageChanged(Consumer<Language> consumer) {
 		language.setConsumer(consumer);
-	}
-
-	/**
-	 * @param consumer skin name consumer
-	 * @since 0.0.0
-	 */
-	public void onSkinChanged(Consumer<String> consumer) {
-		skin.setConsumer(consumer);
 	}
 
 	/**
@@ -162,6 +145,14 @@ public class OptionView extends MenuView {
 	 */
 	public void onControls(Runnable action) {
 		controls.setAction(action);
+	}
+
+	/**
+	 * @param action graphics action
+	 * @since 0.0.0
+	 */
+	public void onGraphics(Runnable action) {
+		graphics.setAction(action);
 	}
 
 	/**

@@ -3,13 +3,22 @@ package com.github.achaaab.tetroshow.model;
 import java.awt.Color;
 
 /**
+ * scrap resulting from block explosion
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class Scrap {
 
+	/**
+	 * lifespan of scraps in frames
+	 */
 	private static final int LIFESPAN = 64;
-	private static final double GRAVITY = 0.01;
+
+	/**
+	 * gravity magnitude in block / frame²
+	 */
+	private static final double GRAVITY = 0.05;
 
 	private final int red;
 	private final int green;
@@ -26,10 +35,12 @@ public class Scrap {
 	private int age;
 
 	/**
-	 * @param x
-	 * @param y
-	 * @param size
-	 * @param color
+	 * Creates a new scrap.
+	 *
+	 * @param x x position in blocks
+	 * @param y y position in blocks
+	 * @param size size in blocks
+	 * @param color scrap color
 	 * @since 0.0.0
 	 */
 	public Scrap(double x, double y, double size, Color color) {
@@ -56,8 +67,8 @@ public class Scrap {
 	}
 
 	/**
-	 * @param vx
-	 * @param vy
+	 * @param vx horizontal component of scrap velocity
+	 * @param vy vertical component of scrap velocity
 	 * @since 0.0.0
 	 */
 	public void setVelocity(double vx, double vy) {
@@ -69,16 +80,23 @@ public class Scrap {
 	/**
 	 * Updates this scrap.
 	 *
-	 * @return whether this scrap is still active
 	 * @since 0.0.0
 	 */
-	public boolean update() {
+	public void update() {
 
 		x += vx;
 		y += vy;
 		vy += GRAVITY;
 
-		return ++age >= LIFESPAN;
+		age++;
+	}
+
+	/**
+	 * @return whether this scrap is dead
+	 * @since 0.0.0
+	 */
+	public boolean isDead() {
+		return age >= LIFESPAN;
 	}
 
 	/**
