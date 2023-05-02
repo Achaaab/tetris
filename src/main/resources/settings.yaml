@@ -26,9 +26,4 @@ audio:
 
 gameplay:
   holdLimit: 1
-  gravity: "tgm3_master"
-  are: "tgm3_master"
-  lineAre: "tgm3_master"
-  das: "tgm3_master"
-  lock: "tgm3_master"
-  clear: "tgm3_master"
+  rules: "tgm3_master"

@@ -1,6 +1,5 @@
 package com.github.achaaab.tetroshow.action;
 
-import com.github.achaaab.tetroshow.action.scoring.Scoring;
 import com.github.achaaab.tetroshow.audio.SoundEffect;
 import com.github.achaaab.tetroshow.model.Scrap;
 import com.github.achaaab.tetroshow.model.Tetroshow;
@@ -21,8 +20,6 @@ public class Clear extends AbstractAction {
 	private static final SoundEffect CLEAR_SOUND_EFFECT = CLEAR;
 	private static final SoundEffect LINE_DROP_SOUND_EFFECT = LINE_DROP;
 
-	private final Scoring scoring;
-
 	private boolean active;
 	private int age;
 	private int delay;
@@ -37,8 +34,6 @@ public class Clear extends AbstractAction {
 	public Clear(Tetroshow tetroshow) {
 
 		super(tetroshow);
-
-		scoring = tetroshow.getScoring();
 
 		active = false;
 		age = 0;
@@ -105,7 +100,6 @@ public class Clear extends AbstractAction {
 		}
 
 		tetroshow.setLineCount(lineCount);
-		scoring.execute();
 	}
 
 	/**

@@ -23,6 +23,7 @@ public class Messages {
 	public static final String BACK = "back";
 	public static final String CONTROLS = "controls";
 	public static final String CREDITS = "credits";
+	public static final String GAMEPLAY = "gameplay";
 	public static final String GRAPHICS = "graphics";
 	public static final String HARD_DROP = "hard_drop";
 	public static final String HIGH = "high";
@@ -38,10 +39,11 @@ public class Messages {
 	public static final String PARTICLES = "particles";
 	public static final String PAUSE = "pause";
 	public static final String PLAY = "play";
-	public static final String RIGHT = "right";
-	public static final String ROTATE = "rotate";
 	public static final String QUIT = "quit";
 	public static final String QUIT_CONFIRM = "quit_confirm";
+	public static final String RIGHT = "right";
+	public static final String ROTATE = "rotate";
+	public static final String RULES = "rules";
 	public static final String SCORE = "score";
 	public static final String SKIN = "skin";
 	public static final String SOFT_DROP = "soft_drop";

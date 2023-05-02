@@ -54,6 +54,7 @@ public class TgmScoring extends Scoring {
 
 		tetroshow.setLevel(levelAfter);
 		tetroshow.setScore(score);
+		tetroshow.setLineCount(0);
 	}
 
 	@Override

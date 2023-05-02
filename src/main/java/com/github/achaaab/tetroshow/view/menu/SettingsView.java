@@ -15,6 +15,7 @@ import static com.github.achaaab.tetroshow.utility.SwingUtility.scale;
 import static com.github.achaaab.tetroshow.view.message.Language.getLanguageByCode;
 import static com.github.achaaab.tetroshow.view.message.Messages.BACK;
 import static com.github.achaaab.tetroshow.view.message.Messages.CONTROLS;
+import static com.github.achaaab.tetroshow.view.message.Messages.GAMEPLAY;
 import static com.github.achaaab.tetroshow.view.message.Messages.GRAPHICS;
 import static com.github.achaaab.tetroshow.view.message.Messages.LANGUAGE;
 import static com.github.achaaab.tetroshow.view.message.Messages.MUSIC;
@@ -43,6 +44,7 @@ public class SettingsView extends MenuView {
 	private final Option<Integer> soundEffectVolume;
 	private final Button controls;
 	private final Button graphics;
+	private final Button gameplay;
 	private final Button back;
 
 	/**
@@ -75,6 +77,7 @@ public class SettingsView extends MenuView {
 
 		controls = new Button(CONTROLS);
 		graphics = new Button(GRAPHICS);
+		gameplay = new Button(GAMEPLAY);
 		back = new Button(BACK);
 
 		add(title);
@@ -83,6 +86,7 @@ public class SettingsView extends MenuView {
 		add(soundEffectVolume);
 		add(controls);
 		add(graphics);
+		add(gameplay);
 		add(back);
 
 		selectFirstInput();
@@ -119,6 +123,10 @@ public class SettingsView extends MenuView {
 		y += INPUT_HEIGHT;
 		graphics.setX(INPUT_X);
 		graphics.setY(y);
+
+		y += INPUT_HEIGHT;
+		gameplay.setX(INPUT_X);
+		gameplay.setY(y);
 
 		y += INPUT_HEIGHT + INPUT_HEIGHT / 2;
 		back.setX(INPUT_X);
@@ -163,6 +171,14 @@ public class SettingsView extends MenuView {
 	 */
 	public void onGraphics(Runnable action) {
 		graphics.setAction(action);
+	}
+
+	/**
+	 * @param action gameplay action
+	 * @since 0.0.0
+	 */
+	public void onGameplay(Runnable action) {
+		gameplay.setAction(action);
 	}
 
 	/**

@@ -3,6 +3,8 @@ package com.github.achaaab.tetroshow.action.scoring;
 import com.github.achaaab.tetroshow.model.Tetroshow;
 
 /**
+ * Game Boy scoring
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -38,6 +40,7 @@ public class GbScoring extends Scoring {
 
 		totalLineCount += lineCount;
 		tetroshow.setLevel(totalLineCount / LINES_PER_LEVEL);
+		tetroshow.setLineCount(0);
 	}
 
 	@Override

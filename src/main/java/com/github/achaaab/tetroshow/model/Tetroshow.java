@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 
 import java.util.Optional;
 
+import static com.github.achaaab.tetroshow.settings.Rules.fromLowerCaseName;
 import static java.util.Optional.ofNullable;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -32,11 +33,11 @@ public class Tetroshow implements GamePart {
 	private final Storage storage;
 	private final Preview preview;
 	private final Lock lock;
-	private final Scoring scoring;
 	private final Gravity gravity;
 	private final Keyboard keyboard;
 	private final Clear clear;
 
+	private Scoring scoring;
 	private Piece fallingPiece;
 	private Move initialRotation;
 	private Hold initialHold;
@@ -66,7 +67,6 @@ public class Tetroshow implements GamePart {
 		lock = new Lock(this);
 		scoring = new TgmScoring(this);
 		clear = new Clear(this);
-
 		gravity = new Gravity(this);
 
 		reset();
@@ -85,6 +85,8 @@ public class Tetroshow implements GamePart {
 
 		LOGGER.info("reset");
 
+		var rules = fromLowerCaseName(Settings.getDefaultInstance().getGameplay().getRules());
+
 		playfield.reset();
 		storage.reset();
 		preview.reset();
@@ -92,7 +94,7 @@ public class Tetroshow implements GamePart {
 		gravity.reset();
 		lock.reset();
 		clear.reset();
-		scoring.reset();
+		scoring = rules.createScoring(this);
 
 		fallingPiece = null;
 		initialRotation = null;
@@ -130,6 +132,7 @@ public class Tetroshow implements GamePart {
 			gravity.execute();
 			lock.execute();
 			clear.execute();
+			scoring.execute();
 		}
 	}
 
@@ -144,6 +147,14 @@ public class Tetroshow implements GamePart {
 	 */
 	public void pause() {
 		paused = !paused;
+	}
+
+	/**
+	 * @param paused whether to pause this Tetroshow
+	 * @since 0.0.0
+	 */
+	public void setPaused(boolean paused) {
+		this.paused = paused;
 	}
 
 	/**
@@ -172,14 +183,6 @@ public class Tetroshow implements GamePart {
 	 */
 	public Keyboard getKeyboard() {
 		return keyboard;
-	}
-
-	/**
-	 * @return scoring
-	 * @since 0.0.0
-	 */
-	public Scoring getScoring() {
-		return scoring;
 	}
 
 	/**

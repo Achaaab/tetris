@@ -21,6 +21,7 @@ public class SettingsScene extends AbstractScene {
 
 	private final ControlsScene controlsScene;
 	private final GraphicsScene graphicsScene;
+	private final GameplayScene gameplayScene;
 	private final SettingsView view;
 	private final Settings settings;
 
@@ -37,6 +38,7 @@ public class SettingsScene extends AbstractScene {
 
 		controlsScene = new ControlsScene(manager, this);
 		graphicsScene = new GraphicsScene(manager, this);
+		gameplayScene = new GameplayScene(manager, this);
 		settings = Settings.getDefaultInstance();
 
 		view = new SettingsView();
@@ -45,6 +47,7 @@ public class SettingsScene extends AbstractScene {
 		view.onSoundEffectVolumeChanged(this::soundEffectVolumeChanged);
 		view.onControls(this::displayControls);
 		view.onGraphics(this::displayGraphics);
+		view.onGameplay(this::displayGameplay);
 		view.onBack(this::back);
 	}
 
@@ -113,6 +116,15 @@ public class SettingsScene extends AbstractScene {
 	 */
 	private void displayGraphics() {
 		manager.display(graphicsScene);
+	}
+
+	/**
+	 * Displays gameplay settings scene.
+	 *
+	 * @since 0.0.0
+	 */
+	private void displayGameplay() {
+		manager.display(gameplayScene);
 	}
 
 	@Override
